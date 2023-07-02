@@ -1,0 +1,34 @@
+{
+  "name": "kollsh_backend",
+  "version": "1.0.0",
+  "description": "Welcome to Kollsh, your go-to online marketplace for buying and selling new and used products in Saudi Arabia. Whether you're looking for the latest gadgets, trendy fashion items, or household essentials, Kollsh offers a convenient and hassle-free way to connect with buyers and sellers across all cities in the country.",
+  "main": "src/index.js",
+  "repository": "https://github.com/ibrahimsifat/kollsh-backend",
+  "author": "Ibrahim Sifat",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-openapi-validator": "^5.0.4",
+    "helmet": "^7.0.0",
+    "mongoose": "^7.3.1",
+    "morgan": "^1.10.0",
+    "swagger-ui-express": "^4.6.3",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.44.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-standard": "^5.0.0",
+    "nodemon": "^2.0.22"
+  }
+}
