@@ -1,5 +1,5 @@
-// connect to database with mongoose
 const mongoose = require("mongoose");
+require("dotenv").config();
 const db = process.env.MONGODB_URI;
 console.log(db);
 const connect = () => {
