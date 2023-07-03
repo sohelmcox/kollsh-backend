@@ -8,6 +8,7 @@ const YAML = require("yamljs");
 const swaggerDoc = YAML.load(apiSpecPath);
 const OpenApiValidator = require("express-openapi-validator");
 const swaggerUi = require("swagger-ui-express");
+const indexRoute = require("../routes");
 
 // use middleware
 const app = express();
@@ -23,23 +24,18 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // openapi specification middleware
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-
-// openapi specification middleware
 app.use(
   OpenApiValidator.middleware({
     apiSpec: apiSpecPath,
-    validateRequests: true, // (default)
-    // validateResponses: true, // false by default
+    validateRequests: true,
+    // validateResponses: true,
   })
 );
 
 // use router
-app.get("/items", (req, res) => {
-  res.json({
-    message: "Hello World",
-  });
-});
+app.use("api/v1", indexRoute);
 
+//
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -55,7 +51,6 @@ app.use((req, res, next) => {
   next(error);
 });
 app.use((err, _req, res, _next) => {
-  // format error
   res.status(err.status || 500).json({
     message: err.message,
     errors: err.errors,

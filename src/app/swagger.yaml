@@ -2747,7 +2747,7 @@ components:
         email:
           type: string
           example: username@kullosh.com
-        avater:
+        avatar:
           type: string
           example: "https://kollsh.com/image"
         confirmed:
@@ -2821,6 +2821,8 @@ components:
         email:
           type: string
           format: email
+        password:
+          type: string
         resetPasswordToken:
           type: string
         confirmationToken:
@@ -2899,7 +2901,7 @@ components:
               type: string
             description:
               type: string
-            releced:
+            released:
               type: string
               format: date
             thumbnail:
@@ -2942,7 +2944,7 @@ components:
               type: string
             description:
               type: string
-            releced:
+            released:
               type: string
               format: date
             image:
@@ -3079,6 +3081,11 @@ components:
             - ContactNumber
           type: object
           properties:
+            userId:
+              oneOf:
+                - type: integer
+                - type: string
+              example: string or id
             description:
               type: string
             images:
@@ -3109,7 +3116,7 @@ components:
               type: string
               pattern: ^\d*$
               example: "123456789"
-            metaseo:
+            metadata:
               oneOf:
                 - type: integer
                 - type: string
@@ -3164,6 +3171,11 @@ components:
         data:
           type: object
           properties:
+            userId:
+              oneOf:
+                - type: integer
+                - type: string
+              example: string or id
             categories:
               type: array
               items:
@@ -3248,7 +3260,7 @@ components:
       allOf:
         - type: object
           properties:
-            contant:
+            content:
               type: string
             item:
               type: string
@@ -3303,7 +3315,7 @@ components:
         data:
           type: object
           properties:
-            contant:
+            content:
               type: string
             item:
               oneOf:
@@ -3432,20 +3444,18 @@ components:
             slug:
               type: string
             image:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+              type: object
+              oneOf:
+                - type: integer
+                - type: string
+              example: string or id
             cover_image:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            prioty:
+              type: object
+              oneOf:
+                - type: integer
+                - type: string
+              example: string or id
+            priority:
               type: integer
             subcategories:
               type: array
@@ -3525,7 +3535,7 @@ components:
               $ref: "#/components/schemas/Image"
             cover_image:
               $ref: "#/components/schemas/Image"
-            prioty:
+            priority:
               type: integer
             subcategories:
               $ref: "#/components/schemas/SubcategoryResponseDataObject"
@@ -3579,7 +3589,7 @@ components:
                   - type: integer
                   - type: string
                 example: string or id
-            prioty:
+            priority:
               type: integer
             items:
               type: array
@@ -3642,7 +3652,7 @@ components:
                     $ref: "#/components/schemas/Image"
             cover_image:
               $ref: "#/components/schemas/Image"
-            prioty:
+            priority:
               type: integer
             items:
               $ref: "#/components/schemas/ArrayTypeRelationId"
@@ -3673,7 +3683,7 @@ components:
         data:
           type: object
           properties:
-            Name:
+            name:
               type: string
             flag_image:
               type: array
@@ -3682,6 +3692,8 @@ components:
                   - type: integer
                   - type: string
                 example: string or id
+            code:
+              type: string
             states:
               type: array
               items:
@@ -3717,7 +3729,7 @@ components:
       allOf:
         - type: object
           properties:
-            Name:
+            name:
               type: string
             flag_image:
               $ref: "#/components/schemas/Image"
@@ -3760,7 +3772,7 @@ components:
                   - type: integer
                   - type: string
                 example: string or id
-            prioty:
+            priority:
               type: integer
             cities:
               type: array
@@ -3813,7 +3825,7 @@ components:
                   type: array
                   items:
                     $ref: "#/components/schemas/Image"
-            prioty:
+            priority:
               type: integer
             cities:
               type: object
@@ -3864,7 +3876,7 @@ components:
                 - type: integer
                 - type: string
               example: string or id
-            prioty:
+            priority:
               type: integer
             item:
               oneOf:
@@ -3884,7 +3896,7 @@ components:
               properties:
                 data:
                   $ref: "#/components/schemas/StateResponseDataObject"
-            prioty:
+            priority:
               type: integer
             item:
               type: object
@@ -3926,12 +3938,12 @@ components:
             slug:
               type: string
             image:
-              type: integer
+              type: string
             cover_image:
-              type: integer
+              type: string
             description:
               type: string
-            prioty:
+            priority:
               type: integer
             attributes:
               type: array
@@ -3985,7 +3997,7 @@ components:
               $ref: "#/components/schemas/Image"
             description:
               type: string
-            prioty:
+            priority:
               type: integer
             attributes:
               type: object
@@ -4330,7 +4342,9 @@ components:
                 - type: string
               example: string or id
             metaKeyword:
-              type: string
+              type: array
+              items:
+                type: string
     MetadataListResponseDataItem:
       type: object
       properties:
