@@ -14,7 +14,7 @@ const ItemSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    image: [
+    thumbnail: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Image",
@@ -63,6 +63,3 @@ const ItemSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model("Item", ItemSchema);
-
-// Export the models
-module.exports;

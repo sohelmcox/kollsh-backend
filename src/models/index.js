@@ -20,3 +20,4 @@ module.exports.Subcategory =
 module.exports.User = mongoose.models.User || require("./User");
 module.exports.UserProfile =
   mongoose.models.UserProfile || require("./UserProfile");
+module.exports.Brand = mongoose.models.Brand || require("./Brand");

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const RequiredObjectSchema = new mongoose.Schema(
+const ItemDetailsSchema = new mongoose.Schema(
   {
     itemId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -54,15 +54,4 @@ const RequiredObjectSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Image = mongoose.model("Image", mongoose.Schema({}));
-const Metaseo = mongoose.model("Metaseo", mongoose.Schema({}));
-const RequiredObjectModel = mongoose.model(
-  "RequiredObject",
-  RequiredObjectSchema
-);
-
-module.exports = {
-  Image,
-  Metaseo,
-  RequiredObjectModel,
-};
+module.exports = mongoose.model("ItemDetails", ItemDetailsSchema);

@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["Ibrahim", "Kollsh", "openapi", "Sifat"]
+  "cSpell.words": ["Ibrahim", "Kollsh", "openapi", "Sifat"],
+  // Set the default
+  "editor.formatOnSave": true,
+
+  // Enable per-language
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "prettier.trailingComma": "none"
 }

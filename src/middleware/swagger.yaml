@@ -14,8 +14,32 @@ info:
   x-generation-date: "2023-06-18T17:15:24.085Z"
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: "http://localhost:4000/"
+    url: "http://localhost:4000/api/v1/"
 paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Health check
+      description: Returns ok
+      responses:
+        "200":
+          description: Returns ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: string
+                    enum:
+                      - "true"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /auth/local:
     post:
       tags:
@@ -2747,7 +2771,7 @@ components:
         email:
           type: string
           example: username@kullosh.com
-        avater:
+        avatar:
           type: string
           example: "https://kollsh.com/image"
         confirmed:
@@ -2821,6 +2845,8 @@ components:
         email:
           type: string
           format: email
+        password:
+          type: string
         resetPasswordToken:
           type: string
         confirmationToken:
@@ -2899,7 +2925,7 @@ components:
               type: string
             description:
               type: string
-            releced:
+            released:
               type: string
               format: date
             thumbnail:
@@ -2930,28 +2956,22 @@ components:
         - $ref: "#/components/schemas/Timestamp"
     ItemRequest:
       type: object
-      required:
-        - data
       properties:
         data:
-          required:
-            - Negotiable
           type: object
           properties:
             name:
               type: string
             description:
               type: string
-            releced:
+            released:
               type: string
               format: date
-            image:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+            thumbnail:
+              oneOf:
+                - type: integer
+                - type: string
+              example: string or id
             slug:
               type: string
             subcategory:
@@ -2973,7 +2993,7 @@ components:
                 example: string or id
             price:
               type: integer
-            Negotiable:
+            negotiable:
               type: boolean
             is_argent:
               type: boolean
@@ -3079,6 +3099,11 @@ components:
             - ContactNumber
           type: object
           properties:
+            userId:
+              oneOf:
+                - type: integer
+                - type: string
+              example: string or id
             description:
               type: string
             images:
@@ -3109,7 +3134,7 @@ components:
               type: string
               pattern: ^\d*$
               example: "123456789"
-            metaseo:
+            metadata:
               oneOf:
                 - type: integer
                 - type: string
@@ -3164,6 +3189,11 @@ components:
         data:
           type: object
           properties:
+            userId:
+              oneOf:
+                - type: integer
+                - type: string
+              example: string or id
             categories:
               type: array
               items:
@@ -3248,7 +3278,7 @@ components:
       allOf:
         - type: object
           properties:
-            contant:
+            content:
               type: string
             item:
               type: string
@@ -3303,7 +3333,7 @@ components:
         data:
           type: object
           properties:
-            contant:
+            content:
               type: string
             item:
               oneOf:
@@ -3432,20 +3462,18 @@ components:
             slug:
               type: string
             image:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+              type: object
+              oneOf:
+                - type: integer
+                - type: string
+              example: string or id
             cover_image:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            prioty:
+              type: object
+              oneOf:
+                - type: integer
+                - type: string
+              example: string or id
+            priority:
               type: integer
             subcategories:
               type: array
@@ -3525,7 +3553,7 @@ components:
               $ref: "#/components/schemas/Image"
             cover_image:
               $ref: "#/components/schemas/Image"
-            prioty:
+            priority:
               type: integer
             subcategories:
               $ref: "#/components/schemas/SubcategoryResponseDataObject"
@@ -3579,7 +3607,7 @@ components:
                   - type: integer
                   - type: string
                 example: string or id
-            prioty:
+            priority:
               type: integer
             items:
               type: array
@@ -3642,7 +3670,7 @@ components:
                     $ref: "#/components/schemas/Image"
             cover_image:
               $ref: "#/components/schemas/Image"
-            prioty:
+            priority:
               type: integer
             items:
               $ref: "#/components/schemas/ArrayTypeRelationId"
@@ -3673,7 +3701,7 @@ components:
         data:
           type: object
           properties:
-            Name:
+            name:
               type: string
             flag_image:
               type: array
@@ -3682,6 +3710,8 @@ components:
                   - type: integer
                   - type: string
                 example: string or id
+            code:
+              type: string
             states:
               type: array
               items:
@@ -3717,7 +3747,7 @@ components:
       allOf:
         - type: object
           properties:
-            Name:
+            name:
               type: string
             flag_image:
               $ref: "#/components/schemas/Image"
@@ -3760,7 +3790,7 @@ components:
                   - type: integer
                   - type: string
                 example: string or id
-            prioty:
+            priority:
               type: integer
             cities:
               type: array
@@ -3813,7 +3843,7 @@ components:
                   type: array
                   items:
                     $ref: "#/components/schemas/Image"
-            prioty:
+            priority:
               type: integer
             cities:
               type: object
@@ -3864,7 +3894,7 @@ components:
                 - type: integer
                 - type: string
               example: string or id
-            prioty:
+            priority:
               type: integer
             item:
               oneOf:
@@ -3884,7 +3914,7 @@ components:
               properties:
                 data:
                   $ref: "#/components/schemas/StateResponseDataObject"
-            prioty:
+            priority:
               type: integer
             item:
               type: object
@@ -3926,12 +3956,12 @@ components:
             slug:
               type: string
             image:
-              type: integer
+              type: string
             cover_image:
-              type: integer
+              type: string
             description:
               type: string
-            prioty:
+            priority:
               type: integer
             attributes:
               type: array
@@ -3985,7 +4015,7 @@ components:
               $ref: "#/components/schemas/Image"
             description:
               type: string
-            prioty:
+            priority:
               type: integer
             attributes:
               type: object
@@ -4330,7 +4360,9 @@ components:
                 - type: string
               example: string or id
             metaKeyword:
-              type: string
+              type: array
+              items:
+                type: string
     MetadataListResponseDataItem:
       type: object
       properties:
@@ -4394,7 +4426,7 @@ components:
     sortParams:
       name: sort
       in: query
-      description: Sort by attributes ascending (asc) or descending (desc)
+      description: Sort by attributes ascending (name:asc) or descending (name:desc)
       deprecated: false
       required: false
       schema:
@@ -4402,7 +4434,7 @@ components:
     fields:
       name: fields
       in: query
-      description: "Fields to return (ex: title,author)"
+      description: "Fields to return (ex: name,description)"
       deprecated: false
       required: false
       schema:
@@ -4418,7 +4450,7 @@ components:
     filters:
       name: filters
       in: query
-      description: Filters to apply
+      description: 'Filters to apply {"name":"Item"}'
       deprecated: false
       required: false
       schema:

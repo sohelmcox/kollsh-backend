@@ -1,26 +1,19 @@
 const indexRoute = require("express").Router();
+const itemRouter = require("./item.routes");
+const authRouter = require("./auth.routes");
+const stateRouter = require("./state.routes");
+// router use.............................................
 
-// router use..............
-indexRoute.get("/", (req, res) => {
-  res.status(200).send("Application is running");
-});
+// health check
 indexRoute.get("/health", (req, res) => {
-  res.status(200).send("Application health is good");
+  res.status(200).send("ok");
 });
 
-// router use..............
+indexRoute.use("/auth", authRouter);
+indexRoute.use("/items", itemRouter);
+indexRoute.use("/states", stateRouter);
 
-indexRoute.use("/auth", () => {
-  console.log("auth route");
+indexRoute.use("/users", (req, res) => {
+  res.status(200).send("Users route");
 });
-indexRoute.use("/category", () => {
-  console.log("category route");
-});
-indexRoute.use("/tag", () => {
-  console.log("tag route");
-});
-indexRoute.use("/article", () => {
-  console.log("article route");
-});
-
 module.exports = indexRoute;

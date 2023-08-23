@@ -1,17 +1,22 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
-const db = process.env.MONGODB_URI;
-console.log(db);
-const connect = () => {
-  //connection mongodb with mongoose
-  return mongoose
-    .connect(db, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      // useCreateIndex: true,
-    })
-    .then(() => console.log("Connected to MongoDB..."))
-    .catch((err) => console.log("Could not connect to MongoDB...", err));
+
+let connectionURL = process.env.DB_CONNECTION_URL;
+connectionURL = connectionURL.replace("<username>", process.env.DB_USERNAME);
+connectionURL = connectionURL.replace("<password>", process.env.DB_PASSWORD);
+console.log(process.env.DB_NAME);
+// connectionURL = `${connectionURL}/${process.env.DB_NAME}?${process.env.DB_URL_QUERY}`;
+console.log(connectionURL);
+// const connect = async () => {
+//   await mongoose.connect(connectionURL, { dbName: process.env.DB_NAME });
+//   console.log("Database connected");
+// };
+// connect mongodb database with mongoose in docker container mongo
+const connect = async () => {
+  await mongoose.connect(
+    "mongodb://kollsh:thisispasswrord@localhost:27017/serabuy?retryWrites=true&w=majority",
+    { dbName: "serabuy" }
+  );
+  console.log("Database connected");
 };
 
 module.exports = connect;

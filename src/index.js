@@ -2,12 +2,10 @@ const http = require("http");
 const app = require("./app/app");
 const connect = require("./config/db");
 const server = http.createServer(app);
-
-// console.log(port);
-connect();
-// create server
 const PORT = process.env.PORT || 4000;
 
+const connectDB = require("./db/connectMongoDB");
+connectDB();
 // listen the app
 server.listen(PORT, (err) => {
   if (err) {
