@@ -13,7 +13,7 @@ const OpenApiValidator = require("express-openapi-validator");
 const swaggerUi = require("swagger-ui-express");
 
 const applyMiddleware = (app) => {
-  app.use(morgan("tiny"));
+  // app.use(morgan("tiny"));
   app.use(helmet());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

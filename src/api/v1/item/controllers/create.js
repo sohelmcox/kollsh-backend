@@ -1,4 +1,4 @@
-const { Item } = require(".././../../../models");
+const { Item } = require("../../../../models");
 
 const createItem = async (req, res) => {
   try {

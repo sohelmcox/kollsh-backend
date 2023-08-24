@@ -278,6 +278,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       responses:
         "200":
@@ -533,6 +534,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/items-details
     post:
@@ -672,6 +674,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/attributes
     post:
@@ -807,6 +810,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/attribute-categories
     post:
@@ -942,6 +946,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/attribute-values
     post:
@@ -1081,6 +1086,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/brands
     post:
@@ -1222,6 +1228,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/categories
     post:
@@ -1367,6 +1374,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/cities
     post:
@@ -1498,6 +1506,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/comments
     post:
@@ -1633,6 +1642,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/countries
     post:
@@ -1774,6 +1784,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/replays
     post:
@@ -1915,6 +1926,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/subcategories
     post:
@@ -2044,6 +2056,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/states
     post:
@@ -2361,6 +2374,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/upload/files
   "/upload/files/{id}":
@@ -2433,6 +2447,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/item-suggestions
     post:
@@ -2570,6 +2585,7 @@ paths:
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/filters"
+        - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/metadatas
     post:
@@ -4454,8 +4470,19 @@ components:
       deprecated: false
       required: false
       schema:
-        type: object
+        oneOf:
+          - type: object
+          - type: string
+
       style: deepObject
+    search:
+      name: search
+      in: query
+      description: "Search by Fields"
+      deprecated: false
+      required: false
+      schema:
+        type: string
     locale:
       name: locale
       in: query
