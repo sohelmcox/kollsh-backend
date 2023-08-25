@@ -1,16 +1,16 @@
 const defaults = require("../../config/defaults");
 
 const getPagination = ({
-  totalEntities = defaults.totalItems,
+  totalCount = defaults.totalItems,
   pageLimit = defaults.limit,
   pageNumber = defaults.page,
 }) => {
-  const totalPage = Math.ceil(totalEntities / pageLimit);
+  const totalPage = Math.ceil(totalCount / pageLimit);
 
   const pagination = {
     pageNumber,
     pageLimit,
-    totalEntities,
+    totalCount,
     totalPage,
   };
 

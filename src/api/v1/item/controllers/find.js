@@ -31,7 +31,6 @@ const find = async (req, res, next) => {
       path: req.path,
       requestQuery: req.query,
     });
-
     // Send response
     res.status(200).json({ response });
   } catch (error) {

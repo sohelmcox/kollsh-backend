@@ -48,14 +48,19 @@ const findAllItems = async ({
   const filter = {
     name: { $regex: search || "", $options: "i" },
   };
-
+  // const sortStr = `${sortType === "dsc" ? "-" : ""}${sortBy}`;
+  const sortStr = query.sortCriteria;
   // Fetch items from the database
-  let items = await Item.find(filter);
+  let items = await Item.find(filter)
+    .sort(sortStr)
+    .skip(pageNumber * pageLimit - pageLimit)
+    .limit(pageLimit)
+    .exec();
 
   // Apply sorting
-  if (Object.keys(query.sortCriteria).length > 0) {
-    items = sorting(items, query.sortCriteria);
-  }
+  // if (Object.keys(query.sortCriteria).length > 0) {
+  //   items = sorting(items, query.sortCriteria);
+  // }
 
   // Apply population
   if (query.populatedFields.length > 0) {
@@ -77,13 +82,13 @@ const findAllItems = async ({
     }
   }
   // Paginate results
-  const totalCount = items.length;
-  const paginatedItems = items.slice(
-    query.skip,
-    query.skip + query.totalEntities,
-  );
+  const totalCount = await Item.count(filter);
+  // const paginatedItems = items.slice(
+  //   query.skip,
+  //   query.skip + query.totalEntities,
+  // );
   const pagination = getPagination({
-    totalEntities: query.totalEntities,
+    totalCount,
     pageLimit,
     pageNumber,
   });
@@ -112,7 +117,7 @@ const findAllItems = async ({
     populatedFields: query.populatedFields,
     appliedFilters: query.appliedFilters,
     pagination: paginationResponse,
-    items: paginatedItems,
+    items,
     links,
   };
 
