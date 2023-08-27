@@ -2,9 +2,11 @@ const config = {
   totalItems: 0,
   limit: 25,
   page: 1,
-  sortType: "dsc",
+  sortOrder: "asc",
   sortBy: "updatedAt",
   search: "",
+  radix: 10,
+  ItemsAllowedSearchFields: ["name", "description"],
 };
 
 module.exports = Object.freeze(config);

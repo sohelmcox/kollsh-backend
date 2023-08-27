@@ -1,15 +1,20 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true
-    },
-    "extends": "airbnb-base",
-    "parserOptions": {
-        "ecmaVersion": "latest"
-    },
-    "rules": {
-         "semi": ["error", "always"],
-        "quotes": ["error", "double"]
-    }
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true
+  },
+  "extends": "airbnb-base",
+  "parserOptions": {
+    "ecmaVersion": "latest"
+  },
+  "rules": {
+    "semi": ["error", "always"],
+    "quotes": ["error", "double"],
+    "implicit-arrow-linebreak": "off",
+    "operator-linebreak": "off",
+    "no-underscore-dangle": "off",
+    "object-curly-newline": "off",
+    "camelcase": "off"
+  }
 }

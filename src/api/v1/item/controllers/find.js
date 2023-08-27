@@ -1,4 +1,4 @@
-const articleService = require("../../../../lib/article");
+const ItemService = require("../../../../lib/item");
 
 const find = async (req, res, next) => {
   try {
@@ -7,32 +7,28 @@ const find = async (req, res, next) => {
       sort,
       fields,
       populate,
-      filters,
       locale,
       pageNumber,
       pageSize,
       pageStart,
-      pageLimit,
       search,
     } = req.query;
     // Parse query parameters
-    const response = await articleService.findAllItems({
+    const data = await ItemService.findAll({
       sort,
       fields,
       populate,
-      filters,
       locale,
       pageNumber,
       pageSize,
       pageStart,
-      pageLimit,
       search,
       url: req.url,
       path: req.path,
       requestQuery: req.query,
     });
     // Send response
-    res.status(200).json({ response });
+    res.status(200).json({ data });
   } catch (error) {
     next(error);
   }

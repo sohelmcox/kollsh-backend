@@ -2,14 +2,14 @@ const defaults = require("../../config/defaults");
 
 const getPagination = ({
   totalCount = defaults.totalItems,
-  pageLimit = defaults.limit,
+  pageSize = defaults.limit,
   pageNumber = defaults.page,
 }) => {
-  const totalPage = Math.ceil(totalCount / pageLimit);
+  const totalPage = Math.ceil(totalCount / pageSize);
 
   const pagination = {
     pageNumber,
-    pageLimit,
+    pageSize,
     totalCount,
     totalPage,
   };

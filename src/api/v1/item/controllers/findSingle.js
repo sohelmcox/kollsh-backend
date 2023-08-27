@@ -1,11 +1,24 @@
-const { Item } = require(".././../../../models");
+const ItemService = require("../../../../lib/item");
 
-const getItem = async (req, res) => {
+const findSingle = async (req, res, next) => {
+  const { id } = req.params;
+  const { populate } = req.query || "";
+
   try {
-    const item = await Item.findById(req.params.id);
-    res.status(200).json({ item });
-  } catch (error) {
-    res.status(500).json({ error });
+    const item = await ItemService.findSingle({ id, populate });
+    const response = {
+      data: item,
+      links: {
+        self: `/items/${item.id}`,
+        author: `/items/${item.id}/publisher`,
+        comments: `/items/${item.id}/comments`,
+      },
+    };
+
+    res.status(200).json(response);
+  } catch (e) {
+    next(e);
   }
 };
-module.exports = getItem;
+
+module.exports = findSingle;

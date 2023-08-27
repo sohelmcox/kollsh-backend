@@ -1,21 +1,18 @@
+const defaults = require("../../config/defaults");
+
 // Helper function to parse sort criteria
 function parseSortCriteria(sort) {
-  // eslint-disable-next-line prefer-const
-  let sortCriteria = {};
+  const sortCriteria = {};
   if (sort) {
-    const [sortBy, sortOrder = "asc"] = sort.split(":");
-    sortCriteria[sortBy] = sortOrder.toLowerCase() === "asc" ? 1 : -1;
+    const [sortBy, sortOrder = defaults.sortOrder] = sort.split(":");
+    sortCriteria[sortBy] =
+      sortOrder.toLowerCase() === defaults.sortOrder ? 1 : -1;
   }
   return sortCriteria;
 }
 // Helper function to parse selected fields
 function parseSelectedFields(fields) {
   return fields ? fields.split(",") : [];
-}
-
-// Helper function to parse applied filters
-function parseAppliedFilters(filters) {
-  return filters;
 }
 
 // Helper function to parse populated fields from query
@@ -37,7 +34,6 @@ function populateAllFields(schema) {
 module.exports = {
   parseSortCriteria,
   parseSelectedFields,
-  parseAppliedFilters,
   parsePopulatedFields,
   populateAllFields,
 };

@@ -274,10 +274,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       responses:
@@ -346,6 +344,7 @@ paths:
         - Item
       parameters:
         - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/queryIdParam"
       operationId: "get/items/{id}"
     put:
       responses:
@@ -402,13 +401,13 @@ paths:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "put/items/{id}"
+      operationId: "patch/items/{id}"
       requestBody:
         required: false
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ItemRequest"
+              $ref: "#/components/schemas/PatchItemRequest"
     delete:
       responses:
         "204":
@@ -456,7 +455,6 @@ paths:
         - $ref: "#/components/parameters/sortParams"
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
-        - $ref: "#/components/parameters/paginationLimit"
       operationId: "get/items/:id/comments"
     post:
       responses:
@@ -530,10 +528,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/items-details
@@ -670,10 +666,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/attributes
@@ -806,10 +800,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/attribute-categories
@@ -942,10 +934,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/attribute-values
@@ -1082,10 +1072,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/brands
@@ -1224,10 +1212,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/categories
@@ -1370,10 +1356,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/cities
@@ -1502,10 +1486,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/comments
@@ -1638,10 +1620,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/countries
@@ -1780,10 +1760,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/replays
@@ -1922,10 +1900,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/subcategories
@@ -2052,10 +2028,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/states
@@ -2370,10 +2344,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/upload/files
@@ -2443,10 +2415,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/item-suggestions
@@ -2581,10 +2551,8 @@ paths:
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/paginationLimit"
         - $ref: "#/components/parameters/fields"
         - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/filters"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       operationId: get/metadatas
@@ -2972,57 +2940,112 @@ components:
         - $ref: "#/components/schemas/Timestamp"
     ItemRequest:
       type: object
+      required:
+        - name
+        - description
+        - thumbnail
+        - subcategory
+        - state
+        - cities
+        - price
       properties:
-        data:
-          type: object
-          properties:
-            name:
-              type: string
-            description:
-              type: string
-            released:
-              type: string
-              format: date
-            thumbnail:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            slug:
-              type: string
-            subcategory:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            state:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            cities:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            price:
-              type: integer
-            negotiable:
-              type: boolean
-            is_argent:
-              type: boolean
-            brand:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            publisher:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
+        name:
+          type: string
+        description:
+          type: string
+        released:
+          type: string
+          format: date
+        thumbnail:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        slug:
+          type: string
+        subcategory:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        state:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        cities:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        price:
+          type: integer
+        negotiable:
+          type: boolean
+        is_argent:
+          type: boolean
+        brand:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        publisher:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+    PatchItemRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        released:
+          type: string
+          format: date
+        thumbnail:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        slug:
+          type: string
+        subcategory:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        state:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        cities:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        price:
+          type: integer
+        negotiable:
+          type: boolean
+        is_argent:
+          type: boolean
+        brand:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        publisher:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
     ItemResponse:
       type: object
       properties:
@@ -4438,7 +4461,14 @@ components:
       deprecated: false
       required: true
       schema:
-        type: number
+        type: string
+    queryIdParam:
+      name: populate
+      in: query
+      description: populate relations
+      schema:
+        type: string
+        example: "publisher,comments"
     sortParams:
       name: sort
       in: query
@@ -4463,26 +4493,17 @@ components:
       required: false
       schema:
         type: string
-    filters:
-      name: filters
+    search:
+      name: search
       in: query
-      description: 'Filters to apply {"name":"Item"}'
+      description: 'search to apply {"name":"anything"}'
       deprecated: false
       required: false
       schema:
         oneOf:
           - type: object
           - type: string
-
       style: deepObject
-    search:
-      name: search
-      in: query
-      description: "Search by Fields"
-      deprecated: false
-      required: false
-      schema:
-        type: string
     locale:
       name: locale
       in: query
@@ -4494,7 +4515,7 @@ components:
     paginationPage:
       name: "pageNumber"
       in: query
-      description: "Page number (default: 0)"
+      description: "Page number (default: 1)"
       deprecated: false
       required: false
       schema:
@@ -4515,14 +4536,14 @@ components:
       required: false
       schema:
         type: integer
-    paginationLimit:
-      name: "pageLimit"
-      in: query
-      description: "Number of entities to return (default: 25)"
-      deprecated: false
-      required: false
-      schema:
-        type: integer
+    # paginationLimit:
+    #   name: "pageLimit"
+    #   in: query
+    #   description: "Number of entities to return (default: 25)"
+    #   deprecated: false
+    #   required: false
+    #   schema:
+    #     type: integer
   responses:
     "400":
       description: Bad Request
