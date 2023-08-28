@@ -4,6 +4,7 @@ const create = require("./create");
 const edit = require("./edit");
 const updateOrCreate = require("./update");
 const destroy = require("./destroy");
+const findSeller = require("./seller/find");
 
 module.exports = {
   find,
@@ -12,4 +13,5 @@ module.exports = {
   updateOrCreate,
   edit,
   destroy,
+  findSeller,
 };

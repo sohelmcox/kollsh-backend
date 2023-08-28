@@ -11,7 +11,7 @@ const CommentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Item",
     },
-    user: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
@@ -22,7 +22,7 @@ const CommentSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Comment", CommentSchema);

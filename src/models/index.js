@@ -3,6 +3,7 @@ const AttributeValue = require("./AttributeValue");
 const Category = require("./Category");
 const City = require("./City");
 const Country = require("./Country");
+const Comment = require("./Comment");
 const Image = require("./Image");
 const Item = require("./Item");
 const ItemDetails = require("./ItemDetails");
@@ -22,6 +23,7 @@ module.exports = {
   Category,
   City,
   Country,
+  Comment,
   Image,
   Item,
   ItemDetails,

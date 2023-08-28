@@ -1,4 +1,4 @@
-const config = {
+const defaults = {
   totalItems: 0,
   limit: 25,
   page: 1,
@@ -9,4 +9,4 @@ const config = {
   ItemsAllowedSearchFields: ["name", "description"],
 };
 
-module.exports = Object.freeze(config);
+module.exports = Object.freeze(defaults);

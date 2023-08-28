@@ -36,6 +36,12 @@ const ItemDetailsSchema = new mongoose.Schema(
     address: {
       type: String,
     },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
     latitude: {
       type: String,
       match: /^\d*$/,
@@ -51,7 +57,7 @@ const ItemDetailsSchema = new mongoose.Schema(
       ref: "MetaData",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("ItemDetails", ItemDetailsSchema);

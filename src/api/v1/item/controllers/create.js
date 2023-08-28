@@ -13,7 +13,6 @@ const create = async (req, res, next) => {
     description,
     released,
     thumbnail,
-    slug,
     subcategory,
     state,
     cities,
@@ -21,7 +20,6 @@ const create = async (req, res, next) => {
     negotiable,
     is_argent,
     brand,
-    publisher,
   } = req.body;
 
   try {
@@ -33,7 +31,6 @@ const create = async (req, res, next) => {
       description,
       released,
       thumbnail,
-      slug,
       subcategory,
       state,
       cities,
@@ -41,17 +38,18 @@ const create = async (req, res, next) => {
       negotiable,
       is_argent,
       brand,
-      publisher: req.user.id,
+      seller: req.user.id,
     });
 
     const response = {
       code: 201,
       message: "Item Created Successfully",
+      id: newItem.id,
       data: newItem,
       links: {
         self: `/items/${newItem.id}`,
-        author: `/items/${req.user.id}author`,
-        comments: `/items/${newItem.id}/comments`,
+        seller: `/items/${newItem.id}/seller`,
+        comments: `/item-details/${newItem.id}/comments`,
       },
     };
 

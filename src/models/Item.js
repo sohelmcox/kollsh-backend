@@ -22,7 +22,6 @@ const ItemSchema = new mongoose.Schema(
     ],
     slug: {
       type: String,
-      required: true,
     },
     subcategory: {
       type: mongoose.Schema.Types.ObjectId,

@@ -5,7 +5,8 @@ function slugify(name) {
     .replace(/[^a-z0-9-]/g, "");
 }
 
-async function generateUniqueSlug(Model, originalSlug, count = 1) {
+async function generateUniqueSlug(Model, string, count = 1) {
+  const originalSlug = slugify(string);
   let slug = originalSlug;
   if (count > 1) {
     slug = `${originalSlug}-${count}`;

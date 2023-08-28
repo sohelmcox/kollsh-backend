@@ -13,7 +13,7 @@ info:
     url: "https://www.apache.org/licenses/LICENSE-2.0.html"
   x-generation-date: "2023-06-18T17:15:24.085Z"
 servers:
-  - description: SwaggerHub API Auto Mocking
+  - description: Development server
     url: "http://localhost:4000/api/v1/"
 paths:
   /health:
@@ -434,59 +434,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/items/{id}"
-  "/items/:id/comments":
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommentListResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Item
-      parameters:
-        - $ref: "#/components/parameters/sortParams"
-        - $ref: "#/components/parameters/paginationPage"
-        - $ref: "#/components/parameters/paginationPageSize"
-      operationId: "get/items/:id/comments"
-    post:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommentResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Item
-      security:
-        - bearerAuth: []
-      parameters: []
-      operationId: "post/items/{id}/comments"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CommentRequest"
-  "/items/{id}/author":
+  "/items/{id}/seller":
     get:
       responses:
         "200":
@@ -505,8 +453,8 @@ paths:
         - Item
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "get/items/{id}/author"
-  /items-details:
+      operationId: "get/items/{id}/seller"
+  /item-details:
     get:
       responses:
         "200":
@@ -522,7 +470,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Items-details
+        - Item-details
       parameters:
         - $ref: "#/components/parameters/sortParams"
         - $ref: "#/components/parameters/paginationPage"
@@ -532,7 +480,7 @@ paths:
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
-      operationId: get/items-details
+      operationId: get/item-details
     post:
       responses:
         "200":
@@ -552,18 +500,18 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Items-detail
+        - Item-details
       security:
         - bearerAuth: []
       parameters: []
-      operationId: post/items-details
+      operationId: post/item-details
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/ItemsDetailRequest"
-  "/items-details/{id}":
+  "/item-details/{id}":
     get:
       responses:
         "200":
@@ -583,10 +531,10 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Items-detail
+        - Item-details
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "get/items-details/{id}"
+      operationId: "get/item-details/{id}"
     put:
       responses:
         "200":
@@ -606,12 +554,12 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Items-detail
+        - Item-details
       security:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "put/items-details/{id}"
+      operationId: "put/item-details/{id}"
       requestBody:
         required: true
         content:
@@ -638,12 +586,69 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Items-detail
+        - Item-details
       security:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "delete/items-details/{id}"
+      operationId: "delete/item-details/{id}"
+  "/items/:id/comments":
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentListResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Item-details
+      parameters:
+        - $ref: "#/components/parameters/sortParams"
+        - $ref: "#/components/parameters/paginationPage"
+        - $ref: "#/components/parameters/paginationPageSize"
+        - $ref: "#/components/parameters/paginationStart"
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/populate"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/locale"
+      operationId: "get/item-details/:id/comments"
+    post:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Item-details
+      security:
+        - bearerAuth: []
+      parameters: []
+      operationId: "post/item-details/{id}/comments"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentRequest"
   /attributes:
     get:
       responses:
@@ -2757,10 +2762,10 @@ components:
           example: username@kullosh.com
         avatar:
           type: string
-          example: "https://kollsh.com/image"
+          example: "64c0e03779da93002b059be0"
         confirmed:
           type: boolean
-          example: false
+          example: true
         blocked:
           type: boolean
           example: false
@@ -2786,14 +2791,33 @@ components:
         pageCount:
           type: integer
           maximum: 1
-        nextPage:
-          type: string
-        prevPage:
-          type: string
         totalPage:
           type: integer
         totalItems:
           type: integer
+    AppliedFilters:
+      type: object
+      properties:
+        sortCriteria:
+          type: object
+        selectedFields:
+          type: array
+          properties:
+            item:
+              type: string
+              example: name
+        populatedFields:
+          type: array
+          properties:
+            item:
+              type: string
+              example: comment
+        searchQuery:
+          type: array
+          properties:
+            item:
+              type: string
+              example: anything
     ArrayTypeRelationId:
       type: object
       properties:
@@ -2889,7 +2913,7 @@ components:
         id:
           type: number
         data:
-          $ref: "#/components/schemas/User"
+          $ref: "#/components/schemas/UserDTO"
     UserRegistration:
       type: object
       properties:
@@ -2930,7 +2954,7 @@ components:
               type: boolean
             brand:
               $ref: "#/components/schemas/ObjectTypeRelationId"
-            saller:
+            seller:
               $ref: "#/components/schemas/ObjectTypeRelationId"
             comments:
               $ref: "#/components/schemas/CommentResponseDataObject"
@@ -2991,7 +3015,7 @@ components:
             - type: integer
             - type: string
           example: string or id
-        publisher:
+        seller:
           oneOf:
             - type: integer
             - type: string
@@ -3041,7 +3065,7 @@ components:
             - type: integer
             - type: string
           example: string or id
-        publisher:
+        seller:
           oneOf:
             - type: integer
             - type: string
@@ -3057,8 +3081,21 @@ components:
       properties:
         id:
           type: number
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/Item"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+            seller:
+              type: string
+            comments:
+              type: string
     ItemListResponseDataItem:
       type: object
       properties:
@@ -3079,14 +3116,17 @@ components:
             links:
               type: object
               properties:
-                slef:
+                self:
                   type: string
-                saller:
+                nextPage:
                   type: string
-                subcategory:
+                prevPage:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
+
     ItemsDetail:
       allOf:
         - type: object
@@ -3104,7 +3144,14 @@ components:
                   type: array
                   items:
                     $ref: "#/components/schemas/Image"
-            ContactNumber:
+            comments:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/CommentResponseDataObject"
+            contactNumber:
               type: string
               pattern: ^\d*$
               example: "123456789"
@@ -3128,8 +3175,6 @@ components:
         - $ref: "#/components/schemas/Timestamp"
     ItemsDetailRequest:
       type: object
-      required:
-        - data
       properties:
         data:
           required:
@@ -3138,7 +3183,7 @@ components:
             - ContactNumber
           type: object
           properties:
-            userId:
+            itemId:
               oneOf:
                 - type: integer
                 - type: string
@@ -3146,6 +3191,13 @@ components:
             description:
               type: string
             images:
+              type: array
+              items:
+                oneOf:
+                  - type: integer
+                  - type: string
+                example: string or id
+            comments:
               type: array
               items:
                 oneOf:
@@ -3214,7 +3266,7 @@ components:
               properties:
                 item:
                   type: string
-                saller:
+                seller:
                   type: string
                 subcategory:
                   type: string
@@ -3321,7 +3373,7 @@ components:
               type: string
             item:
               type: string
-            user:
+            author:
               type: object
               properties:
                 data:
@@ -3354,9 +3406,9 @@ components:
             item:
               type: object
               properties:
-                slef:
+                self:
                   type: string
-                saller:
+                seller:
                   type: string
                 author:
                   type: string
@@ -3379,7 +3431,7 @@ components:
                 - type: integer
                 - type: string
               example: string or id
-            user:
+            author:
               oneOf:
                 - type: integer
                 - type: string
@@ -3445,9 +3497,9 @@ components:
             item:
               type: object
               properties:
-                slef:
+                self:
                   type: string
-                saller:
+                seller:
                   type: string
                 commentAuthor:
                   type: string
@@ -4468,7 +4520,7 @@ components:
       description: populate relations
       schema:
         type: string
-        example: "publisher,comments"
+        example: "seller,comments"
     sortParams:
       name: sort
       in: query

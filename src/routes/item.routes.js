@@ -9,4 +9,6 @@ router
   .patch(controllers.edit)
   .delete(controllers.destroy);
 
+// seller
+router.route("/:id/seller").get(controllers.findSeller);
 module.exports = router;

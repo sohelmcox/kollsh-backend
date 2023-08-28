@@ -4,7 +4,7 @@ const {
   parsePopulatedFields,
 } = require("../../utils/Query/queryParser");
 const config = require("../../config/defaults");
-const { Item } = require("../../models");
+const { Item, User } = require("../../models");
 const { selectFields } = require("../../utils/Query/selectField");
 const { getPagination } = require("../../utils/Query/getPagination");
 const {
@@ -17,6 +17,7 @@ const {
   getSinglePopulatedFields,
 } = require("../../utils/Query/getPopulatedFields");
 const { notFound } = require("../../utils/error");
+const { generateUniqueSlug } = require("../../utils/generateUniqueSlug");
 
 /**
  * Find all items based on provided query parameters.
@@ -118,13 +119,13 @@ const findAll = async ({
     populatedFields: query.populatedFields,
     searchQuery: query.searchQuery,
   };
-
+  const finalItems = items.map((item) => ({
+    id: item.id,
+    data: { ...item._doc },
+  }));
   // Generate the full response
   const data = {
-    items: items.map((item) => ({
-      ...item._doc,
-      id: item.id,
-    })),
+    items: finalItems,
     meta: {
       pagination: paginationResponse,
       links,
@@ -141,11 +142,40 @@ const findAll = async ({
  * @param {Object} itemData - Data to create a new item.
  * @returns {Promise} - Resolves to the created item.
  */
-const create = async (itemData) => {
-  // Validate data using Mongoose schema validation
+const create = async ({
+  name,
+  description,
+  released,
+  thumbnail,
+  subcategory,
+  state,
+  cities,
+  price,
+  negotiable,
+  is_argent,
+  brand,
+  seller,
+}) => {
+  // Generate a unique slug
+  const uniqueSlug = await generateUniqueSlug(Item, name);
+  const itemData = {
+    name,
+    slug: uniqueSlug,
+    description,
+    released,
+    thumbnail,
+    subcategory,
+    state,
+    cities,
+    price,
+    negotiable,
+    is_argent,
+    brand,
+    seller,
+  };
   const newItem = new Item(itemData);
 
-  //  catch validation errors
+  // Validate data using Mongoose schema validation
   const validationError = newItem.validateSync();
   if (validationError) {
     throw new Error(validationError.message);
@@ -304,7 +334,7 @@ const destroy = async (id) => {
     throw notFound();
   }
   // TODO:
-  // Asynchronously delete all associated comments
+  // Asynchronously delete all associated comments and item details
   // const commentIds = item.comments; // Assuming 'comments' is an array of comment IDs
 
   // Delete each comment asynchronously
@@ -316,4 +346,25 @@ const destroy = async (id) => {
   // );
   await item.deleteOne();
 };
-module.exports = { findAll, findSingle, create, updateOrCreate, edit, destroy };
+
+const findSeller = async (itemId) => {
+  const item = await Item.findById(itemId).exec();
+  if (!item) {
+    throw notFound();
+  }
+  const comment = await User.findById(item?._doc?.seller).exec();
+
+  return {
+    ...comment._doc,
+    id: comment.id,
+  };
+};
+module.exports = {
+  findAll,
+  findSingle,
+  create,
+  updateOrCreate,
+  edit,
+  destroy,
+  findSeller,
+};
