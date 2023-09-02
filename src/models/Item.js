@@ -53,7 +53,7 @@ const ItemSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Brand",
     },
-    publisher: {
+    seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },

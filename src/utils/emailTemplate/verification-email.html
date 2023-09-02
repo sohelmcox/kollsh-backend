@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kollsh Email</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      /* Reset styles for email compatibility */
+      body,
+      table,
+      td,
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: #f9f9f9;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Flex container for the entire email */
+      .email-container {
+        max-width: 640px;
+        margin: 0 auto;
+        background: transparent;
+      }
+
+      /* Header styles */
+      .header {
+        background: #7289da
+          url(https://cdn.discordapp.com/email_assets/f0a4cc6d7aaa7bdf2a3c15a193c6d224.png)
+          top center/cover no-repeat;
+        padding: 30px 0;
+        text-align: center;
+        color: white;
+        font-family: "Whitney", Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 36px;
+      }
+
+      /* Content container */
+      .content {
+        background: #ffffff;
+        margin: 0px auto;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      /* Content padding */
+      .content-padding {
+        padding: 20px;
+      }
+
+      /* Logo styles */
+      .logo {
+        text-align: center;
+      }
+
+      /* User info styles */
+      .user-info {
+        color: #737f8d;
+        font-family: "Whitney", Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: left;
+      }
+
+      /* Button styles */
+      .button {
+        text-align: center;
+      }
+
+      /* Button style for mobile */
+      .button a {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #7289da;
+        color: white;
+        text-decoration: none;
+        font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 3px;
+      }
+
+      /* Footer styles */
+      .footer {
+        padding: 20px 0px;
+      }
+
+      /* Footer text styles */
+      .footer-text {
+        color: #99aab5;
+        font-family: "Whitney", Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        line-height: 24px;
+        text-align: center;
+      }
+
+      /* Media queries for mobile responsiveness */
+      @media screen and (max-width: 480px) {
+        .header {
+          padding: 20px 0;
+          font-size: 28px;
+          line-height: 28px;
+        }
+
+        .content-padding {
+          padding: 5px;
+        }
+
+        .button a {
+          padding: 8px 16px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body
+    style="
+      background: #f9f9f9;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    "
+  >
+    <div
+      class="email-container"
+      style="max-width: 640px; margin: 0 auto; background: transparent"
+    >
+      <!-- Header -->
+      <div
+        class="header"
+        style="
+          background: #7289da
+            url(https://cdn.discordapp.com/email_assets/f0a4cc6d7aaa7bdf2a3c15a193c6d224.png)
+            top center/cover no-repeat;
+          padding: 30px 0;
+          text-align: center;
+          color: white;
+          font-family: 'Whitney', Helvetica Neue, Helvetica, Arial, sans-serif;
+          font-size: 36px;
+          font-weight: 600;
+          line-height: 36px;
+        "
+      >
+        Welcome to Kollsh!
+      </div>
+
+      <!-- Content -->
+      <div
+        class="content"
+        style="
+          background: #ffffff;
+          margin: 0px auto;
+          box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+          border-radius: 4px;
+          overflow: hidden;
+        "
+      >
+        <div class="content-padding" style="padding: 20px">
+          <!-- Logo -->
+          <div class="logo" style="text-align: center">
+            <a href="https://kollsh.com/" target="_blank">Kollsh</a>
+          </div>
+
+          <!-- User Info -->
+          <div
+            class="user-info"
+            style="
+              color: #737f8d;
+              font-family: 'Whitney', Helvetica Neue, Helvetica, Arial,
+                sans-serif;
+              font-size: 16px;
+              line-height: 24px;
+              text-align: left;
+            "
+          >
+            <p>
+              <img
+                src="https://cdn.discordapp.com/email_assets/127c95bbea39cd4bc1ad87d1500ae27d.png"
+                alt="Party Wumpus"
+                title="None"
+                width="500"
+                style="height: auto"
+              />
+            </p>
+            <h2>{{ username }}</h2>
+            <p>
+              Wowwee! Thanks for registering an account with Kollsh! You're the
+              coolest person in all the land (and I've met a lot of really cool
+              people).
+            </p>
+            <p>Before we get started, we'll need to verify your email.</p>
+          </div>
+
+          <!-- Button -->
+          <div class="button" style="text-align: center">
+            <table
+              role="presentation"
+              cellpadding="0"
+              cellspacing="0"
+              style="border-collapse: separate"
+              align="center"
+              border="0"
+            >
+              <tr>
+                <td
+                  style="
+                    border: none;
+                    border-radius: 3px;
+                    color: white;
+                    cursor: pointer;
+                    padding: 10px 0;
+                  "
+                  align="center"
+                  valign="middle"
+                  bgcolor="#7289DA"
+                >
+                  <a
+                    href="{{ link }}"
+                    style="
+                      text-decoration: none;
+                      line-height: 100%;
+                      background: #7289da;
+                      color: white;
+                      font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+                      font-size: 16px;
+                      font-weight: normal;
+                      text-transform: none;
+                      margin: 0px;
+                      display: inline-block;
+                      padding: 10px 20px;
+                      border-radius: 3px;
+                    "
+                    target="_blank"
+                    >Verify Email</a
+                  >
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer" style="padding: 20px 0px">
+        <div
+          class="footer-text"
+          style="
+            color: #99aab5;
+            font-family: 'Whitney', Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            line-height: 24px;
+            text-align: center;
+          "
+        >
+          Sent by Kollsh •
+          <a
+            href="https://blog.kollsh.com/"
+            style="color: #1eb0f4; text-decoration: none"
+            target="_blank"
+            >check our blog</a
+          >
+          •
+          <a
+            href="https://twitter.com/ibrahimsifat0"
+            style="color: #1eb0f4; text-decoration: none"
+            target="_blank"
+            >@kollsh</a
+          >
+          <br />
+          EMMAR Square – Jeddah Gate BLDG E8 -Level 3-P.O.BOX 7568 – Jeddah
+          22345, KSA
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

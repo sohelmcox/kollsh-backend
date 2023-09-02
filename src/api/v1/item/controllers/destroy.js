@@ -5,9 +5,9 @@ const destroy = async (req, res, next) => {
 
   try {
     await itemService.destroy(id);
-    res.status(204).end();
-  } catch (e) {
-    next(e);
+    res.status(202).json("ok");
+  } catch (error) {
+    next(error);
   }
 };
 

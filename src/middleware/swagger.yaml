@@ -40,7 +40,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /auth/local:
+  /auth/local/login:
     post:
       tags:
         - Auth
@@ -67,6 +67,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserRegistration"
+        "400":
+          $ref: "#/components/responses/400"
         default:
           description: Error
           content:
@@ -78,13 +80,15 @@ paths:
       tags:
         - Auth
       summary: Register a user
-      description: Returns a jwt token and user info
+      description: Returns a Success Massage for email verification
       requestBody:
         content:
           application/json:
             schema:
               type: object
               properties:
+                name:
+                  type: string
                 username:
                   type: string
                 email:
@@ -92,17 +96,24 @@ paths:
                 password:
                   type: string
             example:
+              name: Ibrahim Sifat
               username: thisisname
-              email: user@kollosh.com
+              email: ibsifat900@gmail.com
               password: Test1234
         required: true
       responses:
-        "200":
+        "201":
           description: Successfull registration
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserRegistration"
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Registration successful. Please check your email for verification link"
+        "400":
+          $ref: "#/components/responses/400"
         default:
           description: Error
           content:
@@ -137,6 +148,8 @@ paths:
                     type: string
                     enum:
                       - "true"
+        "400":
+          $ref: "#/components/responses/400"
         default:
           description: Error
           content:
@@ -155,6 +168,8 @@ paths:
             schema:
               type: object
               properties:
+                email:
+                  type: string
                 password:
                   type: string
                 passwordConfirmation:
@@ -172,6 +187,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserRegistration"
+        "400":
+          $ref: "#/components/responses/400"
         default:
           description: Error
           content:
@@ -207,6 +224,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserRegistration"
+        "400":
+          $ref: "#/components/responses/400"
         default:
           description: Error
           content:
@@ -241,6 +260,8 @@ paths:
                     type: string
                     enum:
                       - "true"
+        "400":
+          $ref: "#/components/responses/400"
         default:
           description: Error
           content:
@@ -254,13 +275,19 @@ paths:
       summary: Confirm user email
       parameters:
         - in: query
-          name: confirmation
+          name: code
           schema:
             type: string
           description: confirmation token received by email
       responses:
-        "301":
-          description: Redirects to the configure email confirmation redirect url
+        "200":
+          description: Return accessToken with userDTO
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRegistration"
+        "400":
+          $ref: "#/components/responses/400"
         default:
           description: Error
           content:
@@ -325,6 +352,36 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ItemRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Items Deleted"
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "5 Items Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/items/{id}"
   "/items/{id}":
     get:
       responses:
@@ -410,13 +467,8 @@ paths:
               $ref: "#/components/schemas/PatchItemRequest"
     delete:
       responses:
-        "204":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -568,13 +620,8 @@ paths:
               $ref: "#/components/schemas/ItemsDetailRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -759,13 +806,8 @@ paths:
               $ref: "#/components/schemas/AttributeRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -893,13 +935,8 @@ paths:
               $ref: "#/components/schemas/AttributeCategoryRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -1031,13 +1068,8 @@ paths:
               $ref: "#/components/schemas/AttributeValueRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -1171,13 +1203,8 @@ paths:
               $ref: "#/components/schemas/BrandRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -1315,13 +1342,8 @@ paths:
               $ref: "#/components/schemas/CategoryRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -1447,13 +1469,8 @@ paths:
               $ref: "#/components/schemas/CityRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -1579,13 +1596,8 @@ paths:
               $ref: "#/components/schemas/CommentRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -1719,13 +1731,8 @@ paths:
               $ref: "#/components/schemas/CountryRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -1853,13 +1860,8 @@ paths:
               $ref: "#/components/schemas/ReplayRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -1989,13 +1991,8 @@ paths:
               $ref: "#/components/schemas/SubcategoryRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2121,13 +2118,8 @@ paths:
               $ref: "#/components/schemas/StateRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2291,14 +2283,8 @@ paths:
             type: string
           description: user Id
       responses:
-        "200":
-          description: Returns deleted user info
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UserDTO"
-              example:
-                $ref: "#/components/schemas/UserDTO"
+        "202":
+          $ref: "#/components/responses/202"
         default:
           description: Error
           content:
@@ -2376,13 +2362,8 @@ paths:
       operationId: "get/upload/files/{id}"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2510,13 +2491,8 @@ paths:
               $ref: "#/components/schemas/ItemSuggestionRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2644,13 +2620,8 @@ paths:
               $ref: "#/components/schemas/MetadataRequest"
     delete:
       responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: integer
-                format: int64
+        "202":
+          $ref: "#/components/responses/202"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2678,25 +2649,17 @@ components:
     Error:
       type: object
       required:
-        - error
+        - status
+        - message
       properties:
-        data:
-          oneOf:
-            - type: object
-            - type: array
-              items:
-                type: object
-        error:
+        status:
+          type: integer
+        name:
+          type: string
+        message:
+          type: string
+        details:
           type: object
-          properties:
-            status:
-              type: integer
-            name:
-              type: string
-            message:
-              type: string
-            details:
-              type: object
     Timestamp:
       type: object
       properties:
@@ -2754,6 +2717,9 @@ components:
         id:
           type: number
           example: 1
+        name:
+          type: string
+          example: Ibrahim
         username:
           type: string
           example: username
@@ -2769,14 +2735,6 @@ components:
         blocked:
           type: boolean
           example: false
-        createdAt:
-          type: string
-          format: date-time
-          example: "2022-06-02T08:32:06.258Z"
-        updatedAt:
-          type: string
-          format: date-time
-          example: "2022-06-02T08:32:06.267Z"
       required:
         - id
         - name
@@ -2917,7 +2875,10 @@ components:
     UserRegistration:
       type: object
       properties:
-        jwt:
+        message:
+          type: string
+          example: success
+        accessToken:
           type: string
           example: >-
             eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
@@ -4505,6 +4466,13 @@ components:
           $ref: "#/components/schemas/MetadataResponseDataObject"
         meta:
           type: object
+    IdsRequestObject:
+      type: object
+      properties:
+        ids:
+          type: array
+          items:
+            type: string
   parameters:
     id:
       name: id
@@ -4514,13 +4482,20 @@ components:
       required: true
       schema:
         type: string
+    slug:
+      name: slug
+      in: path
+      description: ""
+      required: true
+      schema:
+        type: string
     queryIdParam:
       name: populate
       in: query
       description: populate relations
       schema:
         type: string
-        example: "seller,comments"
+        example: "seller"
     sortParams:
       name: sort
       in: query
@@ -4597,6 +4572,13 @@ components:
     #   schema:
     #     type: integer
   responses:
+    "202":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: string
+            example: ok
     "400":
       description: Bad Request
       content:

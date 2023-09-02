@@ -16,8 +16,8 @@ const edit = async (req, res, next) => {
     };
 
     res.status(200).json(response);
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    next(error);
   }
 };
 module.exports = edit;

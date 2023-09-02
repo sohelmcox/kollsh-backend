@@ -334,16 +334,8 @@ const destroy = async (id) => {
     throw notFound();
   }
   // TODO:
-  // Asynchronously delete all associated comments and item details
-  // const commentIds = item.comments; // Assuming 'comments' is an array of comment IDs
+  // Asynchronously delete all item details
 
-  // Delete each comment asynchronously
-  // await Promise.all(
-  //   commentIds.map(async (commentId) => {
-  //     // Assuming you have a 'Comment' model
-  //     await Comment.findByIdAndDelete(commentId);
-  //   }),
-  // );
   await item.deleteOne();
 };
 
@@ -359,6 +351,16 @@ const findSeller = async (itemId) => {
     id: comment.id,
   };
 };
+
+const deleteMany = async (itemIds) => {
+  try {
+    const result = await Item.deleteMany({ _id: { $in: itemIds } });
+    return result.deletedCount; // Return the number of deleted items
+  } catch (error) {
+    throw new Error(`Error deleting items: ${error.message}`);
+  }
+};
+
 module.exports = {
   findAll,
   findSingle,
@@ -367,4 +369,5 @@ module.exports = {
   edit,
   destroy,
   findSeller,
+  deleteMany,
 };

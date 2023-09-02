@@ -2,6 +2,14 @@ const mongoose = require("mongoose");
 
 const UserProfileSchema = new mongoose.Schema(
   {
+    firstName: {
+      type: String,
+      example: "Jon",
+    },
+    lastName: {
+      type: String,
+      example: "doe",
+    },
     boi: {
       type: String,
     },
@@ -34,7 +42,7 @@ const UserProfileSchema = new mongoose.Schema(
       ref: "User",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("UserProfile", UserProfileSchema);

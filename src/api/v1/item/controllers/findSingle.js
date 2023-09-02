@@ -9,15 +9,15 @@ const findSingle = async (req, res, next) => {
     const response = {
       data: item,
       links: {
-        self: `/items/${item.id}`,
+        self: `/items/${item.slug}`,
         author: `/items/${item.id}/publisher`,
         comments: `/items/${item.id}/comments`,
       },
     };
 
     res.status(200).json(response);
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    next(error);
   }
 };
 

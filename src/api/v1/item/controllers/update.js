@@ -46,8 +46,8 @@ const update = async (req, res, next) => {
     };
 
     res.status(code).json(response);
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    next(error);
   }
 };
 

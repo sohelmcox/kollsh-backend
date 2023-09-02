@@ -1,5 +1,12 @@
 {
-  "cSpell.words": ["HATEOAS", "Ibrahim", "Kollsh", "openapi", "Sifat"],
+  "cSpell.words": [
+    "HATEOAS",
+    "Ibrahim",
+    "Kollsh",
+    "mailgun",
+    "openapi",
+    "Sifat"
+  ],
   // Set the default
   "editor.formatOnSave": true,
 

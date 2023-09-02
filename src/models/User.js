@@ -2,8 +2,12 @@ const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+    },
     username: {
       type: String,
+      unique: true,
     },
     email: {
       type: String,
@@ -14,11 +18,27 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    resetPasswordToken: {
+    resetPasswordCode: {
       type: String,
     },
-    confirmationToken: {
+    resetPasswordRCodeExpires: {
+      type: Date,
+      default: null,
+    },
+    passwordResetAttempts: {
+      type: Number,
+      default: 0,
+    },
+    confirmationCode: {
       type: String,
+    },
+    confirmationCodeExpires: {
+      type: Date,
+      default: null,
+    },
+    emailVerificationAttempts: {
+      type: Number,
+      default: 0,
     },
     confirmed: {
       type: Boolean,
@@ -30,7 +50,7 @@ const UserSchema = new mongoose.Schema(
       type: Object,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("User", UserSchema);
