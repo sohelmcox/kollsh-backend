@@ -11,7 +11,7 @@ const YAML = require("yamljs");
 const swaggerDoc = YAML.load(apiSpecPath);
 const OpenApiValidator = require("express-openapi-validator");
 const swaggerUi = require("swagger-ui-express");
-const authenticate = require("./authenticate");
+const config = require("../config");
 
 const applyMiddleware = (app) => {
   // app.use(morgan("tiny"));
@@ -19,7 +19,7 @@ const applyMiddleware = (app) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   const corsOptions = {
-    origin: process.env.CORS_URL,
+    origin: config.corsUrl,
     credentials: true,
     optionSuccessStatus: 200,
   };
@@ -33,8 +33,6 @@ const applyMiddleware = (app) => {
       // validateResponses: true,
     }),
   );
-
-  app.use(authenticate);
   // cors error handle
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

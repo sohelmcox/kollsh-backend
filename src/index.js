@@ -1,10 +1,10 @@
 const http = require("http");
 const app = require("./app/app");
+const config = require("./config");
+const connectDB = require("./db/connectMongoDB");
 
 const server = http.createServer(app);
-const PORT = process.env.PORT || 4000;
-
-const connectDB = require("./db/connectMongoDB");
+const PORT = config.port;
 
 connectDB();
 // listen the app

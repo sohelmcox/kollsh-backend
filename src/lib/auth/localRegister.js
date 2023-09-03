@@ -3,6 +3,7 @@ const { badRequest } = require("../../utils/error");
 const { hashing } = require("../../utils");
 const { userExist, createUser, findByUsername } = require("../user");
 const sendVerificationEmail = require("../../utils/mail/sendVerificationEmail");
+const { findRoleByRoleName } = require("../role");
 
 const localRegister = async ({ name, username, email, password }) => {
   try {
@@ -14,6 +15,7 @@ const localRegister = async ({ name, username, email, password }) => {
     if (existingUsername) {
       throw badRequest("Username already taken, try another one");
     }
+    const getRole = await findRoleByRoleName({ name: "user" });
     // Generate hashed password
     const hashedPassword = await hashing.generateHash(password);
     const userObj = {
@@ -24,7 +26,7 @@ const localRegister = async ({ name, username, email, password }) => {
       confirmationCode: generateUniqueCode(),
       confirmed: false,
       blocked: false,
-      role: "user",
+      role: getRole.id,
       resetPasswordCode: "",
       resetPasswordRCodeExpires: "",
       confirmationCodeExpires: Date.now() + 3600000, // 1 hour from now

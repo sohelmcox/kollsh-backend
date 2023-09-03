@@ -1,9 +1,9 @@
-const getUserTokenPayload = (user) => ({
-  id: user.id,
+const getUserDTO = (user) => ({
   username: user.username,
   email: user.email,
   role: user.role,
   blocked: user.blocked,
+  confirmed: user.confirmed,
 });
 
-module.exports = getUserTokenPayload;
+module.exports = getUserDTO;

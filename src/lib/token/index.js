@@ -1,10 +1,11 @@
 const jwt = require("jsonwebtoken");
 const { error } = require("../../utils");
+const config = require("../../config");
 
 const generateToken = ({
   payload,
   algorithm = "HS256",
-  secret = process.env.ACCESS_TOKEN_SECRET,
+  secret = config.accessTokenSecret,
   expiresIn = "1h",
 }) => {
   try {
@@ -28,7 +29,7 @@ const decodeToken = ({ token, algorithm = "HS256" }) => {
 const verifyToken = ({
   token,
   algorithm = "HS256",
-  secret = process.env.ACCESS_TOKEN_SECRET,
+  secret = config.accessTokenSecret,
 }) => {
   try {
     return jwt.verify(token, secret, { algorithms: [algorithm] });

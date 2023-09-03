@@ -3,6 +3,7 @@ const path = require("path");
 const { User } = require("../../models");
 const { notFound, badRequest, serverError } = require("../../utils/error");
 const sendEmail = require("../../utils/mail/sendEmail");
+const config = require("../../config");
 
 const sendEmailConfirmation = async (email) => {
   try {
@@ -21,7 +22,7 @@ const sendEmailConfirmation = async (email) => {
     user.emailVerificationAttempts += 1;
 
     // Send email verification email
-    const emailVerificationLink = `${process.env.APP_URL}/api/v1/auth/email-confirmation?code=${user.resetCode}`;
+    const emailVerificationLink = `${config.appUrl}/api/v1/auth/email-confirmation?code=${user.resetCode}`;
     const emailVerificationSubject = "Email Verification";
     const templateFilePath = path.join(
       __dirname,

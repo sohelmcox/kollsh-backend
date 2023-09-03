@@ -16,6 +16,8 @@ const Subcategory = require("./Subcategory");
 const User = require("./User");
 const UserProfile = require("./UserProfile");
 const Brand = require("./Brand");
+const Role = require("./Role");
+const Permission = require("./Permission");
 
 module.exports = {
   Attribute,
@@ -35,4 +37,6 @@ module.exports = {
   User,
   UserProfile,
   Brand,
+  Role,
+  Permission,
 };

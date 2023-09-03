@@ -1,9 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const sendEmail = require("./sendEmail");
+const config = require("../../config");
 
 const sendVerificationEmail = async (user) => {
-  const emailVerificationLink = `${process.env.APP_URL}/api/v1/auth/email-confirmation?code=${user.confirmationCode}`;
+  const emailVerificationLink = `${config.appUrl}/api/v1/auth/email-confirmation?code=${user.confirmationCode}`;
   const emailVerificationSubject = "Email Verification";
   const templateFilePath = path.join(
     __dirname,

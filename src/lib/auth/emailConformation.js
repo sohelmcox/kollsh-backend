@@ -1,6 +1,6 @@
 const { User } = require("../../models");
 const { badRequest } = require("../../utils/error");
-const getUserTokenPayload = require("../../utils/getUserTokenPayload");
+const { getUserDTO } = require("../../utils");
 const { generateToken } = require("../token");
 
 // email verification
@@ -17,7 +17,7 @@ const emailConformation = async (confirmationCode) => {
 
     user.confirmed = true;
     const newUser = await user.save();
-    const userPayload = getUserTokenPayload(newUser);
+    const userPayload = getUserDTO(newUser);
     const accessToken = generateToken({ payload: userPayload });
     const userData = {
       accessToken,

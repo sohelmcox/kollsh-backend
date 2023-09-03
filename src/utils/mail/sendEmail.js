@@ -1,5 +1,6 @@
 const formData = require("form-data");
 const Mailgun = require("mailgun.js");
+const config = require("../../config");
 
 const mailgun = new Mailgun(formData);
 
@@ -12,11 +13,11 @@ const sendEmail = async ({
   try {
     const mg = mailgun.client({
       username: "api",
-      key: process.env.MAILGUN_API_KEY,
+      key: config.mailgunApiKey,
     });
 
-    const msg = await mg.messages.create(process.env.MAIL_DOMAIN, {
-      from: `${process.env.APP_NAME} <${process.env.APP_EMAIL_SENDER}>`,
+    const msg = await mg.messages.create(config.mailDomain, {
+      from: `${config.appName} <${config.appEmailSender}>`,
       to: [to],
       subject,
       // text: body,

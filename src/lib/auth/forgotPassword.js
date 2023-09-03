@@ -4,6 +4,7 @@ const generateUniqueCode = require("../../utils/generateUniqueCode");
 const { badRequest } = require("../../utils/error");
 const sendEmail = require("../../utils/mail/sendEmail");
 const { findUserByEmail } = require("../user");
+const config = require("../../config");
 
 // forgot password
 const forgotPassword = async (email) => {
@@ -14,7 +15,7 @@ const forgotPassword = async (email) => {
     throw badRequest("User not found.");
   }
   // Check if the user has reached the reset password  limit
-  if (user.passwordResetAttempts >= process.env.PASSWORD_RESET_LIMIT) {
+  if (user.passwordResetAttempts >= config.passwordResetLimit) {
     throw badRequest("Reset Password limit exceeded. Try again after 24 hours");
   }
   // Generate a reset password code and set expiration time

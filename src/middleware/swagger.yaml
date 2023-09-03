@@ -2639,6 +2639,213 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/metadatas/{id}"
+  /roles:
+    get:
+      summary: Get all roles
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: A list of roles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RolesListResponse"
+        "401":
+          $ref: "#/components/responses/401"
+    post:
+      summary: Create a new role
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Role object to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleRequest"
+      responses:
+        "201":
+          description: Role created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/400"
+  /roles/{id}:
+    get:
+      summary: Get a role by ID
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: A role object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/401"
+    put:
+      summary: Update a role by ID
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        description: Role object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleRequest"
+      responses:
+        "200":
+          description: Role updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/401"
+    delete:
+      summary: Delete a role by ID
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          description: Role deleted successfully
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/401"
+  /permissions:
+    get:
+      summary: Get all permissions
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: A list of permissions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionsListResponse"
+        "401":
+          $ref: "#/components/responses/401"
+    post:
+      summary: Create a new permission
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Permission object to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PermissionRequest"
+      responses:
+        "201":
+          description: Permission created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Permission"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+  /permissions/{id}:
+    get:
+      summary: Get a permission by ID
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "get/permissions/{id}"
+      responses:
+        "200":
+          description: A permission object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Permission"
+    put:
+      summary: Update a permission by ID
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "put/permissions/{id}"
+      requestBody:
+        description: Permission object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PermissionRequest"
+      responses:
+        "200":
+          description: Permission updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Permission"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+    delete:
+      summary: Delete a permission by ID
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "put/permissions/{id}"
+      responses:
+        "204":
+          description: Permission deleted successfully
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
 components:
   securitySchemes:
     bearerAuth:
@@ -4394,6 +4601,102 @@ components:
           $ref: "#/components/schemas/UploadFileResponseDataObject"
         meta:
           type: object
+    Role:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the role
+        name:
+          type: string
+          description: The name of the role
+        description:
+          type: string
+          description: A brief description of the role
+        permissions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Permission"
+          description: The permissions associated with the role
+      required:
+        - name
+    RolesListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Role"
+        meta:
+          type: object
+          properties:
+            item:
+              type: object
+              properties:
+                slef:
+                  type: string
+            pagination:
+              $ref: "#/components/schemas/Pagination"
+    RoleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the role
+        description:
+          type: string
+          description: A brief description of the role
+        permissions:
+          type: array
+          items:
+            type: string
+          description: An array of permission IDs to associate with the role
+
+    Permission:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The ID of the permission
+        controller:
+          type: string
+          description: The name of the controller
+        actions:
+          type: array
+          items:
+            type: string
+          description: The actions allowed by this permission
+      required:
+        - controller
+        - actions
+    PermissionsListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Permission"
+        meta:
+          type: object
+          properties:
+            item:
+              type: object
+              properties:
+                slef:
+                  type: string
+            pagination:
+              $ref: "#/components/schemas/Pagination"
+    PermissionRequest:
+      type: object
+      properties:
+        controller:
+          type: string
+          description: The name of the controller
+        actions:
+          type: array
+          items:
+            type: string
+          description: The actions allowed by this permission
     MetadataRequest:
       type: object
       required:

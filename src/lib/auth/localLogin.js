@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const { badRequest, notFound } = require("../../utils/error");
-const getUserTokenPayload = require("../../utils/getUserTokenPayload");
+const getUserTokenPayload = require("../../utils/getUserDTO");
 const { generateToken } = require("../token");
 const { findByIdentifier } = require("../user");
 
@@ -20,7 +20,7 @@ const localLogin = async (identifier, password) => {
     }
 
     // Generate JWT token
-    const payload = getUserTokenPayload(user);
+    const payload = getUserTokenPayload(user._doc);
     const token = generateToken({ payload });
 
     // Replace this with actual user data to return

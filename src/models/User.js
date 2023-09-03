@@ -46,9 +46,7 @@ const UserSchema = new mongoose.Schema(
     blocked: {
       type: Boolean,
     },
-    role: {
-      type: Object,
-    },
+    role: { type: mongoose.Schema.Types.ObjectId, ref: "Role" }, // Reference to the user's role
   },
   { timestamps: true },
 );
