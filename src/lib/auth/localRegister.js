@@ -15,7 +15,7 @@ const localRegister = async ({ name, username, email, password }) => {
     if (existingUsername) {
       throw badRequest("Username already taken, try another one");
     }
-    const getRole = await findRoleByRoleName({ name: "user" });
+    const getRole = (await findRoleByRoleName({ name: "user" })) || "user";
     // Generate hashed password
     const hashedPassword = await hashing.generateHash(password);
     const userObj = {
@@ -29,7 +29,9 @@ const localRegister = async ({ name, username, email, password }) => {
       role: getRole.id,
       resetPasswordCode: "",
       resetPasswordRCodeExpires: "",
+      passwordResetAttempts: 0,
       confirmationCodeExpires: Date.now() + 3600000, // 1 hour from now
+      emailVerificationAttempts: 0,
     };
     const newUser = await createUser({ ...userObj });
 

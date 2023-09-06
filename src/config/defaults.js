@@ -1,7 +1,7 @@
 const defaults = {
   totalItems: 0,
-  limit: 25,
-  page: 1,
+  pageSize: 25,
+  pageNumber: 1,
   sortOrder: "asc",
   sortBy: "updatedAt",
   search: "",

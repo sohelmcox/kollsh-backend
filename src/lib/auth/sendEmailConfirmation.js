@@ -1,9 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 const { User } = require("../../models");
-const { notFound, badRequest, serverError } = require("../../utils/error");
+const { notFound, badRequest } = require("../../utils/error");
 const sendEmail = require("../../utils/mail/sendEmail");
 const config = require("../../config");
+const { findUserByEmail } = require("../user");
 
 const sendEmailConfirmation = async (email) => {
   try {
@@ -44,7 +45,15 @@ const sendEmailConfirmation = async (email) => {
     await user.save();
     return emailResult;
   } catch (error) {
-    throw serverError(`Error during send email confirmation: ${error.message}`);
+    throw badRequest(error.message);
   }
 };
-module.exports = sendEmailConfirmation;
+const emailConfirmationAttempts = async (email) => {
+  // Check if the user exists
+  const user = await findUserByEmail(email);
+  if (!user) {
+    throw badRequest("User not found.");
+  }
+  return user.emailVerificationAttempts;
+};
+module.exports = { sendEmailConfirmation, emailConfirmationAttempts };

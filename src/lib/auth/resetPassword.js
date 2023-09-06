@@ -4,10 +4,9 @@ const { badRequest } = require("../../utils/error");
 const { findUserByEmail } = require("../user");
 const { hashing } = require("../../utils");
 
-const verifyPasswordResetCode = async (email, resetPasswordCode) => {
+const verifyPasswordResetCode = async (resetPasswordCode) => {
   // Verify if the reset code matches and has not expired
-  const user = await findUserByEmail(email);
-
+  const user = await User.findOne({ resetPasswordCode });
   if (
     !user ||
     user.resetPasswordCode !== resetPasswordCode ||
@@ -16,19 +15,21 @@ const verifyPasswordResetCode = async (email, resetPasswordCode) => {
     return false; // Invalid or expired code
   }
 
-  return true; // Valid code
+  return user; // Valid code
 };
 const deletePasswordResetCode = async (email) => {
   // Delete the reset code from the user model
-  await User.findOneAndUpdate(
-    { email },
-    { resetPasswordCode: null, resetPasswordRCodeExpires: null },
-  );
-
+  try {
+    await User.findOneAndUpdate(
+      { email },
+      { resetPasswordCode: null, resetPasswordRCodeExpires: null },
+    );
+  } catch (error) {
+    throw badRequest(error.message);
+  }
   // TODO Handle errors if any
 };
 const resetPassword = async ({
-  email,
   resetPasswordCode,
   newPassword,
   passwordConfirmation,
@@ -38,17 +39,27 @@ const resetPassword = async ({
     throw badRequest("Password confirmation does not match password.");
   }
   // Verify the reset code and its expiration
-  const isValidCode = await verifyPasswordResetCode(email, resetPasswordCode);
-  if (!isValidCode) {
+  const user = await verifyPasswordResetCode(resetPasswordCode);
+  if (!user) {
     throw badRequest("Invalid or expired reset code.");
   }
-
+  const { email } = user;
   // Update the user's password
   const hashedPassword = await hashing.generateHash(newPassword);
   await userServices.updatePassword({ email, newPassword: hashedPassword });
 
   // Delete the reset code from the database
   await deletePasswordResetCode(email);
-  return { message: "Password reset successful." };
+  return { status: 200, message: "Password reset successful." };
 };
-module.exports = resetPassword;
+
+const resetPasswordAttempts = async ({ email }) => {
+  // Check if the user exists
+  const user = await findUserByEmail(email);
+  if (!user) {
+    throw badRequest("User not found.");
+  }
+  return user.passwordResetAttempts;
+};
+
+module.exports = { resetPassword, resetPasswordAttempts };

@@ -21,11 +21,8 @@ const create = async (req, res, next) => {
     is_argent,
     brand,
   } = req.body;
-
+  console.log("body", req.body);
   try {
-    // Validate input data here if needed
-    // ...
-
     const newItem = await itemService.create({
       name,
       description,
@@ -39,6 +36,8 @@ const create = async (req, res, next) => {
       is_argent,
       brand,
       seller: req.user.id,
+      createdBy: req.user.id,
+      updatedBy: req.user.id,
     });
 
     const response = {

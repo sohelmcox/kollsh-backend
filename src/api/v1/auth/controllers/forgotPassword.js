@@ -7,7 +7,10 @@ const forgotPassword = async (req, res, next) => {
     const message = await authService.forgotPassword(email);
     res
       .status(message.status)
-      .json({ message: "Verification email sent successfully" });
+      .json({
+        status: message.status,
+        message: "Verification email sent successfully",
+      });
   } catch (error) {
     next(error);
   }

@@ -1,9 +1,12 @@
 const localLogin = require("./localLogin");
 const localRegister = require("./localRegister");
 const emailConformation = require("./emailConformation");
-const sendEmailConfirmation = require("./sendEmailConfirmation");
+const {
+  sendEmailConfirmation,
+  emailConfirmationAttempts,
+} = require("./sendEmailConfirmation");
 const forgotPassword = require("./forgotPassword");
-const resetPassword = require("./resetPassword");
+const { resetPassword, resetPasswordAttempts } = require("./resetPassword");
 
 module.exports = {
   localLogin,
@@ -12,4 +15,6 @@ module.exports = {
   sendEmailConfirmation,
   forgotPassword,
   resetPassword,
+  resetPasswordAttempts,
+  emailConfirmationAttempts,
 };

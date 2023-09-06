@@ -5,8 +5,6 @@ const generateQueryString = (query) =>
     )
     .join("&");
 
-module.exports = { generateQueryString };
-
 const getHATEOASForAllItems = ({
   url = "/",
   path = "",
@@ -36,4 +34,4 @@ const getHATEOASForAllItems = ({
 
   return links;
 };
-module.exports = { getHATEOASForAllItems };
+module.exports = { getHATEOASForAllItems, generateQueryString };

@@ -18,12 +18,12 @@ const applyMiddleware = (app) => {
   app.use(helmet());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  const corsOptions = {
-    origin: config.corsUrl,
-    credentials: true,
-    optionSuccessStatus: 200,
-  };
-  app.use(cors(corsOptions));
+  // const corsOptions = {
+  //   origin: config.corsUrl,
+  //   credentials: true,
+  //   optionSuccessStatus: 200,
+  // };
+  app.use(cors());
   // openapi specification middleware
   app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
   app.use(

@@ -5,12 +5,15 @@ const { getUserDTO } = require("../utils");
 
 const authenticate = async (req, _res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
+  console.log(req.headers);
   try {
     const decoded = tokenService.decodeToken({ token });
+    console.log("decoded", decoded);
+    console.log("token", token);
     const user = await userService.findUserByEmail(decoded.email);
-
+    console.log("user", user);
     if (!user) {
-      next(authenticationError());
+      next(authenticationError("user not found"));
     }
     if (!user.confirmed) {
       next(
@@ -23,7 +26,6 @@ const authenticate = async (req, _res, next) => {
       next(authenticationError("Your account is blocked"));
     }
     const userDTO = getUserDTO(user);
-    console.log(userDTO);
     req.user = { userDTO, id: user._id };
     next();
   } catch (e) {

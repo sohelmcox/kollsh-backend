@@ -7,4 +7,9 @@ router.get("/email-confirmation", authControllers.emailConfirmation);
 router.post("/send-email-confirmation", authControllers.sendEmailConfirmation);
 router.post("/forgot-password", authControllers.forgotPassword);
 router.post("/reset-password", authControllers.resetPassword);
+router.get("/reset-password-attempts", authControllers.resetPasswordAttempts);
+router.get(
+  "/email-confirmation-attempts",
+  authControllers.emailConfirmationAttempts,
+);
 module.exports = router;

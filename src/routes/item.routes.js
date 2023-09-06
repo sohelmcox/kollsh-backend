@@ -7,7 +7,7 @@ const { hasPermission } = require("../middleware/hasPermission");
 router
   .route("/")
   .get(controllers.find)
-  .post(authenticate, hasPermission("item", ["write"]), controllers.create)
+  .post(authenticate, controllers.create)
   .delete(controllers.destroyMany);
 
 // router.route("/slug").get(controllers.findSingle);
@@ -17,7 +17,7 @@ router
   .put(controllers.updateOrCreate)
   .patch(
     authenticate,
-    hasPermission("item", ["write"]),
+    hasPermission("item", ["update"]),
     hasOwnership("Item", "seller"),
     controllers.edit,
   )

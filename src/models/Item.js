@@ -14,12 +14,11 @@ const ItemSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    thumbnail: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Image",
-      },
-    ],
+    thumbnail: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
+    },
+
     slug: {
       type: String,
     },

@@ -1,22 +1,21 @@
 const { User } = require("../../models");
-const { getUserDTO } = require("../../utils");
 
 const findUserByEmail = async (email) => {
   const user = await User.findOne({ email });
-  return user._doc;
+  return user;
 };
 const findByUsernameAndEmail = async (email) => {
   // const user = await User.findOne({ $or: [{ username }, { email }] });
   const user = await User.findOne({ email });
-  return user._doc;
+  return user;
 };
 const findByUsername = async (username) => {
   const user = await User.findOne({ username });
-  return user._doc;
+  return user;
 };
 const findUserById = async (id) => {
   const user = await User.findById(id);
-  return user._doc;
+  return user;
 };
 const findByIdentifier = async (identifier) => {
   const user = await User.findOne({
@@ -24,9 +23,9 @@ const findByIdentifier = async (identifier) => {
   });
   return user;
 };
-const userExist = async (username, email) => {
-  const user = await findByUsernameAndEmail(username, email);
-  return user ? user._doc : false;
+const userExist = async (email) => {
+  const user = await findUserByEmail(email);
+  return user;
 };
 
 const createUser = async (userObj) => {

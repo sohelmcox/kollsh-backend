@@ -3,7 +3,7 @@ const { getProperty } = require("./getProperty");
 // Helper function to select fields
 function selectFields(items, selectedFields) {
   return items.map((item) => {
-    const selectedItem = {};
+    const selectedItem = { id: item.id };
     selectedFields.forEach((field) => {
       selectedItem[field] = getProperty(item, field);
     });

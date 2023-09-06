@@ -18,6 +18,8 @@ const {
 } = require("../../utils/Query/getPopulatedFields");
 const { notFound } = require("../../utils/error");
 const { generateUniqueSlug } = require("../../utils/generateUniqueSlug");
+const getUserDTO = require("../../utils/getUserDTO");
+const removeUndefinedQuery = require("../../utils/Query/removeUndefinedQuery");
 
 /**
  * Find all items based on provided query parameters.
@@ -40,10 +42,10 @@ const findAll = async ({
   sort,
   fields,
   populate,
-  search = {},
+  search,
   locale,
-  pageNumber,
-  pageSize,
+  pageNumber = 1,
+  pageSize = defaults.pageSize,
   pageStart,
   url,
   path,
@@ -55,17 +57,16 @@ const findAll = async ({
     populatedFields: parsePopulatedFields(populate),
     searchQuery: search,
     locale,
-    page: parseInt(pageNumber, defaults.radix) || 1,
-    limit: parseInt(pageSize, defaults.radix) || config.limit,
-    skip:
-      parseInt(pageStart, defaults.radix) ||
-      (parseInt(pageNumber, defaults.radix) - 1) *
-        parseInt(pageSize, defaults.radix) ||
-      0,
-    totalEntities: parseInt(pageSize, defaults.radix) || config.limit,
+    pageNumber: parseInt(pageNumber, defaults.radix) || 1,
+    limit: parseInt(pageSize, defaults.radix) || config.pageSize,
+    skip: parseInt(pageStart, defaults.radix) || 0,
+    totalEntities: parseInt(pageSize, defaults.radix) || config.pageSize,
   };
-
-  const searchQuery = getSearchQuery(query.searchQuery);
+  // handling search query
+  let searchQuery = {};
+  if (query.searchQuery) {
+    searchQuery = getSearchQuery(query.searchQuery);
+  }
   const sortStr = query.sortCriteria;
   // Fetch items from the database
   let items = await Item.find(searchQuery)
@@ -77,7 +78,7 @@ const findAll = async ({
   // Apply population
   const { populatedFields } = query;
   if (populatedFields.length > 0) {
-    items = await getPopulatedFields(populatedFields, Item);
+    items = await getPopulatedFields(populatedFields, items);
   }
 
   // Select fields
@@ -95,18 +96,20 @@ const findAll = async ({
     pageSize,
     pageNumber,
   });
-
+  console.log("requestQuery", requestQuery);
+  // remove undefined queries
+  const finalQuery = removeUndefinedQuery(requestQuery);
   const links = getHATEOASForAllItems({
     url,
     path,
-    requestQuery,
+    requestQuery: finalQuery,
     hasNext: !!pagination.next,
     hasPrev: !!pagination.prev,
     pageNumber,
   });
 
   const paginationResponse = {
-    page: query.page,
+    page: query.pageNumber,
     limit: query.limit,
     skip: query.skip,
     totalEntities: items.length,
@@ -119,18 +122,20 @@ const findAll = async ({
     populatedFields: query.populatedFields,
     searchQuery: query.searchQuery,
   };
-  const finalItems = items.map((item) => ({
-    id: item.id,
-    data: { ...item._doc },
-  }));
+  // const finalItems = items.map((item) => ({
+  //   id: item.id,
+  //   data: { ...item },
+  // }));
+  //
+  //
   // Generate the full response
   const data = {
-    items: finalItems,
+    data: items,
     meta: {
       pagination: paginationResponse,
       links,
+      filters,
     },
-    filters,
   };
 
   return data;
@@ -155,6 +160,8 @@ const create = async ({
   is_argent,
   brand,
   seller,
+  createdBy,
+  updatedBy,
 }) => {
   // Generate a unique slug
   const uniqueSlug = await generateUniqueSlug(Item, name);
@@ -172,6 +179,8 @@ const create = async ({
     is_argent,
     brand,
     seller,
+    createdBy,
+    updatedBy,
   };
   const newItem = new Item(itemData);
 
@@ -232,7 +241,7 @@ const updateOrCreate = async (
     negotiable = false,
     is_argent = false,
     brand = null,
-    publisher,
+    seller,
   },
 ) => {
   const item = await Item.findById(id);
@@ -251,7 +260,7 @@ const updateOrCreate = async (
       negotiable,
       is_argent,
       brand,
-      publisher,
+      seller,
     });
     return {
       newItem,
@@ -272,7 +281,7 @@ const updateOrCreate = async (
     negotiable,
     is_argent,
     brand,
-    publisher,
+    seller,
   };
 
   item.overwrite(payload);
@@ -296,7 +305,7 @@ const edit = async (
     negotiable,
     is_argent,
     brand,
-    publisher,
+    seller,
   },
 ) => {
   const item = await Item.findById(id);
@@ -317,7 +326,7 @@ const edit = async (
     negotiable,
     is_argent,
     brand,
-    publisher,
+    seller,
   };
 
   Object.keys(payload).forEach((key) => {
@@ -344,11 +353,11 @@ const findSeller = async (itemId) => {
   if (!item) {
     throw notFound();
   }
-  const comment = await User.findById(item?._doc?.seller).exec();
-
+  const seller = await User.findById(item?._doc?.seller).exec();
+  const data = getUserDTO(seller._doc);
   return {
-    ...comment._doc,
-    id: comment.id,
+    id: seller.id,
+    data: { ...data },
   };
 };
 

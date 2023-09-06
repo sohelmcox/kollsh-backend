@@ -1,20 +1,20 @@
 const authService = require("../../../../lib/auth");
 
 const localRegister = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { name, username, email, password } = req.body;
 
   try {
     const emailResult = await authService.localRegister({
+      name,
       username,
       email,
       password,
     });
-    res
-      .status(emailResult.status)
-      .json({
-        message:
-          "Registration successful. Please check your email for verification link",
-      });
+    res.status(emailResult.status).json({
+      status: emailResult.status,
+      message:
+        "Registration successful. Please check your email for verification link",
+    });
   } catch (error) {
     next(error);
   }

@@ -6,7 +6,6 @@ const connectDB = require("./db/connectMongoDB");
 const server = http.createServer(app);
 const PORT = config.port;
 
-connectDB();
 // listen the app
 server.listen(PORT, (err) => {
   if (err) {

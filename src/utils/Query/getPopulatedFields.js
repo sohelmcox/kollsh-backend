@@ -1,13 +1,22 @@
 const { populateAllFields } = require("./queryParser");
 
-const getPopulatedFields = async (populatedFields, Model) => {
-  let items = [];
-  if (populatedFields.includes("*")) {
-    items = await Model.find().populate(populateAllFields(Model.schema)).exec();
-  } else {
-    items = await Model.find().populate(populatedFields.join(" ")).exec();
+const getPopulatedFields = async (populatedFields, documents) => {
+  try {
+    if (populatedFields.includes("*")) {
+      // Populate all available fields for each document
+      return await Promise.all(
+        documents.map((document) =>
+          document.populate(populateAllFields(document.schema)),
+        ),
+      );
+    }
+    // Populate only the specified fields for each document
+    return await Promise.all(
+      documents.map((document) => document.populate(populatedFields.join(" "))),
+    );
+  } catch (error) {
+    throw new Error(`Error populating fields: ${error.message}`);
   }
-  return items;
 };
 const getSinglePopulatedFields = async (document, populatedFields) => {
   try {

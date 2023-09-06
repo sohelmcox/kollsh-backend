@@ -29,6 +29,7 @@ const localLogin = async (identifier, password) => {
       accessToken: token,
       user: {
         id: user._id,
+        name: user.name,
         username: user.username,
         email: user.email,
         avatar: user.avatar,

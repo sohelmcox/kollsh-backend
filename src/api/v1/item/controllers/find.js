@@ -28,7 +28,7 @@ const find = async (req, res, next) => {
       requestQuery: req.query,
     });
     // Send response
-    res.status(200).json({ data });
+    res.status(200).json({ ...data });
   } catch (error) {
     next(error);
   }
