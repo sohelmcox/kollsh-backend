@@ -1,10 +1,4 @@
-const generateQueryString = (query) =>
-  Object.keys(query)
-    .map(
-      (key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`,
-    )
-    .join("&");
-
+const generateQueryString = require("./generateQueryString");
 const getHATEOASForAllItems = ({
   url = "/",
   path = "",
@@ -34,4 +28,4 @@ const getHATEOASForAllItems = ({
 
   return links;
 };
-module.exports = { getHATEOASForAllItems, generateQueryString };
+module.exports = getHATEOASForAllItems;

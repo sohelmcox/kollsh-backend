@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const config = require("../../../src/config"); // Import your configuration
 
 async function connectDatabase() {
-  await mongoose.connect(config.mongoUri, {
+  await mongoose.connect(config.testingMongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });

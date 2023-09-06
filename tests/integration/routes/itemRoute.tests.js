@@ -1,18 +1,21 @@
-const testSetup = require("../../testSetup"); // Import the test setup module
+const testSetup = require("../setup/testSetup");
 
-const agent = require("../../agent"); // Import the agent with the global base URL
+const agent = require("../../agent");
 const { testBaseUrl, accessToken } = require("../../../src/config");
 describe("Item Routes - Integration Tests", () => {
   beforeAll(async () => {
-    await testSetup.connectDatabase(); // Connect to the test database
+    // Connect to the test database
+    await testSetup.connectDatabase();
   });
 
   afterAll(async () => {
-    await testSetup.disconnectDatabase(); // Disconnect from the test database
+    // Disconnect from the test database
+    await testSetup.disconnectDatabase();
   });
 
   beforeEach(async () => {
-    await testSetup.setupDatabase(); // Set up the test database environment
+    // Set up the test database environment
+    await testSetup.setupDatabase();
   });
 
   // Test GET /items route

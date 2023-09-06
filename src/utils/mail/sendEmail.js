@@ -6,9 +6,9 @@ const mailgun = new Mailgun(formData);
 
 const sendEmail = async ({
   to,
-  subject = "Mail Testing",
+  subject = "Welcome to Kollsh",
   // body = "Mail Testing is awesomeness!",
-  html = "<h1>Testing some Mailgun awesomeness!</h1>",
+  html = "<h1>Kollsh is awesomeness!</h1>",
 }) => {
   try {
     const mg = mailgun.client({

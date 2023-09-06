@@ -2,7 +2,7 @@ const config = require("../../../src/config");
 const { Item } = require("../../../src/models");
 const mongoose = require("mongoose");
 const testSetup = require("../setup/testSetup");
-const { generateUniqueSlug } = require("../../../src/utils/generateUniqueSlug"); // Replace with the actual path to your slugify.js file
+const { generateUniqueSlug } = require("../../../src/utils/generateUniqueSlug");
 
 describe("generateUniqueSlug", () => {
   beforeAll(async () => {

@@ -1,13 +1,10 @@
-const { User } = require("../models");
+const { findUserByIdPopulateRole } = require("../lib/user");
 
 function hasPermission(controller, action) {
   return async (req, res, next) => {
     const { id } = req.user;
     try {
-      const user = await User.findById(id).populate({
-        path: "role",
-        populate: [{ path: "permissions" }],
-      });
+      const user = await findUserByIdPopulateRole(id);
       if (!user) {
         return res.status(403).json({ message: "User not found" });
       }

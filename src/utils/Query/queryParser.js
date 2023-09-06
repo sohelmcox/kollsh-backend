@@ -1,15 +1,46 @@
 const defaults = require("../../config/defaults");
-
+// const { badRequest } = require("../error");
+const badRequest = (msg = "Bad Request") => {
+  const error = {
+    name: "Bad Request",
+    message: msg,
+    error: new Error(msg),
+    status: 400,
+    details: {},
+  };
+  return error;
+};
 // Helper function to parse sort criteria
-function parseSortCriteria(sort) {
+
+function parseSortCriteria(
+  sort = "updatedAt:desc",
+  allowedSorByFields = ["updatedAt"],
+) {
   const sortCriteria = {};
-  if (sort) {
-    const [sortBy, sortOrder = defaults.sortOrder] = sort.split(":");
-    sortCriteria[sortBy] =
-      sortOrder.toLowerCase() === defaults.sortOrder ? 1 : -1;
+  const defaultSortOrder = "desc";
+
+  const sortParts = sort.split(":");
+
+  if (sortParts.length === 2) {
+    const [sortBy, sortOrder] = sortParts;
+    if (allowedSorByFields.includes(sortBy)) {
+      sortCriteria[sortBy] =
+        sortOrder.toLowerCase() === defaultSortOrder ? -1 : 1;
+    } else {
+      throw badRequest(
+        `Invalid sort criteria. The accepted Sort are: ${allowedSorByFields.join(
+          ", ",
+        )}`,
+      );
+    }
+  } else {
+    throw badRequest(
+      "Invalid sort criteria. The Sort format will be like this: name:asc",
+    );
   }
   return sortCriteria;
 }
+
 // Helper function to parse selected fields
 function parseSelectedFields(fields) {
   return fields ? fields.split(",") : [];

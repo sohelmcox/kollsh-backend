@@ -9,10 +9,14 @@ const generateToken = ({
   expiresIn = "1h",
 }) => {
   try {
-    return jwt.sign(payload, secret, {
+    const token = jwt.sign(payload, secret, {
       algorithm,
       expiresIn,
     });
+    if (!token) {
+      throw error.serverError("Internal Server Error");
+    }
+    return token;
   } catch (e) {
     throw error.serverError();
   }
@@ -20,6 +24,9 @@ const generateToken = ({
 
 const decodeToken = ({ token, algorithm = "HS256" }) => {
   try {
+    if (!token) {
+      throw error.badRequest("provide a token");
+    }
     return jwt.decode(token, { algorithms: [algorithm] });
   } catch (e) {
     throw error.serverError();
@@ -32,6 +39,9 @@ const verifyToken = ({
   secret = config.accessTokenSecret,
 }) => {
   try {
+    if (!token) {
+      throw error.badRequest("provide a token");
+    }
     return jwt.verify(token, secret, { algorithms: [algorithm] });
   } catch (e) {
     throw error.serverError();

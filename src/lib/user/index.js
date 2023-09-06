@@ -17,6 +17,13 @@ const findUserById = async (id) => {
   const user = await User.findById(id);
   return user;
 };
+const findUserByIdPopulateRole = async (id) => {
+  const user = await User.findById(id).populate({
+    path: "role",
+    populate: [{ path: "permissions" }],
+  });
+  return user;
+};
 const findByIdentifier = async (identifier) => {
   const user = await User.findOne({
     $or: [{ username: identifier }, { email: identifier }],
@@ -41,6 +48,7 @@ const updatePassword = async ({ email, newPassword }) => {
 
 module.exports = {
   findUserByEmail,
+  findUserByIdPopulateRole,
   findByUsername,
   findByIdentifier,
   findUserById,

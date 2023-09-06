@@ -23,7 +23,6 @@ const localLogin = async (identifier, password) => {
     const payload = getUserTokenPayload(user._doc);
     const token = generateToken({ payload });
 
-    // Replace this with actual user data to return
     const userData = {
       message: "success",
       accessToken: token,

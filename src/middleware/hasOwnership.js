@@ -1,6 +1,6 @@
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const { findUserById } = require("../lib/user");
-const { badRequest, authorizationError, notFound } = require("../utils/error");
+const { authorizationError, notFound } = require("../utils/error");
 
 const hasOwnership =
   (resourceModel, ownerIdField) => async (req, res, next) => {

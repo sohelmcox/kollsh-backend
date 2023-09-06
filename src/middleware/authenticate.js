@@ -8,10 +8,8 @@ const authenticate = async (req, _res, next) => {
   console.log(req.headers);
   try {
     const decoded = tokenService.decodeToken({ token });
-    console.log("decoded", decoded);
-    console.log("token", token);
+
     const user = await userService.findUserByEmail(decoded.email);
-    console.log("user", user);
     if (!user) {
       next(authenticationError("user not found"));
     }

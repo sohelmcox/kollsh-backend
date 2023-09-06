@@ -33,7 +33,7 @@ const config = {
   bucketName: process.env.BUCKET_NAME || "",
   testBaseUrl: process.env.TEST_BASE_URL || "/api/v1",
   accessToken:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSWJyYWhpbSBTaWZhdCIsInVzZXJuYW1lIjoidXNlcm5hbWUiLCJlbWFpbCI6Imlic2lmYXQ5MDBAZ21haWwuY29tIiwicm9sZSI6IjY0ZjcxZjUzNTY0NDZlMWU1NzBlYTkyZiIsImJsb2NrZWQiOmZhbHNlLCJjb25maXJtZWQiOnRydWUsImlhdCI6MTY5MzkxNzA1NSwiZXhwIjoxNjkzOTIwNjU1fQ.WaizC0CVxE7IfsY-iE_kYtKAnLau-Luc_mB_F-AAxtM",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSWJyYWhpbSBTaWZhdCIsInVzZXJuYW1lIjoidXNlcm5hbWUiLCJlbWFpbCI6Imlic2lmYXQ5MDBAZ21haWwuY29tIiwicm9sZSI6IjY0ZjgyNDI3NTY0NDZlMWU1NzBlYTk0MCIsImJsb2NrZWQiOmZhbHNlLCJjb25maXJtZWQiOnRydWUsImlhdCI6MTY5NDAwMzQ3OCwiZXhwIjoxNjk0MDA3MDc4fQ.UAt0QrBwlvfRuP95_9dY5w9H1yy21_OWzaBO4cEa0rY",
 };
 
 module.exports = config;

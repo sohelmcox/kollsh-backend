@@ -4932,9 +4932,8 @@ components:
     sortParams:
       name: sort
       in: query
-      description: Sort by attributes ascending (name:asc) or descending (name:desc)
+      description: Sort by attributes (name:asc) or (name:desc)(default:updatedAt:desc)
       deprecated: false
-      required: false
       schema:
         type: string
     fields:

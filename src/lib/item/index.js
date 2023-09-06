@@ -7,9 +7,7 @@ const config = require("../../config/defaults");
 const { Item, User } = require("../../models");
 const { selectFields } = require("../../utils/Query/selectField");
 const { getPagination } = require("../../utils/Query/getPagination");
-const {
-  getHATEOASForAllItems,
-} = require("../../utils/Query/getHATEOASForAllItems");
+const getHATEOASForAllItems = require("../../utils/Query/getHATEOASForAllItems");
 const defaults = require("../../config/defaults");
 const getSearchQuery = require("../../utils/Query/getSearchQuery");
 const {
@@ -51,8 +49,9 @@ const findAll = async ({
   path,
   requestQuery,
 }) => {
+  // Parse query parameters
   const query = {
-    sortCriteria: parseSortCriteria(sort),
+    sortCriteria: parseSortCriteria(sort, config.itemAllowedSorByFields),
     selectedFields: parseSelectedFields(fields),
     populatedFields: parsePopulatedFields(populate),
     searchQuery: search,
@@ -96,7 +95,7 @@ const findAll = async ({
     pageSize,
     pageNumber,
   });
-  console.log("requestQuery", requestQuery);
+  console.log("shortCriteria", query.sortCriteria);
   // remove undefined queries
   const finalQuery = removeUndefinedQuery(requestQuery);
   const links = getHATEOASForAllItems({
