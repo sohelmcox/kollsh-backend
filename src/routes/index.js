@@ -7,6 +7,7 @@ const permissionRouter = require("./permission.routes");
 const uploadRouter = require("./upload.routes");
 const cloudinary = require("cloudinary").v2;
 const Multer = require("multer");
+const thumbnailUpload = require("../middleware/upload/thumbnailUpload");
 // router use.............................................
 cloudinary.config({
   cloud_name: "serabuy-com",
@@ -30,20 +31,7 @@ async function handleUpload(file) {
 indexRoute.get("/health", (req, res) => {
   res.status(200).send("ok");
 });
-indexRoute.post("/upload", upload.single("my_file"), async (req, res) => {
-  try {
-    const b64 = Buffer.from(req.file.buffer).toString("base64");
-    const dataURI = `data:${req.file.mimetype};base64,${b64}`;
-    const cldRes = await handleUpload(dataURI);
-    res.json(cldRes);
-  } catch (error) {
-    console.log(error);
-    res.send({
-      message: error.message,
-    });
-  }
-}),
-  indexRoute.use("/auth", authRouter);
+indexRoute.use("/upload", uploadRouter), indexRoute.use("/auth", authRouter);
 indexRoute.use("/items", itemRouter);
 indexRoute.use("/states", stateRouter);
 indexRoute.use("/roles", roleRouter);

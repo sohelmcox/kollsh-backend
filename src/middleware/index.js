@@ -31,6 +31,8 @@ const applyMiddleware = (app) => {
       apiSpec: apiSpecPath,
       validateRequests: true,
       // validateResponses: true,
+      ignorePaths: (path) =>
+        path.endsWith("/spec") || path.indexOf("/upload") >= 0,
     }),
   );
   // cors error handle

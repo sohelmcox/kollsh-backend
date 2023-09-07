@@ -2421,13 +2421,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              type: object
-              properties:
-                image:
-                  type: string
-                  format: Buffer
-              required:
-                - image
+              $ref: "#/components/schemas/ImageRequest"
       responses:
         "200":
           description: Image uploaded successfully
@@ -2986,7 +2980,9 @@ components:
       properties:
         id:
           $ref: "#/components/schemas/MongoDBObjectId"
-        name:
+        asset_id:
+          type: string
+        public_id:
           type: string
         alternativeText:
           type: string
@@ -2996,7 +2992,12 @@ components:
           type: integer
         height:
           type: integer
-        formats: {}
+        folder:
+          type: string
+        resource_type:
+          type: string
+        format:
+          type: string
         size:
           type: number
           format: float
@@ -3004,6 +3005,20 @@ components:
           type: string
         previewUrl:
           type: string
+      required:
+        - alternativeText
+        - url
+        - previewUrl
+    ImageRequest:
+      type: object
+      properties:
+        alternativeText:
+          type: string
+        data:
+          type: string
+          format: binary
+      required:
+        - data
     UserDTO:
       type: object
       properties:

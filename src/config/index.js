@@ -33,7 +33,16 @@ const config = {
   bucketName: process.env.BUCKET_NAME || "",
   testBaseUrl: process.env.TEST_BASE_URL || "/api/v1",
   accessToken:
+    process.env.ACCESS_TOKEN ||
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSWJyYWhpbSBTaWZhdCIsInVzZXJuYW1lIjoidXNlcm5hbWUiLCJlbWFpbCI6Imlic2lmYXQ5MDBAZ21haWwuY29tIiwicm9sZSI6IjY0ZjgyNDI3NTY0NDZlMWU1NzBlYTk0MCIsImJsb2NrZWQiOmZhbHNlLCJjb25maXJtZWQiOnRydWUsImlhdCI6MTY5NDAwMzQ3OCwiZXhwIjoxNjk0MDA3MDc4fQ.UAt0QrBwlvfRuP95_9dY5w9H1yy21_OWzaBO4cEa0rY",
+  maxImageUploadSize:
+    parseInt(process.env.MAX_IMAGE_UPLOAD_SIZE, 10) || 5 * 1024 * 1024, // 5 MB limit, adjust as needed,
+  thumbnailWidth: parseInt(process.env.THUMBNAIL_WIDTH, 10) || 400,
+  thumbnailHeight: parseInt(process.env.THUMBNAIL_HEIGHT, 10) || 400,
+  thumbnailAllowedFormats: ["jpg", "jpeg", "png", "webp"],
+  cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME || "",
+  cloudinaryApiKey: process.env.CLOUDINARY_API_KEY || "",
+  cloudinaryApiSecret: process.env.CLOUDINARY_API_SECRET || "",
 };
 
 module.exports = config;
