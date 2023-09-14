@@ -2,7 +2,7 @@ const uploader = require("../../utils/upload/multerMemoryUploader");
 const { Upload } = require("../../models");
 const transformImageResult = require("../../utils/upload/transformImageResult");
 const config = require("../../config");
-const cloudinaryImageUploader = require("../../utils/upload/cloudinaryUploader");
+const { cloudinaryImageUploader } = require("../../utils/upload/cloudinarySDK");
 const { slugify } = require("../../utils/generateUniqueSlug");
 const thumbnailUpload = (folderName) => async (req, res, next) => {
   uploader.single("thumbnail")(req, res, async (err) => {

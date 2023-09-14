@@ -1,4 +1,4 @@
-const articleService = require("../../../../lib/item");
+const itemService = require("../../../../lib/item");
 
 const update = async (req, res, next) => {
   const { id } = req.params;
@@ -17,7 +17,7 @@ const update = async (req, res, next) => {
     brand,
   } = req.body;
   try {
-    const { item, code } = await articleService.updateOrCreate(id, {
+    const { item, code } = await itemService.updateOrCreate(id, {
       name,
       description,
       released,

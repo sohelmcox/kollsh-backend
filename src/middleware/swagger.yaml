@@ -457,7 +457,7 @@ paths:
       security:
         - bearerAuth: []
       operationId: "delete/items"
-  "/items/{id}":
+  /items/{id}:
     get:
       responses:
         "200":
@@ -561,7 +561,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/items/{id}"
-  "/items/{id}/seller":
+  /items/{id}/seller:
     get:
       responses:
         "200":
@@ -638,7 +638,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ItemsDetailRequest"
-  "/item-details/{id}":
+  /item-details/{id}:
     get:
       responses:
         "200":
@@ -714,7 +714,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/item-details/{id}"
-  "/items/:id/comments":
+  /items/:id/comments:
     get:
       responses:
         "200":
@@ -771,6 +771,402 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CommentRequest"
+  /roles:
+    get:
+      summary: Get all roles
+      tags:
+        - Roles
+      parameters:
+        - $ref: "#/components/parameters/sortParams"
+        - $ref: "#/components/parameters/paginationPage"
+        - $ref: "#/components/parameters/paginationPageSize"
+        - $ref: "#/components/parameters/paginationStart"
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/populate"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/locale"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: A list of roles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RolesListResponse"
+        "401":
+          $ref: "#/components/responses/401"
+    post:
+      summary: Create a new role
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Role object to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleRequest"
+      responses:
+        "201":
+          description: Role created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoleResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/400"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Roles Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Roles Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/roles"
+  /roles/{id}:
+    get:
+      summary: Get a role by ID
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/queryIdParam"
+      responses:
+        "200":
+          description: A role object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoleResponse"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/401"
+    put:
+      summary: Update a role by ID
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        description: Role object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoleRequest"
+      responses:
+        "200":
+          description: Role updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/401"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoleResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/items/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchRoleRequest"
+    delete:
+      summary: Delete a role by ID
+      tags:
+        - Roles
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          description: Role deleted successfully
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/401"
+  /permissions:
+    get:
+      summary: Get all permissions
+      tags:
+        - Permissions
+      parameters:
+        - $ref: "#/components/parameters/sortParams"
+        - $ref: "#/components/parameters/paginationPage"
+        - $ref: "#/components/parameters/paginationPageSize"
+        - $ref: "#/components/parameters/paginationStart"
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/populate"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/locale"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: A list of permissions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionsListResponse"
+        "401":
+          $ref: "#/components/responses/401"
+    post:
+      summary: Create a new permission
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: Permission object to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PermissionRequest"
+      responses:
+        "201":
+          description: Permission created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Permission"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+  /permissions/{id}:
+    get:
+      summary: Get a permission by ID
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "get/permissions/{id}"
+      responses:
+        "200":
+          description: A permission object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Permission"
+    put:
+      summary: Update a permission by ID
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "put/permissions/{id}"
+      requestBody:
+        description: Permission object to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PermissionRequest"
+      responses:
+        "200":
+          description: Permission updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Permission"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+    delete:
+      summary: Delete a permission by ID
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "put/permissions/{id}"
+      responses:
+        "204":
+          description: Permission deleted successfully
+        "401":
+          $ref: "#/components/responses/401"
+        "404":
+          $ref: "#/components/responses/404"
+  /upload/files:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadFileListResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Upload - File
+      parameters:
+        - $ref: "#/components/parameters/sortParams"
+        - $ref: "#/components/parameters/paginationPage"
+        - $ref: "#/components/parameters/paginationPageSize"
+        - $ref: "#/components/parameters/paginationStart"
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/populate"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/locale"
+      operationId: get/upload/files
+    post:
+      summary: Upload an image
+      tags:
+        - Upload - File
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/ImageRequest"
+      security:
+        - bearerAuth: []
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 201
+                  message:
+                    type: string
+                    example: "file uploaded successfully"
+                  uploadedThumbnailId:
+                    type: string
+                    example: 6502d517703a924c39996ca5
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+      operationId: post/upload/files
+  /upload/files/{id}:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadFileResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Upload - File
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "get/upload/files/{id}"
+    delete:
+      responses:
+        "202":
+          $ref: "#/components/responses/202"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Upload - File
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "delete/upload/files/{id}"
   /attributes:
     get:
       responses:
@@ -828,7 +1224,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AttributeRequest"
-  "/attributes/{id}":
+  /attributes/{id}:
     get:
       responses:
         "200":
@@ -957,7 +1353,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AttributeCategoryRequest"
-  "/attribute-categories/{id}":
+  /attribute-categories/{id}:
     get:
       responses:
         "200":
@@ -1086,7 +1482,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AttributeValueRequest"
-  "/attribute-values/{id}":
+  /attribute-values/{id}:
     get:
       responses:
         "200":
@@ -1219,7 +1615,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/BrandRequest"
-  "/brands/{id}":
+  /brands/{id}:
     get:
       responses:
         "200":
@@ -1354,7 +1750,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CategoryRequest"
-  "/categories/{id}":
+  /categories/{id}:
     get:
       responses:
         "200":
@@ -1493,7 +1889,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CityRequest"
-  "/cities/{id}":
+  /cities/{id}:
     get:
       responses:
         "200":
@@ -1618,7 +2014,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CommentRequest"
-  "/comments/{id}":
+  /comments/{id}:
     get:
       responses:
         "200":
@@ -1747,7 +2143,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CountryRequest"
-  "/countries/{id}":
+  /countries/{id}:
     get:
       responses:
         "200":
@@ -1882,7 +2278,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ReplayRequest"
-  "/replays/{id}":
+  /replays/{id}:
     get:
       responses:
         "200":
@@ -2015,7 +2411,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SubcategoryRequest"
-  "/subcategories/{id}":
+  /subcategories/{id}:
     get:
       responses:
         "200":
@@ -2140,7 +2536,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/StateRequest"
-  "/states/{id}":
+  /states/{id}:
     get:
       responses:
         "200":
@@ -2276,7 +2672,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  "/users/{id}":
+  /users/{id}:
     get:
       tags:
         - User
@@ -2388,93 +2784,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /upload/files:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UploadFileListResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Upload - File
-      parameters:
-        - $ref: "#/components/parameters/sortParams"
-        - $ref: "#/components/parameters/paginationPage"
-        - $ref: "#/components/parameters/paginationPageSize"
-        - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/fields"
-        - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/search"
-        - $ref: "#/components/parameters/locale"
-      operationId: get/upload/files
-    post:
-      summary: Upload an image
-      tags:
-        - Upload - File
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: "#/components/schemas/ImageRequest"
-      responses:
-        "201":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UploadFileResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "500":
-          $ref: "#/components/responses/500"
-      operationId: post/upload/files
-  "/upload/files/{id}":
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UploadFileResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Upload - File
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "get/upload/files/{id}"
-    delete:
-      responses:
-        "202":
-          $ref: "#/components/responses/202"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Upload - File
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "delete/upload/files/{id}"
   /item-suggestions:
     get:
       responses:
@@ -2532,7 +2841,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ItemSuggestionRequest"
-  "/item-suggestions/{id}":
+  /item-suggestions/{id}:
     get:
       responses:
         "200":
@@ -2663,7 +2972,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/MetadataRequest"
-  "/metadatas/{id}":
+  /metadatas/{id}:
     get:
       responses:
         "200":
@@ -2735,213 +3044,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/metadatas/{id}"
-  /roles:
-    get:
-      summary: Get all roles
-      tags:
-        - Roles
-      security:
-        - bearerAuth: []
-      responses:
-        "200":
-          description: A list of roles
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/RolesListResponse"
-        "401":
-          $ref: "#/components/responses/401"
-    post:
-      summary: Create a new role
-      tags:
-        - Roles
-      security:
-        - bearerAuth: []
-      requestBody:
-        description: Role object to be added
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RoleRequest"
-      responses:
-        "201":
-          description: Role created successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Role"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/400"
-  /roles/{id}:
-    get:
-      summary: Get a role by ID
-      tags:
-        - Roles
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      responses:
-        "200":
-          description: A role object
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Role"
-        "401":
-          $ref: "#/components/responses/401"
-        "404":
-          $ref: "#/components/responses/401"
-    put:
-      summary: Update a role by ID
-      tags:
-        - Roles
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      requestBody:
-        description: Role object to be updated
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/RoleRequest"
-      responses:
-        "200":
-          description: Role updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Role"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "404":
-          $ref: "#/components/responses/401"
-    delete:
-      summary: Delete a role by ID
-      tags:
-        - Roles
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      responses:
-        "204":
-          description: Role deleted successfully
-        "401":
-          $ref: "#/components/responses/401"
-        "404":
-          $ref: "#/components/responses/401"
-  /permissions:
-    get:
-      summary: Get all permissions
-      tags:
-        - Permissions
-      security:
-        - bearerAuth: []
-      responses:
-        "200":
-          description: A list of permissions
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/PermissionsListResponse"
-        "401":
-          $ref: "#/components/responses/401"
-    post:
-      summary: Create a new permission
-      tags:
-        - Permissions
-      security:
-        - bearerAuth: []
-      requestBody:
-        description: Permission object to be added
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PermissionRequest"
-      responses:
-        "201":
-          description: Permission created successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Permission"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "404":
-          $ref: "#/components/responses/404"
-  /permissions/{id}:
-    get:
-      summary: Get a permission by ID
-      tags:
-        - Permissions
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "get/permissions/{id}"
-      responses:
-        "200":
-          description: A permission object
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Permission"
-    put:
-      summary: Update a permission by ID
-      tags:
-        - Permissions
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "put/permissions/{id}"
-      requestBody:
-        description: Permission object to be updated
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/PermissionRequest"
-      responses:
-        "200":
-          description: Permission updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Permission"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-    delete:
-      summary: Delete a permission by ID
-      tags:
-        - Permissions
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "put/permissions/{id}"
-      responses:
-        "204":
-          description: Permission deleted successfully
-        "401":
-          $ref: "#/components/responses/401"
-        "404":
-          $ref: "#/components/responses/404"
 components:
   securitySchemes:
     bearerAuth:
@@ -2972,16 +3074,16 @@ components:
         updatedAt:
           type: string
           format: date-time
-        createdBy:
-          type: object
-          oneOf:
-            - $ref: "#/components/schemas/MongoDBObjectId"
-            - $ref: "#/components/schemas/UserDTO"
-        updatedBy:
-          type: object
-          oneOf:
-            - $ref: "#/components/schemas/MongoDBObjectId"
-            - $ref: "#/components/schemas/UserDTO"
+        # createdBy:
+        #   type: object
+        #   oneOf:
+        #     - $ref: "#/components/schemas/MongoDBObjectId"
+        #     - $ref: "#/components/schemas/UserDTO"
+        # updatedBy:
+        #   type: object
+        #   oneOf:
+        #     - $ref: "#/components/schemas/MongoDBObjectId"
+        #     - $ref: "#/components/schemas/UserDTO"
     Image:
       type: object
       properties:
@@ -4760,6 +4862,31 @@ components:
           description: The permissions associated with the role
       required:
         - name
+    RoleResponse:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/Role"
+        link:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/roles/5f9b9b4b3c9b3c2b1c3b2b1c"
+    PatchRoleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the role
+        description:
+          type: string
+          description: A brief description of the role
+        permissions:
+          type: array
+          items:
+            type: string
+          description: An array of permission IDs to associate with the role
     RolesListResponse:
       type: object
       properties:
@@ -4770,7 +4897,7 @@ components:
         meta:
           type: object
           properties:
-            item:
+            links:
               type: object
               properties:
                 slef:
@@ -4791,6 +4918,10 @@ components:
           items:
             type: string
           description: An array of permission IDs to associate with the role
+      required:
+        - name
+        - description
+        - permissions
     Permission:
       type: object
       properties:
@@ -4941,7 +5072,7 @@ components:
       description: populate relations
       schema:
         type: string
-        example: "seller"
+        example: "user"
     emailQueryParam:
       name: email
       in: query
@@ -4976,7 +5107,7 @@ components:
     search:
       name: search
       in: query
-      description: 'search to apply {"name":"anything"}'
+      description: 'search with selected fields {"name":"anything"}'
       deprecated: false
       required: false
       schema:

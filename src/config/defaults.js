@@ -6,6 +6,7 @@ const defaults = {
   sortBy: "updatedAt",
   search: "",
   radix: 10,
+  // Item
   ItemsAllowedSearchFields: ["name", "description"],
   itemAllowedSorByFields: [
     "name",
@@ -14,6 +15,27 @@ const defaults = {
     "price",
     "quantity",
   ],
+  // upload
+  uploadAllowedSorByFields: [
+    "alternativeText",
+    "size",
+    "width",
+    "height",
+    "updatedAt",
+    "createdAt",
+  ],
+  uploadAllowedSearchFields: [
+    "alternativeText",
+    "size",
+    "width",
+    "height",
+    "format",
+    "folder",
+    "updatedAt",
+  ],
+  //role
+  roleAllowedSearchFields: ["name", "description"],
+  roleAllowedSorByFields: ["name", "updatedAt", "createdAt"],
 };
 
 module.exports = Object.freeze(defaults);

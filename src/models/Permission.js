@@ -9,6 +9,7 @@ const permissionSchema = new mongoose.Schema({
     {
       type: String,
       required: true,
+      default: "read",
     },
   ],
   description: String,

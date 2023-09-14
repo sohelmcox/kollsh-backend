@@ -1,4 +1,4 @@
-const { roleServices } = require("../../../../lib");
+const roleServices = require("../../../../lib/role");
 /**
  * Create a new item.
  *
@@ -8,10 +8,25 @@ const { roleServices } = require("../../../../lib");
  * @returns {void}
  */
 const create = async (req, res, next) => {
-  const roleData = req.body;
+  const { name, description, permission } = req.body;
   try {
-    const role = await roleServices.create(roleData);
-    res.status(201).json(role);
+    const role = await roleServices.create({
+      name,
+      description,
+      permission,
+      createdBy: req.user.id,
+    });
+    const response = {
+      code: 201,
+      message: "Role Created Successfully",
+      id: role.id,
+      data: role,
+      links: {
+        self: `/roles/${role.id}`,
+      },
+    };
+
+    res.status(201).json(response);
   } catch (error) {
     next(error);
   }

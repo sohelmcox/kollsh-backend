@@ -1,13 +1,17 @@
-const defaults = require("../../config/defaults");
+const { badRequest } = require("../error");
 
-const getSearchQuery = (searchQueryParams) => {
+const getSearchQuery = (searchQueryParams, allowedSearchFields) => {
   let searchQuery = {};
   if (Object.keys(searchQueryParams).length > 0) {
     const [[key, value]] = Object.entries(searchQueryParams);
-    if (defaults.ItemsAllowedSearchFields.includes(key)) {
+    if (allowedSearchFields.includes(key)) {
       searchQuery = {
         [key]: { $regex: value || "", $options: "i" },
       };
+    } else {
+      throw badRequest(
+        `Search query parameter ${key} is not allowed. allowed Fields are ${allowedSearchFields}`,
+      );
     }
   }
   return searchQuery;

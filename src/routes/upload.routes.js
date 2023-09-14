@@ -1,14 +1,15 @@
 const router = require("express").Router();
 const thumbnailUpload = require("../middleware/upload/thumbnailUpload");
+const controller = require("../api/v1/upload/controllers");
+const authenticate = require("../middleware/authenticate");
+router
+  .route("/files")
+  .get(controller.find)
+  .post(thumbnailUpload("items"), controller.create)
+  .delete(controller.destroyMany);
 
-router.post("/files", thumbnailUpload("items"), async (req, res) => {
-  try {
-    res.json({ uploadedThumbnailId: req.uploadedThumbnailId });
-  } catch (error) {
-    console.log(error);
-    res.send({
-      message: error.message,
-    });
-  }
-});
+router
+  .route("/files/:id")
+  .get(controller.findSingle)
+  .delete(authenticate, controller.destroy);
 module.exports = router;

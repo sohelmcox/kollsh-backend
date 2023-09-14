@@ -1,15 +1,5 @@
 const defaults = require("../../config/defaults");
-// const { badRequest } = require("../error");
-const badRequest = (msg = "Bad Request") => {
-  const error = {
-    name: "Bad Request",
-    message: msg,
-    error: new Error(msg),
-    status: 400,
-    details: {},
-  };
-  return error;
-};
+const { badRequest } = require("../error");
 // Helper function to parse sort criteria
 
 function parseSortCriteria(

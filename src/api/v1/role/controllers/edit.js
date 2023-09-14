@@ -1,15 +1,17 @@
 const roleService = require("../../../../lib/role");
 
-const findSingle = async (req, res, next) => {
+const edit = async (req, res, next) => {
   const { id } = req.params;
-  const { populate } = req.query || "";
 
   try {
-    const role = await roleService.findSingle({ id, populate });
+    const role = await roleService.edit(id, req.body);
+
     const response = {
+      code: 200,
+      message: "Role updated successfully",
       data: role,
       links: {
-        self: `/items/${role.id}`,
+        self: `/roles/${role.id}`,
       },
     };
 
@@ -18,5 +20,4 @@ const findSingle = async (req, res, next) => {
     next(error);
   }
 };
-
-module.exports = findSingle;
+module.exports = edit;

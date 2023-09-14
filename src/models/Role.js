@@ -7,7 +7,10 @@ const roleSchema = new mongoose.Schema({
     unique: true,
   },
   description: String,
-  permissions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Permission" }],
+  permissions: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Permission", required: true },
+  ],
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 module.exports = mongoose.model("Role", roleSchema);

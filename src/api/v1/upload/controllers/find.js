@@ -1,4 +1,4 @@
-const RoleService = require("../../../../lib/role");
+const UploadService = require("../../../../lib/upload");
 
 const find = async (req, res, next) => {
   try {
@@ -14,7 +14,7 @@ const find = async (req, res, next) => {
       search,
     } = req.query;
     // Parse query parameters
-    const data = await RoleService.findAll({
+    const data = await UploadService.findAll({
       sort,
       fields,
       populate,

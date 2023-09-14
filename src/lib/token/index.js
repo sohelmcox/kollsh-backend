@@ -25,7 +25,7 @@ const generateToken = ({
 const decodeToken = ({ token, algorithm = "HS256" }) => {
   try {
     if (!token) {
-      throw error.badRequest("provide a token");
+      throw error.badRequest("provide a access token");
     }
     const decoded = jwt.decode(token, { algorithms: [algorithm] });
     const expirationTime = decoded ? decoded.exp : null;

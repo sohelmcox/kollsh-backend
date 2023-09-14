@@ -29,4 +29,12 @@ const cloudinaryImageUploader = async ({
   });
   return result;
 };
-module.exports = cloudinaryImageUploader;
+const deleteCloudinarySingleFile = async (publicId) => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+module.exports = { cloudinaryImageUploader, deleteCloudinarySingleFile };

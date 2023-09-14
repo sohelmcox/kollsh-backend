@@ -11,7 +11,7 @@ const edit = async (req, res, next) => {
       message: "Item updated successfully",
       data: item,
       links: {
-        self: `/articles/${item.id}`,
+        self: `/items/${item.id}`,
       },
     };
 
