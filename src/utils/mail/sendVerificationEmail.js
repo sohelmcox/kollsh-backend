@@ -16,7 +16,7 @@ const sendVerificationEmail = async (user) => {
   const emailHtml = emailTemplate
     .replace("{{ username }}", user.username)
     .replace("{{ link }}", emailVerificationLink);
-  const emailResult = sendEmail({
+  const emailResult = await sendEmail({
     to: user.email,
     subject: emailVerificationSubject,
     html: emailHtml,

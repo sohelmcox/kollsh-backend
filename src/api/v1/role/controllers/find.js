@@ -1,8 +1,8 @@
-const { roleService } = require("../../../../lib");
+const { roleServices } = require("../../../../lib");
 
 const find = async (req, res, next) => {
   try {
-    const roles = await roleService.find();
+    const roles = await roleServices.find();
     res.json(roles);
   } catch (error) {
     next(error);

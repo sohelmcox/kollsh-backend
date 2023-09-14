@@ -2417,18 +2417,25 @@ paths:
       operationId: get/upload/files
     post:
       summary: Upload an image
+      tags:
+        - Upload - File
       requestBody:
         content:
           multipart/form-data:
             schema:
               $ref: "#/components/schemas/ImageRequest"
       responses:
-        "200":
-          description: Image uploaded successfully
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadFileResponse"
         "400":
-          description: Bad request - Invalid image format or other issues
+          $ref: "#/components/responses/400"
         "500":
-          description: Internal server error
+          $ref: "#/components/responses/500"
+      operationId: post/upload/files
   "/upload/files/{id}":
     get:
       responses:
@@ -2464,7 +2471,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - UploadFile
+        - Upload - File
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/upload/files/{id}"
@@ -3012,13 +3019,11 @@ components:
     ImageRequest:
       type: object
       properties:
-        alternativeText:
-          type: string
-        data:
+        thumbnail:
           type: string
           format: binary
       required:
-        - data
+        - thumbnail
     UserDTO:
       type: object
       properties:
@@ -3409,7 +3414,6 @@ components:
               $ref: "#/components/schemas/Pagination"
             appliedFilters:
               $ref: "#/components/schemas/AppliedFilters"
-
     ItemsDetail:
       allOf:
         - type: object
@@ -4695,21 +4699,25 @@ components:
       allOf:
         - type: object
           required:
-            - name
+            - alternativeText
             - size
             - url
           properties:
+            asset_id:
+              type: string
+            public_id:
+              type: string
             alternativeText:
               type: string
-            fileType:
+            format:
               type: string
-            filename:
+            caption:
               type: string
             folder:
               type: string
             url:
               type: string
-            previewUrl:
+            resource_type:
               type: string
             width:
               type: integer
@@ -4783,7 +4791,6 @@ components:
           items:
             type: string
           description: An array of permission IDs to associate with the role
-
     Permission:
       type: object
       properties:
@@ -4931,7 +4938,6 @@ components:
     queryIdParam:
       name: populate
       in: query
-      required: true
       description: populate relations
       schema:
         type: string

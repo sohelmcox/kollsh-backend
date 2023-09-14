@@ -8,7 +8,7 @@ const config = {
       process.env.MONGO_PORT || "27017"
     }/kollsh`,
   testingMongoUri:
-    process.env.DB_CONNECTION_URL ||
+    process.env.TEST_DB_CONNECTION_URL ||
     `mongodb://${process.env.IP || "localhost"}:${
       process.env.MONGO_PORT || "27017"
     }/kollsh_test`,
@@ -34,7 +34,8 @@ const config = {
   testBaseUrl: process.env.TEST_BASE_URL || "/api/v1",
   accessToken:
     process.env.ACCESS_TOKEN ||
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSWJyYWhpbSBTaWZhdCIsInVzZXJuYW1lIjoidXNlcm5hbWUiLCJlbWFpbCI6Imlic2lmYXQ5MDBAZ21haWwuY29tIiwicm9sZSI6IjY0ZjgyNDI3NTY0NDZlMWU1NzBlYTk0MCIsImJsb2NrZWQiOmZhbHNlLCJjb25maXJtZWQiOnRydWUsImlhdCI6MTY5NDAwMzQ3OCwiZXhwIjoxNjk0MDA3MDc4fQ.UAt0QrBwlvfRuP95_9dY5w9H1yy21_OWzaBO4cEa0rY",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSWJyYWhpbSBTaWZhdCIsInVzZXJuYW1lIjoidXNlcm5hbWUiLCJlbWFpbCI6Imlic2lmYXQ5MDBAZ21haWwuY29tIiwicm9sZSI6IjY0ZjgyNDI3NTY0NDZlMWU1NzBlYTk0MCIsImJsb2NrZWQiOmZhbHNlLCJjb25maXJtZWQiOnRydWUsImlhdCI6MTY5NDU0MzM3OCwiZXhwIjoxNjk0NTQ2OTc4fQ.xuFXlYrq5BqkuojVUBbEnrnTNSRMBf4K-C7xPG9l8WU",
+  invalidAccessToken: process.env.INVALID_ACCESS_TOKEN || "invalidToken",
   maxImageUploadSize:
     parseInt(process.env.MAX_IMAGE_UPLOAD_SIZE, 10) || 5 * 1024 * 1024, // 5 MB limit, adjust as needed,
   thumbnailWidth: parseInt(process.env.THUMBNAIL_WIDTH, 10) || 400,

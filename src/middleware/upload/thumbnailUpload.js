@@ -1,11 +1,13 @@
 const uploader = require("../../utils/upload/multerMemoryUploader");
-const { Image } = require("../../models");
+const { Upload } = require("../../models");
 const transformImageResult = require("../../utils/upload/transformImageResult");
 const config = require("../../config");
 const cloudinaryImageUploader = require("../../utils/upload/cloudinaryUploader");
 const { slugify } = require("../../utils/generateUniqueSlug");
 const thumbnailUpload = (folderName) => async (req, res, next) => {
   uploader.single("thumbnail")(req, res, async (err) => {
+    console.log("file", req.file);
+
     if (err) {
       return next(err);
     }
@@ -14,6 +16,7 @@ const thumbnailUpload = (folderName) => async (req, res, next) => {
       // Generate a file name with today's date and the original name
       const today = new Date();
       const { file } = req;
+      console.log("file", file);
       const alternativeText = file.originalname
         .split(".")
         .shift()
@@ -50,7 +53,7 @@ const thumbnailUpload = (folderName) => async (req, res, next) => {
       console.log("imageResult", imageResult);
 
       // Store the imageId in image schema
-      const image = new Image({
+      const image = new Upload({
         caption: file.fieldname,
         alternativeText,
         asset_id,

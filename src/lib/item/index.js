@@ -95,7 +95,7 @@ const findAll = async ({
     pageSize,
     pageNumber,
   });
-  console.log("shortCriteria", query.sortCriteria);
+
   // remove undefined queries
   const finalQuery = removeUndefinedQuery(requestQuery);
   const links = getHATEOASForAllItems({
@@ -342,7 +342,7 @@ const destroy = async (id) => {
     throw notFound();
   }
   // TODO:
-  // Asynchronously delete all item details
+  // Asynchronously delete all item details and images
 
   await item.deleteOne();
 };
@@ -364,6 +364,8 @@ const deleteMany = async (itemIds) => {
   try {
     const result = await Item.deleteMany({ _id: { $in: itemIds } });
     return result.deletedCount; // Return the number of deleted items
+    // TODO:
+    // Asynchronously delete all item details and images
   } catch (error) {
     throw new Error(`Error deleting items: ${error.message}`);
   }

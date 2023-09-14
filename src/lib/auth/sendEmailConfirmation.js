@@ -4,7 +4,7 @@ const { User } = require("../../models");
 const { notFound, badRequest } = require("../../utils/error");
 const sendEmail = require("../../utils/mail/sendEmail");
 const config = require("../../config");
-const { findUserByEmail } = require("../user");
+const { findUserByEmail } = require("./userService");
 
 const sendEmailConfirmation = async (email) => {
   try {

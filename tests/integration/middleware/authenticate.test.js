@@ -1,8 +1,8 @@
 const authenticate = require("../../../src/middleware/authenticate");
-const userService = require("../../../src/lib/user");
+const userService = require("../../../src/lib/auth/userService");
 const config = require("../../../src/config");
 
-jest.mock("../../../src/lib/user");
+jest.mock("../../../src/lib/auth/userService");
 
 describe("authenticate function", () => {
   let req, res, next;

@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const { badRequest, notFound } = require("../../utils/error");
 const getUserTokenPayload = require("../../utils/getUserDTO");
 const { generateToken } = require("../token");
-const { findByIdentifier } = require("../user");
+const { findByIdentifier } = require("./userService");
 
 const localLogin = async (identifier, password) => {
   try {
@@ -18,7 +18,6 @@ const localLogin = async (identifier, password) => {
     if (!passwordMatch) {
       throw badRequest("Invalid credentials. wrong password ");
     }
-
     // Generate JWT token
     const payload = getUserTokenPayload(user._doc);
     const token = generateToken({ payload });
@@ -36,7 +35,7 @@ const localLogin = async (identifier, password) => {
         blocked: user.blocked,
       },
     };
-
+    // console.log("userData", userData);
     return userData;
   } catch (error) {
     throw badRequest(error.message);

@@ -4,7 +4,7 @@ const Category = require("./Category");
 const City = require("./City");
 const Country = require("./Country");
 const Comment = require("./Comment");
-const Image = require("./Image");
+const Upload = require("./Upload");
 const Item = require("./Item");
 const ItemDetails = require("./ItemDetails");
 // eslint-disable-next-line import/no-unresolved
@@ -26,7 +26,7 @@ module.exports = {
   City,
   Country,
   Comment,
-  Image,
+  Upload,
   Item,
   ItemDetails,
   MetaData,

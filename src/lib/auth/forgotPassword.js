@@ -3,7 +3,7 @@ const path = require("path");
 const generateUniqueCode = require("../../utils/generateUniqueCode");
 const { badRequest } = require("../../utils/error");
 const sendEmail = require("../../utils/mail/sendEmail");
-const { findUserByEmail } = require("../user");
+const { findUserByEmail } = require("./userService");
 const config = require("../../config");
 
 // forgot password

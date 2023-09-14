@@ -1,15 +1,15 @@
 const tokenService = require("../lib/token");
-const userService = require("../lib/user");
+const { findUserByEmail } = require("../lib/auth/userService");
 const { authenticationError } = require("../utils/error");
 const { getUserDTO } = require("../utils");
 
 const authenticate = async (req, _res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
-  console.log(req.headers);
+  console.log("token", token);
   try {
     const decoded = tokenService.decodeToken({ token });
-
-    const user = await userService.findUserByEmail(decoded.email);
+    console.log("decoded", decoded);
+    const user = await findUserByEmail(decoded.email);
     if (!user) {
       next(authenticationError("user not found"));
     }
@@ -27,7 +27,7 @@ const authenticate = async (req, _res, next) => {
     req.user = { userDTO, id: user._id };
     next();
   } catch (e) {
-    next(authenticationError());
+    next(e);
   }
 };
 

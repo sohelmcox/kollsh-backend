@@ -17,24 +17,30 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     resetPasswordCode: {
       type: String,
+      select: false,
     },
     resetPasswordRCodeExpires: {
       type: Date,
       default: null,
+      select: false,
     },
     passwordResetAttempts: {
       type: Number,
       default: 0,
+      select: false,
     },
     confirmationCode: {
       type: String,
+      select: false,
     },
     confirmationCodeExpires: {
       type: Date,
       default: null,
+      select: false,
     },
     emailVerificationAttempts: {
       type: Number,

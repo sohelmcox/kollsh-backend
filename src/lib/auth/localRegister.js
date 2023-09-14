@@ -34,7 +34,7 @@ const localRegister = async ({ name, username, email, password }) => {
       emailVerificationAttempts: 0,
     };
     const newUser = await createUser({ ...userObj });
-
+    console.log("newUser", newUser);
     // Send email verification email
     const emailResult = await sendVerificationEmail(newUser);
     return emailResult;

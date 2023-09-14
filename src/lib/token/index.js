@@ -27,9 +27,17 @@ const decodeToken = ({ token, algorithm = "HS256" }) => {
     if (!token) {
       throw error.badRequest("provide a token");
     }
-    return jwt.decode(token, { algorithms: [algorithm] });
+    const decoded = jwt.decode(token, { algorithms: [algorithm] });
+    const expirationTime = decoded ? decoded.exp : null;
+
+    // if (expirationTime && expirationTime < Date.now() / 1000) {
+    //   // Token has expired
+    //   throw error.badRequest("Token has expired");
+    // }
+
+    return decoded;
   } catch (e) {
-    throw error.serverError();
+    throw error.badRequest(e.message);
   }
 };
 

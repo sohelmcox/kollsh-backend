@@ -1,11 +1,12 @@
 const itemService = require("../../../../lib/item");
+const { badRequest } = require("../../../../utils/error");
 
 const destroyMany = async (req, res, next) => {
   const { ids } = req.body;
-  if (!Array.isArray(ids) || ids.length === 0) {
-    return res.status(400).json({ error: "Invalid Ids provided." });
-  }
   try {
+    if (!Array.isArray(ids) || ids.length === 0) {
+      throw badRequest("Invalid Ids provided");
+    }
     const deletedCount = await itemService.deleteMany(ids);
     res
       .status(202)

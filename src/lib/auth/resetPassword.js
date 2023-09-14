@@ -1,7 +1,7 @@
 const { User } = require("../../models");
 const { userServices } = require("..");
 const { badRequest } = require("../../utils/error");
-const { findUserByEmail } = require("../user");
+const { findUserByEmail } = require("./userService");
 const { hashing } = require("../../utils");
 
 const verifyPasswordResetCode = async (resetPasswordCode) => {

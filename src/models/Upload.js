@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const imageSchema = new mongoose.Schema({
+const uploadSchema = new mongoose.Schema({
   asset_id: String,
   public_id: String,
   alternativeText: {
@@ -27,7 +27,6 @@ const imageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  previewUrl: String,
 });
 
-module.exports = mongoose.model("Image", imageSchema);
+module.exports = mongoose.model("Upload", uploadSchema);
