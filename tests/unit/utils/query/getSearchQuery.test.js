@@ -1,70 +1,37 @@
 const getSearchQuery = require("../../../../src/utils/Query/getSearchQuery");
 
+const { badRequest } = require("../../../../src/utils/error");
+
 describe("getSearchQuery", () => {
-  it("should return an empty object for empty search query parameters", () => {
-    // Arrange
+  // Define some sample search query parameters and allowed fields
+  const sampleSearchParams = {
+    name: "John",
+  };
+  const allowedFields = ["name", "age"];
+
+  it("should return an empty object if searchQueryParams is empty", () => {
     const searchQueryParams = {};
-
-    // Act
-    const result = getSearchQuery(searchQueryParams);
-
-    // Assert
+    const result = getSearchQuery(searchQueryParams, allowedFields);
     expect(result).toEqual({});
   });
 
-  it("should return a search query with regex for a valid search field", () => {
-    // Arrange
-    const searchQueryParams = {
-      name: "apple",
-    };
-
-    // Act
-    const result = getSearchQuery(searchQueryParams);
-
-    // Assert
-    expect(result).toEqual({
-      name: { $regex: "apple", $options: "i" },
-    });
+  it("should return a valid search query object if the key is allowed", () => {
+    const searchQueryParams = { name: "John" };
+    const result = getSearchQuery(searchQueryParams, allowedFields);
+    expect(result).toEqual({ name: { $regex: "John", $options: "i" } });
   });
 
-  it("should return an empty object for an invalid search field", () => {
-    // Arrange
-    const searchQueryParams = {
-      price: 100,
-    };
-
-    // Act
-    const result = getSearchQuery(searchQueryParams);
-
-    // Assert
-    expect(result).toEqual({});
-  });
-
-  it("should handle case-insensitive search", () => {
-    // Arrange
-    const searchQueryParams = {
-      name: "OrAnGe",
-    };
-
-    // Act
-    const result = getSearchQuery(searchQueryParams);
-
-    // Assert
-    expect(result).toEqual({
-      name: { $regex: "OrAnGe", $options: "i" },
-    });
-  });
-
-  it("should return an empty object if the value is falsy", () => {
-    // Arrange
-    const searchQueryParams = {
-      name: "",
-    };
-
-    // Act
-    const result = getSearchQuery(searchQueryParams);
-
-    // Assert
-    expect(result).toEqual({ name: { $regex: "", $options: "i" } });
+  it("should throw a bad request error if the key is not allowed", () => {
+    const searchQueryParams = { invalidField: "Value" };
+    try {
+      getSearchQuery(searchQueryParams, allowedFields);
+      // If the function does not throw an error, fail the test
+      fail("Expected an error to be thrown");
+    } catch (error) {
+      expect(error).toHaveProperty(
+        "message",
+        "Search query parameter invalidField is not allowed. allowed Fields are name,age",
+      );
+    }
   });
 });

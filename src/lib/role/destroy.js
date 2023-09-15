@@ -8,7 +8,6 @@ const { notFound } = require("../../utils/error");
  */
 const destroy = async (id) => {
   const role = await Role.findById(id);
-  console.log(role, "role", id);
   if (!role) {
     throw notFound("Role not found.");
   }

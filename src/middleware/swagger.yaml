@@ -598,6 +598,7 @@ paths:
           $ref: "#/components/responses/500"
       tags:
         - Item-details
+      summary: create item Details
       parameters:
         - $ref: "#/components/parameters/sortParams"
         - $ref: "#/components/parameters/paginationPage"
@@ -794,8 +795,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RolesListResponse"
-        "401":
-          $ref: "#/components/responses/401"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
     post:
       summary: Create a new role
       tags:
@@ -847,6 +852,7 @@ paths:
           $ref: "#/components/responses/500"
       tags:
         - Roles
+      summary: delete may roles
       requestBody:
         required: true
         content:
@@ -872,7 +878,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RoleResponse"
+                $ref: "#/components/schemas/RoleResponseDataObject"
         "401":
           $ref: "#/components/responses/401"
         "404":
@@ -929,7 +935,7 @@ paths:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "patch/items/{id}"
+      operationId: "patch/roles/{id}"
       requestBody:
         required: false
         content:
@@ -944,6 +950,7 @@ paths:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
+      operationId: "delete/roles/{id}"
       responses:
         "204":
           description: Role deleted successfully
@@ -962,7 +969,6 @@ paths:
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
         - $ref: "#/components/parameters/fields"
-        - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
       security:
@@ -974,8 +980,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PermissionsListResponse"
-        "401":
-          $ref: "#/components/responses/401"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
     post:
       summary: Create a new permission
       tags:
@@ -995,13 +1005,49 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Permission"
+                $ref: "#/components/schemas/PermissionResponse"
         "400":
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/401"
         "404":
           $ref: "#/components/responses/404"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Permissions Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Permissions Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Permissions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/permissions"
   /permissions/{id}:
     get:
       summary: Get a permission by ID
@@ -1018,7 +1064,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Permission"
+                $ref: "#/components/schemas/PermissionResponseDataObject"
     put:
       summary: Update a permission by ID
       tags:
@@ -1041,13 +1087,44 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Permission"
+                $ref: "#/components/schemas/PermissionResponse"
         "400":
           $ref: "#/components/responses/400"
         "401":
           $ref: "#/components/responses/400"
         "404":
           $ref: "#/components/responses/404"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PermissionResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Permissions
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/permissions/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatchPermissionRequest"
     delete:
       summary: Delete a permission by ID
       tags:
@@ -1056,7 +1133,7 @@ paths:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "put/permissions/{id}"
+      operationId: "delete/permissions/{id}"
       responses:
         "204":
           description: Permission deleted successfully
@@ -1081,6 +1158,7 @@ paths:
           $ref: "#/components/responses/500"
       tags:
         - Upload - File
+      summary: get all files/images
       parameters:
         - $ref: "#/components/parameters/sortParams"
         - $ref: "#/components/parameters/paginationPage"
@@ -1092,7 +1170,7 @@ paths:
         - $ref: "#/components/parameters/locale"
       operationId: get/upload/files
     post:
-      summary: Upload an image
+      summary: Upload an image/file
       tags:
         - Upload - File
       requestBody:
@@ -1123,6 +1201,7 @@ paths:
           $ref: "#/components/responses/400"
         "500":
           $ref: "#/components/responses/500"
+
       operationId: post/upload/files
   /upload/files/{id}:
     get:
@@ -3456,16 +3535,6 @@ components:
       properties:
         data:
           $ref: "#/components/schemas/ItemResponseDataObject"
-        meta:
-          type: object
-          properties:
-            links:
-              type: object
-              properties:
-                item:
-                  type: string
-                self:
-                  type: string
     ItemResponseDataObject:
       type: object
       properties:
@@ -3501,21 +3570,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemListResponseDataItem"
         meta:
-          type: object
-          properties:
-            links:
-              type: object
-              properties:
-                self:
-                  type: string
-                nextPage:
-                  type: string
-                prevPage:
-                  type: string
-            pagination:
-              $ref: "#/components/schemas/Pagination"
-            appliedFilters:
-              $ref: "#/components/schemas/AppliedFilters"
+          $ref: "#/components/schemas/ListDataMetaResponse"
     ItemsDetail:
       allOf:
         - type: object
@@ -4846,7 +4901,7 @@ components:
     Role:
       type: object
       properties:
-        id:
+        _id:
           $ref: "#/components/schemas/MongoDBObjectId"
           description: The ID of the role
         name:
@@ -4860,19 +4915,32 @@ components:
           items:
             $ref: "#/components/schemas/Permission"
           description: The permissions associated with the role
+        createdBy:
+          type: string
       required:
         - name
-    RoleResponse:
+    RoleResponseDataObject:
       type: object
       properties:
+        id:
+          $ref: "#/components/schemas/MongoDBObjectId"
         data:
           $ref: "#/components/schemas/Role"
-        link:
+        links:
           type: object
           properties:
             self:
               type: string
               example: "http://localhost:4000/roles/5f9b9b4b3c9b3c2b1c3b2b1c"
+    RoleResponse:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/RoleResponseDataObject"
     PatchRoleRequest:
       type: object
       properties:
@@ -4887,23 +4955,28 @@ components:
           items:
             type: string
           description: An array of permission IDs to associate with the role
+    RolesListDataObject:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/MongoDBObjectId"
+        data:
+          $ref: "#/components/schemas/Role"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/permissions/5f9b9b4b3c9b3c2b1c3b2b1c"
     RolesListResponse:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Role"
+            $ref: "#/components/schemas/RolesListDataObject"
         meta:
-          type: object
-          properties:
-            links:
-              type: object
-              properties:
-                slef:
-                  type: string
-            pagination:
-              $ref: "#/components/schemas/Pagination"
+          $ref: "#/components/schemas/ListDataMetaResponse"
     RoleRequest:
       type: object
       properties:
@@ -4936,26 +5009,64 @@ components:
           items:
             type: string
           description: The actions allowed by this permission
+        description:
+          type: string
+        createdBy:
+          type: string
       required:
         - controller
         - actions
+    PermissionResponseDataObject:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/MongoDBObjectId"
+        data:
+          $ref: "#/components/schemas/Permission"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/permissions/5f9b9b4b3c9b3c2b1c3b2b1c"
+    PermissionResponse:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/PermissionResponseDataObject"
+    PatchPermissionRequest:
+      type: object
+      properties:
+        controller:
+          type: string
+          description: The name of the controller
+        actions:
+          type: array
+          items:
+            type: string
+          description: The actions allowed by this permission
+        description:
+          type: string
+    PermissionsListDataObject:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/MongoDBObjectId"
+        data:
+          $ref: "#/components/schemas/Permission"
     PermissionsListResponse:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Permission"
+            $ref: "#/components/schemas/PermissionsListDataObject"
         meta:
-          type: object
-          properties:
-            item:
-              type: object
-              properties:
-                slef:
-                  type: string
-            pagination:
-              $ref: "#/components/schemas/Pagination"
+          $ref: "#/components/schemas/ListDataMetaResponse"
     PermissionRequest:
       type: object
       properties:
@@ -4967,6 +5078,12 @@ components:
           items:
             type: string
           description: The actions allowed by this permission
+        description:
+          type: string
+      required:
+        - controller
+        - actions
+        - description
     MetadataRequest:
       type: object
       required:
@@ -5050,6 +5167,22 @@ components:
       oneOf:
         - type: string
         - type: object
+    ListDataMetaResponse:
+      type: object
+      properties:
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+            nextPage:
+              type: string
+            prevPage:
+              type: string
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+        appliedFilters:
+          $ref: "#/components/schemas/AppliedFilters"
   parameters:
     id:
       name: id

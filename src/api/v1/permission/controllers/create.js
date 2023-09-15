@@ -1,6 +1,6 @@
-const { permissionServices } = require("../../../../lib");
+const permissionServices = require("../../../../lib/permission");
 /**
- * Create a new item.
+ * Create a new permission.
  *
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
@@ -8,14 +8,25 @@ const { permissionServices } = require("../../../../lib");
  * @returns {void}
  */
 const create = async (req, res, next) => {
-  const { controller, actions } = req.body;
+  const { controller, actions, description } = req.body;
   try {
     const permission = await permissionServices.create({
       controller,
       actions,
+      description,
       createdBy: req.user.id,
     });
-    res.status(201).json(permission);
+    const response = {
+      code: 201,
+      message: "Permission Created Successfully",
+      id: permission.id,
+      data: permission,
+      links: {
+        self: `/permissions/${permission.id}`,
+      },
+    };
+
+    res.status(201).json(response);
   } catch (error) {
     next(error);
   }

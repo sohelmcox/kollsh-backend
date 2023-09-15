@@ -8,12 +8,12 @@ const roleServices = require("../../../../lib/role");
  * @returns {void}
  */
 const create = async (req, res, next) => {
-  const { name, description, permission } = req.body;
+  const { name, description, permissions } = req.body;
   try {
     const role = await roleServices.create({
       name,
       description,
-      permission,
+      permissions,
       createdBy: req.user.id,
     });
     const response = {

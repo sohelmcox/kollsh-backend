@@ -48,7 +48,7 @@ const findAll = async ({
     sortCriteria: parseSortCriteria(sort, config.itemAllowedSorByFields),
     selectedFields: parseSelectedFields(fields),
     populatedFields: parsePopulatedFields(populate),
-    searchQuery: search ? JSON.parse(search) : {},
+    searchQuery: search,
     locale,
     pageNumber: parseInt(pageNumber, defaults.radix) || 1,
     limit: parseInt(pageSize, defaults.radix) || config.pageSize,
@@ -56,11 +56,6 @@ const findAll = async ({
     totalEntities: parseInt(pageSize, defaults.radix) || config.pageSize,
   };
   // handling search query
-  console.log(
-    "searchQuery",
-    query.searchQuery,
-    defaults.ItemsAllowedSearchFields,
-  );
   let searchQuery = {};
   if (query.searchQuery) {
     searchQuery = getSearchQuery(
@@ -123,15 +118,22 @@ const findAll = async ({
     populatedFields: query.populatedFields,
     searchQuery: query.searchQuery,
   };
-  // const finalItems = items.map((item) => ({
-  //   id: item.id,
-  //   data: { ...item },
-  // }));
-  //
-  //
+  let finalItems = [];
+  if (query.selectedFields.length > 0) {
+    finalItems = items.map((item) => ({
+      id: item.id,
+      data: { ...item },
+    }));
+  } else {
+    finalItems = items.map((item) => ({
+      id: item.id,
+      data: { ...item._doc },
+    }));
+  }
+
   // Generate the full response
   const data = {
-    data: items,
+    data: finalItems,
     meta: {
       pagination: paginationResponse,
       links,

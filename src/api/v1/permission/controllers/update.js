@@ -1,14 +1,30 @@
-const { permissionServices } = require("../../../../lib");
+const permissionServices = require("../../../../lib/permission");
 
 const update = async (req, res, next) => {
-  const { permissionId } = req.params;
-  const permissionData = req.body;
+  const { id } = req.params;
+  const { controller, description, actions } = req.body;
   try {
-    const updatedPermission = await permissionServices.update(
-      permissionId,
-      permissionData,
-    );
-    res.status(200).json(updatedPermission);
+    const { data, code } = await permissionServices.updateOrCreate(id, {
+      controller,
+      description,
+      actions,
+      createdBy: req.user.id,
+    });
+
+    const response = {
+      code,
+      message:
+        code === 200
+          ? "Permission updated successfully"
+          : "Permission created successfully",
+      id: data._id,
+      data,
+      links: {
+        self: `/items/${data.id}`,
+      },
+    };
+
+    res.status(code).json(response);
   } catch (error) {
     next(error);
   }

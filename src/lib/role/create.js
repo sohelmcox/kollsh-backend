@@ -12,7 +12,7 @@ const { badRequest } = require("../../utils/error");
  *
  * @returns {Object} - The newly created role with additional properties (id).
  */
-const create = async ({ name, description, permission, createdBy }) => {
+const create = async ({ name, description, permissions, createdBy }) => {
   const checkIsExist = await Role.findOne({ name });
   if (checkIsExist) {
     throw badRequest("Role already exist");
@@ -20,7 +20,7 @@ const create = async ({ name, description, permission, createdBy }) => {
   const roleData = {
     name,
     description,
-    permission,
+    permissions,
     createdBy,
   };
   const newRole = new Role(roleData);

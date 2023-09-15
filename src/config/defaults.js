@@ -36,6 +36,15 @@ const defaults = {
   //role
   roleAllowedSearchFields: ["name", "description"],
   roleAllowedSorByFields: ["name", "updatedAt", "createdAt"],
+
+  //permission
+  permissionAllowedSearchFields: ["controller", "description"],
+  permissionAllowedSorByFields: [
+    "controller",
+    "description",
+    "updatedAt",
+    "createdAt",
+  ],
 };
 
 module.exports = Object.freeze(defaults);

@@ -49,7 +49,7 @@ const findAll = async ({
     sortCriteria: parseSortCriteria(sort, config.roleAllowedSorByFields),
     selectedFields: parseSelectedFields(fields),
     populatedFields: parsePopulatedFields(populate),
-    searchQuery: search ? JSON.parse(search) : {},
+    searchQuery: search,
     locale,
     pageNumber: parseInt(pageNumber, defaults.radix) || 1,
     limit: parseInt(pageSize, defaults.radix) || config.pageSize,
@@ -119,10 +119,18 @@ const findAll = async ({
     populatedFields: query.populatedFields,
     searchQuery: query.searchQuery,
   };
-  const finalItems = roles.map((role) => ({
-    id: role.id,
-    data: { ...role._doc },
-  }));
+  let finalItems = [];
+  if (query.selectedFields.length > 0) {
+    finalItems = roles.map((role) => ({
+      id: role.id,
+      data: { ...role },
+    }));
+  } else {
+    finalItems = roles.map((role) => ({
+      id: role.id,
+      data: { ...role._doc },
+    }));
+  }
 
   // Generate the full response
   const data = {

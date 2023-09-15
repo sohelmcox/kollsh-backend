@@ -1,13 +1,11 @@
-const { permissionServices } = require("../../../../lib");
+const permissionServices = require("../../../../lib/permission");
 
 const destroy = async (req, res, next) => {
-  const { permissionId } = req.params;
+  const { id } = req.params;
+
   try {
-    const deletedPermission = await permissionServices.destroy(permissionId);
-    if (!deletedPermission) {
-      return res.status(404).json({ message: "permission not found" });
-    }
-    res.json(deletedPermission);
+    await permissionServices.destroy(id);
+    res.status(202).send("ok");
   } catch (error) {
     next(error);
   }

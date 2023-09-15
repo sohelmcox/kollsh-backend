@@ -21,7 +21,6 @@ const create = async (req, res, next) => {
     is_argent,
     brand,
   } = req.body;
-  console.log("body", req.body);
   try {
     const newItem = await itemService.create({
       name,

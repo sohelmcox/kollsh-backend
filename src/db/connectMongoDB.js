@@ -1,12 +1,19 @@
 const mongoose = require("mongoose");
 const config = require("../config");
 
-// db.js
+mongoose.Promise = global.Promise;
 
-mongoose.connect(config.mongoUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+if (process.env.NODE_ENV !== "test") {
+  mongoose.connect(config.mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+} else {
+  mongoose.connect(config.testingMongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+}
 
 const db = mongoose.connection;
 

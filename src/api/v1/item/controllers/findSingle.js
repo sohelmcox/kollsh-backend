@@ -6,12 +6,14 @@ const findSingle = async (req, res, next) => {
 
   try {
     const item = await ItemService.findSingle({ id, populate });
+    const { id: itemId, slug } = item;
     const response = {
+      id: itemId,
       data: item,
       links: {
-        self: `/items/${item.slug}`,
-        author: `/items/${item.id}/publisher`,
-        comments: `/items/${item.id}/comments`,
+        self: `/items/${slug}`,
+        author: `/items/${itemId}/publisher`,
+        comments: `/items/${itemId}/comments`,
       },
     };
 

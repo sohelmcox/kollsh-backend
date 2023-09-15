@@ -6,10 +6,12 @@ const findSingle = async (req, res, next) => {
 
   try {
     const role = await roleService.findSingle({ id, populate });
+    const { id: roleId } = role;
     const response = {
+      id: roleId,
       data: role,
       links: {
-        self: `/items/${role.id}`,
+        self: `/roles/${roleId}`,
       },
     };
 

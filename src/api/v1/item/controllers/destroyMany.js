@@ -8,9 +8,12 @@ const destroyMany = async (req, res, next) => {
       throw badRequest("Invalid Ids provided");
     }
     const deletedCount = await itemService.destroyMany(ids);
-    res
-      .status(202)
-      .json({ status: 202, message: `${deletedCount} items deleted.` });
+    res.status(202).json({
+      status: 202,
+      message: `${deletedCount} ${
+        deletedCount > 1 ? "items" : "items"
+      } deleted.`,
+    });
   } catch (error) {
     next(error);
   }

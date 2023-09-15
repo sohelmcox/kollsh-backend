@@ -6,8 +6,6 @@ const { cloudinaryImageUploader } = require("../../utils/upload/cloudinarySDK");
 const { slugify } = require("../../utils/generateUniqueSlug");
 const thumbnailUpload = (folderName) => async (req, res, next) => {
   uploader.single("thumbnail")(req, res, async (err) => {
-    console.log("file", req.file);
-
     if (err) {
       return next(err);
     }
@@ -16,7 +14,6 @@ const thumbnailUpload = (folderName) => async (req, res, next) => {
       // Generate a file name with today's date and the original name
       const today = new Date();
       const { file } = req;
-      console.log("file", file);
       const alternativeText = file.originalname
         .split(".")
         .shift()
@@ -49,8 +46,6 @@ const thumbnailUpload = (folderName) => async (req, res, next) => {
         size,
         url,
       } = transformImageResult(imageResult);
-
-      console.log("imageResult", imageResult);
 
       // Store the imageId in image schema
       const image = new Upload({

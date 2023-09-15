@@ -10,8 +10,6 @@ const destroyMany = async (roleIds) => {
   try {
     const result = await Role.deleteMany({ _id: { $in: roleIds } });
     return result.deletedCount;
-    // TODO:
-    // Asynchronously delete all permission
   } catch (error) {
     throw new Error(`Error deleting roles: ${error.message}`);
   }

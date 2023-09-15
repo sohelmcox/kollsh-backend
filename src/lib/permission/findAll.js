@@ -3,7 +3,8 @@ const {
   parseSelectedFields,
   parsePopulatedFields,
 } = require("../../utils/Query/queryParser");
-const { Upload } = require("../../models");
+const config = require("../../config/defaults");
+const { Permission } = require("../../models");
 const { selectFields } = require("../../utils/Query/selectField");
 const { getPagination } = require("../../utils/Query/getPagination");
 const getHATEOASForAllItems = require("../../utils/Query/getHATEOASForAllItems");
@@ -11,9 +12,10 @@ const defaults = require("../../config/defaults");
 const getSearchQuery = require("../../utils/Query/getSearchQuery");
 const { getPopulatedFields } = require("../../utils/Query/getPopulatedFields");
 const removeUndefinedQuery = require("../../utils/Query/removeUndefinedQuery");
+const { removeAllListeners } = require("../../models/Country");
 
 /**
- * Find all items based on provided query parameters.
+ * Find all Permissions based on provided query parameters.
  *
  * @param {Object} params - The parameters for the query.
  * @param {string} params.sort - Sorting criteria for the query.
@@ -22,12 +24,12 @@ const removeUndefinedQuery = require("../../utils/Query/removeUndefinedQuery");
  * @param {Object} params.search - Search criteria for filtering results.
  * @param {string} params.locale - Locale information for localization.
  * @param {number} params.pageNumber - Page number for pagination.
- * @param {number} params.pageSize - Number of items per page for pagination.
+ * @param {number} params.pageSize - Number of Permissions per page for pagination.
  * @param {number} params.pageStart - Starting index for pagination.
  * @param {string} params.url - URL information.
  * @param {string} params.path - Path information.
  * @param {Object} params.requestQuery - Query parameters from the request.
- * @returns {Object} - The result containing items, metadata, and filters.
+ * @returns {Object} - The result containing Permissions, metadata, and filters.
  */
 const findAll = async ({
   sort,
@@ -44,10 +46,10 @@ const findAll = async ({
 }) => {
   // Parse query parameters
   const query = {
-    sortCriteria: parseSortCriteria(sort, defaults.uploadAllowedSorByFields),
+    sortCriteria: parseSortCriteria(sort, config.permissionAllowedSorByFields),
     selectedFields: parseSelectedFields(fields),
     populatedFields: parsePopulatedFields(populate),
-    searchQuery: search ? JSON.parse(search) : {},
+    searchQuery: search,
     locale,
     pageNumber: parseInt(pageNumber, defaults.radix) || 1,
     limit: parseInt(pageSize, defaults.radix) || config.pageSize,
@@ -59,12 +61,12 @@ const findAll = async ({
   if (query.searchQuery) {
     searchQuery = getSearchQuery(
       query.searchQuery,
-      defaults.uploadAllowedSearchFields,
+      defaults.permissionAllowedSearchFields,
     );
   }
   const sortStr = query.sortCriteria;
-  // Fetch file from the database
-  let uploadedFile = await Upload.find(searchQuery)
+  // Fetch permissions from the database
+  let permissions = await Permission.find(searchQuery)
     .sort(sortStr)
     .skip(pageNumber * pageSize - pageSize)
     .limit(pageSize)
@@ -73,19 +75,19 @@ const findAll = async ({
   // Apply population
   const { populatedFields } = query;
   if (populatedFields.length > 0) {
-    uploadedFile = await getPopulatedFields(populatedFields, uploadedFile);
+    permissions = await getPopulatedFields(populatedFields, permissions);
   }
 
   // Select fields
   if (query.selectedFields.length > 0) {
-    uploadedFile = selectFields(uploadedFile, query.selectedFields);
+    permissions = selectFields(permissions, query.selectedFields);
   }
   // skip pageStart
   if (query.skip > 0) {
-    uploadedFile = uploadedFile.slice(query.skip);
+    permissions = permissions.slice(query.skip);
   }
   // limit totalEntities
-  const totalCount = await Upload.count(searchQuery);
+  const totalCount = await Permission.count(searchQuery);
   const pagination = getPagination({
     totalCount,
     pageSize,
@@ -107,7 +109,7 @@ const findAll = async ({
     page: query.pageNumber,
     limit: query.limit,
     skip: query.skip,
-    totalEntities: uploadedFile.length,
+    totalEntities: removeAllListeners.length,
     totalCount,
   };
   const filters = {
@@ -117,10 +119,18 @@ const findAll = async ({
     populatedFields: query.populatedFields,
     searchQuery: query.searchQuery,
   };
-  const finalItems = uploadedFile.map((file) => ({
-    id: file.id,
-    data: { ...file._doc },
-  }));
+  let finalItems = [];
+  if (query.selectedFields.length > 0) {
+    finalItems = permissions.map((permission) => ({
+      id: permission.id,
+      data: { ...permission },
+    }));
+  } else {
+    finalItems = permissions.map((permission) => ({
+      id: permission.id,
+      data: { ...permission._doc },
+    }));
+  }
 
   // Generate the full response
   const data = {

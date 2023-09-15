@@ -5,10 +5,8 @@ const { getUserDTO } = require("../utils");
 
 const authenticate = async (req, _res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
-  console.log("token", token);
   try {
     const decoded = tokenService.decodeToken({ token });
-    console.log("decoded", decoded);
     const user = await findUserByEmail(decoded.email);
     if (!user) {
       next(authenticationError("user not found"));
