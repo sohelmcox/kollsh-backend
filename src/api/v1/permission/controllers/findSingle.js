@@ -5,10 +5,12 @@ const findSingle = async (req, res, next) => {
 
   try {
     const permission = await permissionServices.findSingle(id);
+    const { id: permissionId } = permission;
     const response = {
+      id: permissionId,
       data: permission,
       links: {
-        self: `/permissions/${permission.id}`,
+        self: `/permissions/${permissionId}`,
       },
     };
 

@@ -16,14 +16,14 @@ const CountrySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    states: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "State",
-      },
-    ],
+    // states: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "State",
+    //   },
+    // ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Country", CountrySchema);

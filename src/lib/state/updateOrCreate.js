@@ -1,4 +1,5 @@
 const { State } = require("../../models");
+const { badRequest } = require("../../utils/error");
 
 /**
  * Update or create an state by its ID.
@@ -20,6 +21,10 @@ const updateOrCreate = async (
 ) => {
   const state = await State.findById(id);
   if (!state) {
+    const checkIsExist = await State.findOne({ name });
+    if (checkIsExist) {
+      throw badRequest("State name already exist");
+    }
     const newState = await State.create({
       name,
       image,

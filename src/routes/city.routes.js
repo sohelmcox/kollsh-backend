@@ -5,13 +5,13 @@ const authenticate = require("../middleware/authenticate");
 router
   .route("/")
   .get(cityController.find)
-  .post(cityController.create)
-  .delete(cityController.destroyMany);
+  .post(authenticate, cityController.create)
+  .delete(authenticate, cityController.destroyMany);
 router
   .route("/:id")
   .get(cityController.findSingle)
-  .put(cityController.updateOrCreate)
-  .patch(cityController.edit)
-  .delete(cityController.destroy);
+  .put(authenticate, cityController.updateOrCreate)
+  .patch(authenticate, cityController.edit)
+  .delete(authenticate, cityController.destroy);
 
 module.exports = router;

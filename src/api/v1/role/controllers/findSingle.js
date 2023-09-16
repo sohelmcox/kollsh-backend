@@ -8,6 +8,7 @@ const findSingle = async (req, res, next) => {
     const role = await roleService.findSingle({ id, populate });
     const { id: roleId } = role;
     const response = {
+      id: roleId,
       data: role,
       links: {
         self: `/roles/${roleId}`,

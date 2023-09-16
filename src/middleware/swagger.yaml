@@ -1890,6 +1890,42 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/BrandRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Brands Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Brands Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Brand
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/brands"
   /brands/{id}:
     get:
       responses:
@@ -1898,7 +1934,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BrandResponse"
+                $ref: "#/components/schemas/BrandResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -1908,13 +1944,7 @@ paths:
       tags:
         - Brand
       parameters:
-        - name: id
-          in: path
-          description: ""
-          deprecated: false
-          required: true
-          schema:
-            type: number
+        - $ref: "#/components/parameters/id"
       operationId: "get/brands/{id}"
     put:
       responses:
@@ -1942,11 +1972,41 @@ paths:
         - $ref: "#/components/parameters/id"
       operationId: "put/brands/{id}"
       requestBody:
-        required: true
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/BrandRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BrandResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Brand
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/brands/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BrandPatchRequest"
     delete:
       responses:
         "202":
@@ -2358,6 +2418,42 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CountryRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Country Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Country Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Country
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/countries"
   /countries/{id}:
     get:
       responses:
@@ -2366,7 +2462,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountryResponse"
+                $ref: "#/components/schemas/CountryResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2415,6 +2511,37 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CountryRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CountryResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Country
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/countries/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CountryPatchRequest"
     delete:
       responses:
         "202":
@@ -4421,30 +4548,32 @@ components:
         meta: {}
     CountryRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            name:
-              type: string
-            flag_image:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            code:
-              type: string
-            states:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+        name:
+          type: string
+        flag_image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        code:
+          type: string
+      required:
+        - name
+        - flag_image
+        - code
+    CountryPatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        flag_image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        code:
+          type: string
     CountryListResponseDataItem:
       type: object
       properties:
@@ -4462,29 +4591,31 @@ components:
         meta:
           type: object
           properties:
-            item:
+            links:
               type: object
               properties:
-                slef:
+                self:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     Country:
-      allOf:
-        - type: object
+      type: object
+      properties:
+        name:
+          type: string
+        flag_image:
+          $ref: "#/components/schemas/Image"
+        code:
+          type: string
+        states:
+          type: object
           properties:
-            name:
-              type: string
-            flag_image:
-              $ref: "#/components/schemas/Image"
-            states:
-              type: object
-              properties:
-                data:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/CountryResponseDataObject"
-        - $ref: "#/components/schemas/Timestamp"
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/CountryResponseDataObject"
     CountryResponseDataObject:
       type: object
       properties:
@@ -4495,10 +4626,18 @@ components:
     CountryResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/CountryResponseDataObject"
-        meta:
+        links:
           type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/states/5f9b9b4b3c9b3c2b1c3b2b1c"
     StateRequest:
       type: object
       properties:
@@ -4691,7 +4830,7 @@ components:
           properties:
             self:
               type: string
-              example: "http://localhost:4000/states/5f9b9b4b3c9b3c2b1c3b2b1c"
+              example: "http://localhost:4000/cities/5f9b9b4b3c9b3c2b1c3b2b1c"
     CityResponse:
       type: object
       properties:
@@ -4701,40 +4840,47 @@ components:
           type: string
         data:
           $ref: "#/components/schemas/CityResponseDataObject"
+    BrandPatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+        attributes:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
     BrandRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          required:
-            - name
-          type: object
-          properties:
-            name:
-              type: string
-            slug:
-              type: string
-            image:
-              type: string
-            cover_image:
-              type: string
-            description:
-              type: string
-            priority:
-              type: integer
-            attributes:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            attribute_value:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
+        name:
+          type: string
+        image:
+          type: string
+        description:
+          type: string
+        priority:
+          type: integer
+        attributes:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+      required:
+        - name
+        - image
+        - description
+        - priority
     BrandListResponseDataItem:
       type: object
       properties:
@@ -4752,10 +4898,10 @@ components:
         meta:
           type: object
           properties:
-            item:
+            links:
               type: object
               properties:
-                slef:
+                self:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
@@ -4795,12 +4941,21 @@ components:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
           $ref: "#/components/schemas/Brand"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/brands/5f9b9b4b3c9b3c2b1c3b2b1c"
     BrandResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/BrandResponseDataObject"
-        meta: {}
     AttributeRequest:
       type: object
       required:

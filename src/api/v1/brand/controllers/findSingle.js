@@ -1,17 +1,17 @@
-const roleService = require("../../../../lib/role");
+const brandServices = require("../../../../lib/brand");
 
 const findSingle = async (req, res, next) => {
   const { id } = req.params;
   const { populate } = req.query || "";
 
   try {
-    const role = await roleService.findSingle({ id, populate });
-    const { id: roleId } = role;
+    const brand = await brandServices.findSingle({ id, populate });
+    const { id: brandId } = brand;
     const response = {
-      id: roleId,
-      data: role,
+      id: brandId,
+      data: brand,
       links: {
-        self: `/roles/${roleId}`,
+        self: `/brands/${brandId}`,
       },
     };
 

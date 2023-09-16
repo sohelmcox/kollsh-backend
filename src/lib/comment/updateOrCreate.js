@@ -1,4 +1,4 @@
-const { Role } = require("../../models");
+const { Comment } = require("../../models");
 const { badRequest } = require("../../utils/error");
 
 /**
@@ -18,8 +18,12 @@ const updateOrCreate = async (
   id,
   { name, description, permission, createdBy },
 ) => {
-  const role = await Role.findById(id);
+  const role = await Comment.findById(id);
   if (!role) {
+    const checkIsExist = await Comment.findOne({ name });
+    if (checkIsExist) {
+      throw badRequest("Role Name already exist");
+    }
     const newRole = await Role.create({
       name,
       description,

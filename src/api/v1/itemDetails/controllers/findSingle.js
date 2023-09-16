@@ -8,6 +8,7 @@ const findSingle = async (req, res, next) => {
     const itemDetails = await itemDetailsServices.findSingle({ id, populate });
     const { id: itemDetailsId } = itemDetails;
     const response = {
+      id: itemDetailsId,
       data: itemDetails,
       links: {
         self: `/item-details/${itemDetailsId}`,

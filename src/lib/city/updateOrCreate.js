@@ -1,4 +1,5 @@
 const { City } = require("../../models");
+const { badRequest } = require("../../utils/error");
 
 /**
  * Update or create an city by its ID.
@@ -15,6 +16,10 @@ const { City } = require("../../models");
 const updateOrCreate = async (id, { name, state, priority }) => {
   const city = await City.findById(id);
   if (!city) {
+    const checkIsExist = await State.findOne({ name });
+    if (checkIsExist) {
+      throw badRequest("City name already exist");
+    }
     const newCity = await City.create({
       name,
       state,

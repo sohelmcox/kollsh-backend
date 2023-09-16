@@ -8,13 +8,11 @@ const BrandSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
-    },
-    image: {
-      type: String,
       required: true,
     },
-    cover_image: {
-      type: String,
+    image: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
     },
     description: {
       type: String,
@@ -25,17 +23,11 @@ const BrandSchema = new mongoose.Schema(
     attributes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        example: "string or id",
         ref: "Attribute",
       },
     ],
-    attribute_value: {
-      type: mongoose.Schema.Types.Mixed,
-      example: "string or id",
-      ref: "AttributeValue",
-    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Brand", BrandSchema);
