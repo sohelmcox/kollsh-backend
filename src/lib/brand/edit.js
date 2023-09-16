@@ -1,5 +1,6 @@
 const { Brand } = require("../../models");
 const { notFound } = require("../../utils/error");
+const { slugify } = require("../../utils/generateUniqueSlug");
 /**
  * Edit (update) an brand by its ID.
  *
@@ -13,14 +14,17 @@ const { notFound } = require("../../utils/error");
  * @throws {Error} - Throws an error if the brand with the provided ID is not found.
  */
 
-const edit = async (id, { name, image, description, priority }) => {
+const edit = async (id, { name, slug, image, description, priority }) => {
   const brand = await Brand.findById(id);
   if (!brand) {
     throw notFound("Brand not found.");
   }
-
+  if (slug?.split(" ")?.length > 1) {
+    slug = slugify(slug);
+  }
   const payload = {
     name,
+    slug,
     image,
     description,
     priority,

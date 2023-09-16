@@ -9,6 +9,8 @@ const commentRouter = require("./comment.routes");
 const cityRouter = require("./city.routes");
 const countryRouter = require("./country.routes");
 const brandRouter = require("./brand.routes");
+const categoryRouter = require("./category.routes");
+const subcategoryRouter = require("./subcategory.routes");
 
 // health check
 indexRoute.get("/health", (req, res) => {
@@ -24,6 +26,8 @@ indexRoute.use("/comments", commentRouter);
 indexRoute.use("/cities", cityRouter);
 indexRoute.use("/countries", countryRouter);
 indexRoute.use("/brands", brandRouter);
+indexRoute.use("/categories", categoryRouter);
+indexRoute.use("/subcategories", subcategoryRouter);
 
 indexRoute.use("/users", (req, res) => {
   res.status(200).send("Users route");

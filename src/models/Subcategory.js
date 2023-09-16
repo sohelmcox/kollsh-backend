@@ -12,27 +12,24 @@ const SubcategorySchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
-    image: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Image",
-      },
-    ],
-    cover_image: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Image",
-      },
-    ],
+    image: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
+    },
+    cover_image: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
+    },
+
     priority: {
       type: Number,
     },
-    items: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Item",
-      },
-    ],
+    // items: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Item",
+    //   },
+    // ],
     is_brand: {
       type: Boolean,
     },
@@ -43,7 +40,7 @@ const SubcategorySchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Subcategory", SubcategorySchema);

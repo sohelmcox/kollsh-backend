@@ -2085,6 +2085,42 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CategoryRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Categories Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Categories Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/categories"
   /categories/{id}:
     get:
       responses:
@@ -2093,7 +2129,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CategoryResponse"
+                $ref: "#/components/schemas/CategoryResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2107,13 +2143,7 @@ paths:
       tags:
         - Category
       parameters:
-        - name: id
-          in: path
-          description: ""
-          deprecated: false
-          required: true
-          schema:
-            type: number
+        - $ref: "#/components/parameters/id"
       operationId: "get/categories/{id}"
     put:
       responses:
@@ -2146,6 +2176,37 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CategoryRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoryResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Category
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/categories/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CategoryPatchRequest"
     delete:
       responses:
         "202":
@@ -2745,6 +2806,8 @@ paths:
           $ref: "#/components/responses/500"
       tags:
         - Subcategory
+      security:
+        - bearerAuth: []
       parameters: []
       operationId: post/subcategories
       requestBody:
@@ -2753,6 +2816,42 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SubcategoryRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Subcategories Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Subcategories Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Subcategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/subcategories"
   /subcategories/{id}:
     get:
       responses:
@@ -2761,7 +2860,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SubcategoryResponse"
+                $ref: "#/components/schemas/SubcategoryResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -2772,6 +2871,7 @@ paths:
         - Subcategory
       parameters:
         - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/queryIdParam"
       operationId: "get/subcategories/{id}"
     put:
       responses:
@@ -2802,6 +2902,37 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/SubcategoryRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SubcategoryResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Subcategory
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/subcategories/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubcategoryPatchRequest"
     delete:
       responses:
         "202":
@@ -4300,48 +4431,70 @@ components:
           $ref: "#/components/schemas/ReplayResponseDataObject"
         meta:
           type: object
+    CategoryPatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        image:
+          type: object
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        cover_image:
+          type: object
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        priority:
+          type: integer
+        subcategories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        featured:
+          type: boolean
+        attribute_categories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
     CategoryRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            name:
-              type: string
-            slug:
-              type: string
-            image:
-              type: object
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            cover_image:
-              type: object
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            priority:
-              type: integer
-            subcategories:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            featured:
-              type: boolean
-            attribute_categories:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+        name:
+          type: string
+        slug:
+          type: string
+        image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        cover_image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        priority:
+          type: integer
+        featured:
+          type: boolean
+      required:
+        - name
+        - image
+        - cover_image
+        - priority
+        - featured
     CategoryListResponseDataItem:
       type: object
       properties:
@@ -4426,58 +4579,89 @@ components:
     CategoryResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/CategoryResponseDataObject"
-        meta: {}
-    SubcategoryRequest:
-      type: object
-      required:
-        - data
-      properties:
-        data:
+        links:
           type: object
           properties:
-            name:
+            self:
               type: string
-            slug:
-              type: string
-            category:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            image:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            cover_image:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            priority:
-              type: integer
-            items:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            is_brand:
-              type: boolean
-            attributes:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+              example: "http://localhost:4000/states/5f9b9b4b3c9b3c2b1c3b2b1c"
+    SubcategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        category:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        cover_image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        priority:
+          type: integer
+        is_brand:
+          type: boolean
+        attributes:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+      required:
+        - name
+        - category
+        - image
+        - cover_image
+        - priority
+        - is_brand
+    SubcategoryPatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        category:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        cover_image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        priority:
+          type: integer
+        is_brand:
+          type: boolean
+        attributes:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
     SubcategoryListResponseDataItem:
       type: object
       properties:
@@ -4495,44 +4679,36 @@ components:
         meta:
           type: object
           properties:
-            item:
+            links:
               type: object
               properties:
-                slef:
+                self:
                   type: string
-                parentCategory:
+                category:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     Subcategory:
-      allOf:
-        - type: object
-          properties:
-            name:
-              type: string
-            slug:
-              type: string
-            category:
-              $ref: "#/components/schemas/CategoryResponseDataObject"
-            image:
-              type: object
-              properties:
-                data:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/Image"
-            cover_image:
-              $ref: "#/components/schemas/Image"
-            priority:
-              type: integer
-            items:
-              $ref: "#/components/schemas/ArrayTypeRelationId"
-            is_brand:
-              type: boolean
-            attributes:
-              $ref: "#/components/schemas/ArrayTypeRelationId"
-        - $ref: "#/components/schemas/MetadataResponseDataObject"
-        - $ref: "#/components/schemas/Timestamp"
+      type: object
+      properties:
+        name:
+          type: string
+        slug:
+          type: string
+        category:
+          $ref: "#/components/schemas/CategoryResponseDataObject"
+        image:
+          $ref: "#/components/schemas/Image"
+        cover_image:
+          $ref: "#/components/schemas/Image"
+        priority:
+          type: integer
+        is_brand:
+          type: boolean
+        attributes:
+          $ref: "#/components/schemas/ArrayTypeRelationId"
     SubcategoryResponseDataObject:
       type: object
       properties:
@@ -4543,9 +4719,21 @@ components:
     SubcategoryResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/SubcategoryResponseDataObject"
-        meta: {}
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/states/5f9b9b4b3c9b3c2b1c3b2b1c"
+            category:
+              type: string
+              example: "http://localhost:4000/categories/5f9b9b4b3c9b3c2b1c3b2b1c"
     CountryRequest:
       type: object
       properties:
@@ -4844,6 +5032,8 @@ components:
       type: object
       properties:
         name:
+          type: string
+        slug:
           type: string
         image:
           type: string

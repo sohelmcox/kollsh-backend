@@ -1,17 +1,17 @@
 const router = require("express").Router();
-const cityController = require("../api/v1/brand/controllers");
+const brandController = require("../api/v1/brand/controllers");
 const authenticate = require("../middleware/authenticate");
 
 router
   .route("/")
-  .get(cityController.find)
-  .post(cityController.create)
-  .delete(cityController.destroyMany);
+  .get(brandController.find)
+  .post(authenticate, brandController.create)
+  .delete(authenticate, brandController.destroyMany);
 router
   .route("/:id")
-  .get(cityController.findSingle)
-  .put(cityController.updateOrCreate)
-  .patch(cityController.edit)
-  .delete(cityController.destroy);
+  .get(brandController.findSingle)
+  .put(authenticate, brandController.updateOrCreate)
+  .patch(authenticate, brandController.edit)
+  .delete(authenticate, brandController.destroy);
 
 module.exports = router;
