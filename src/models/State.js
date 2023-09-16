@@ -5,12 +5,11 @@ const StateSchema = new mongoose.Schema(
     name: {
       type: String,
     },
-    image: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Image",
-      },
-    ],
+    image: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Image",
+    },
+
     priority: {
       type: Number,
     },
@@ -25,7 +24,7 @@ const StateSchema = new mongoose.Schema(
       ref: "Country",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("State", StateSchema);

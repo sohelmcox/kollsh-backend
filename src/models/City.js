@@ -13,12 +13,6 @@ const MainSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  item: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Item",
-    },
-  ],
 });
 
 module.exports = mongoose.model("City", MainSchema);

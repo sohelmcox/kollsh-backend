@@ -23,7 +23,7 @@ const create = async ({ content, author, item }) => {
   // Save the new comment to the database
   await newComment.save();
 
-  return { ...newComment._doc, id: newComment.id };
+  return { id: newComment.id, ...newComment._doc };
 };
 
 module.exports = create;

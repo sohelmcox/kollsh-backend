@@ -9,7 +9,6 @@ const edit = async (req, res, next) => {
     const response = {
       code: 200,
       message: "Permission updated successfully",
-      id: permissionId,
       data: permission,
       links: {
         self: `/permissions/${permissionId}`,

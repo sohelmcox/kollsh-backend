@@ -12,7 +12,7 @@ const destroy = async (id) => {
     throw notFound("Role not found.");
   }
   // TODO:
-  // Asynchronously delete all permissions details and images
+  // Asynchronously delete all replay
 
   await role.deleteOne();
 };

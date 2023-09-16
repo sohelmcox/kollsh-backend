@@ -17,10 +17,9 @@ const update = async (req, res, next) => {
         code === 200
           ? "Role updated successfully"
           : "Role created successfully",
-      id: data._id,
       data,
       links: {
-        self: `/items/${data.id}`,
+        self: `/roles/${data.id}`,
       },
     };
 

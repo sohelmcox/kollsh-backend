@@ -52,6 +52,13 @@ const defaults = {
   //itemDetails
   itemDetailsAllowedSearchFields: ["item", "description"],
   itemDetailsAllowedSorByFields: ["item", "updatedAt", "createdAt"],
+  //state
+  stateAllowedSearchFields: ["name", "country"],
+  stateAllowedSorByFields: ["name", "updatedAt", "createdAt"],
+
+  //city
+  cityAllowedSearchFields: ["name", "priority"],
+  cityAllowedSorByFields: ["name", "priority", "updatedAt", "createdAt"],
 };
 
 module.exports = Object.freeze(defaults);

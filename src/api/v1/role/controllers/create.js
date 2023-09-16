@@ -19,7 +19,6 @@ const create = async (req, res, next) => {
     const response = {
       code: 201,
       message: "Role Created Successfully",
-      id: role.id,
       data: role,
       links: {
         self: `/roles/${role.id}`,

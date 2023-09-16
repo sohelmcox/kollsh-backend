@@ -18,7 +18,6 @@ const create = async (req, res, next) => {
     const response = {
       code: 201,
       message: "Comment Created Successfully",
-      id: comment.id,
       data: comment,
       links: {
         self: `/comments/${comment.id}`,

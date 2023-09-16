@@ -6,7 +6,6 @@ const findSingle = async (req, res, next) => {
   try {
     const permission = await permissionServices.findSingle(id);
     const response = {
-      id: permission.id,
       data: permission,
       links: {
         self: `/permissions/${permission.id}`,

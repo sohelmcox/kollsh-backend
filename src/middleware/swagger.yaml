@@ -2164,6 +2164,42 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CityRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Cities Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Cities Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - City
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/cities"
   /cities/{id}:
     get:
       responses:
@@ -2172,7 +2208,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CityResponse"
+                $ref: "#/components/schemas/CityResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -2183,6 +2219,8 @@ paths:
         - City
       parameters:
         - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/populate"
+
       operationId: "get/cities/{id}"
     put:
       responses:
@@ -2213,6 +2251,37 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CityRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CityResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - City
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/cities/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CityPatchRequest"
     delete:
       responses:
         "202":
@@ -2682,6 +2751,42 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/StateRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) State Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 State Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - State
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/states"
   /states/{id}:
     get:
       responses:
@@ -2690,7 +2795,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/StateResponse"
+                $ref: "#/components/schemas/StateResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -2733,6 +2838,37 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/StateRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StateResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - State
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/states/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StatePatchRequest"
     delete:
       responses:
         "202":
@@ -3928,6 +4064,8 @@ components:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     CommentRequest:
       type: object
       properties:
@@ -4118,15 +4256,17 @@ components:
         meta:
           type: object
           properties:
-            item:
+            links:
               type: object
               properties:
-                slef:
+                self:
                   type: string
                 state:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     Category:
       allOf:
         - type: object
@@ -4361,35 +4501,57 @@ components:
           type: object
     StateRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            name:
-              type: string
-            image:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            priority:
-              type: integer
-            cities:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            country:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
+        name:
+          type: string
+        image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        priority:
+          type: integer
+        cities:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        country:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+      required:
+        - name
+        - image
+        - country
+        - priority
+    StatePatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        priority:
+          type: integer
+        cities:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        country:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
     StateListResponseDataItem:
       type: object
       properties:
@@ -4407,48 +4569,40 @@ components:
         meta:
           type: object
           properties:
-            item:
+            links:
               type: object
               properties:
-                slef:
+                self:
                   type: string
                 country:
                   type: string
+                cities:
+                  type: array
+                  items:
+                    type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     State:
-      allOf:
-        - type: object
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+          example: "id"
+        priority:
+          type: integer
+        cities:
+          type: object
           properties:
-            name:
-              type: string
-            image:
-              type: object
-              properties:
-                data:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/Image"
-            priority:
-              type: integer
-            cities:
-              type: object
-              properties:
-                data:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/CityResponseDataObject"
-            country:
-              type: object
-              properties:
-                data:
-                  type: object
-                  properties:
-                    id:
-                      $ref: "#/components/schemas/MongoDBObjectId"
-                      properties: {}
-        - $ref: "#/components/schemas/MetadataResponseDataObject"
-        - $ref: "#/components/schemas/Timestamp"
+            data:
+              type: array
+              items:
+                $ref: "#/components/schemas/CityResponseDataObject"
+        country:
+          $ref: "#/components/schemas/MongoDBObjectId"
     StateResponseDataObject:
       type: object
       properties:
@@ -4459,34 +4613,46 @@ components:
     StateResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/StateResponseDataObject"
-        meta:
-          type: object
-    CityRequest:
-      type: object
-      required:
-        - data
-      properties:
-        data:
-          required:
-            - name
+        links:
           type: object
           properties:
-            name:
+            self:
               type: string
-            state:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            priority:
-              type: integer
-            item:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
+              example: "http://localhost:4000/states/5f9b9b4b3c9b3c2b1c3b2b1c"
+    CityPatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        state:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        priority:
+          type: integer
+    CityRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        state:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        priority:
+          type: integer
+      required:
+        - name
+        - state
+        - priority
     City:
       allOf:
         - type: object
@@ -4520,13 +4686,21 @@ components:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
           $ref: "#/components/schemas/City"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/states/5f9b9b4b3c9b3c2b1c3b2b1c"
     CityResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/CityResponseDataObject"
-        meta:
-          type: object
     BrandRequest:
       type: object
       required:

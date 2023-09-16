@@ -34,7 +34,6 @@ const create = async (req, res, next) => {
     const response = {
       code: 201,
       message: "ItemDetails Created Successfully",
-      id: itemDetails.id,
       data: itemDetails,
       links: {
         self: `/item-details/${itemDetails.id}`,

@@ -1,8 +1,17 @@
 const router = require("express").Router();
+const stateController = require("../api/v1/state/controllers");
+const authenticate = require("../middleware/authenticate");
 
-// const { create, find, findSingle } = require("../api/v1/state/controllers");
-
-// router.route("/").get(find).post(create);
-// router.route("/:id").get(findSingle);
+router
+  .route("/")
+  .get(stateController.find)
+  .post(stateController.create)
+  .delete(stateController.destroyMany);
+router
+  .route("/:id")
+  .get(stateController.findSingle)
+  .put(stateController.updateOrCreate)
+  .patch(stateController.edit)
+  .delete(stateController.destroy);
 
 module.exports = router;

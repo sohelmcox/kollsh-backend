@@ -30,7 +30,7 @@ const edit = async (id, { name, description, permissions }) => {
   });
 
   await role.save();
-  return { ...role._doc, id: role.id };
+  return { id: role.id, ...role._doc };
 };
 
 module.exports = edit;

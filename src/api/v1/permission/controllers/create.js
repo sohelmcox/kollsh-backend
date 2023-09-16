@@ -19,7 +19,6 @@ const create = async (req, res, next) => {
     const response = {
       code: 201,
       message: "Permission Created Successfully",
-      id: permission.id,
       data: permission,
       links: {
         self: `/permissions/${permission.id}`,
