@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const ItemDetailsSchema = new mongoose.Schema(
   {
-    itemId: {
+    item: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Item",
       required: true,
@@ -18,7 +18,7 @@ const ItemDetailsSchema = new mongoose.Schema(
         required: true,
       },
     ],
-    ContactNumber: {
+    contactNumber: {
       type: String,
       required: true,
       match: /^\d*$/,

@@ -30,6 +30,11 @@ const ItemSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "State",
     },
+    comment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+
     cities: [
       {
         type: mongoose.Schema.Types.ObjectId,

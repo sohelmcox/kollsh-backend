@@ -45,6 +45,13 @@ const defaults = {
     "updatedAt",
     "createdAt",
   ],
+  //comment
+  commentAllowedSearchFields: ["content", "id"],
+  commentAllowedSorByFields: ["content", "updatedAt", "createdAt"],
+
+  //itemDetails
+  itemDetailsAllowedSearchFields: ["item", "description"],
+  itemDetailsAllowedSorByFields: ["item", "updatedAt", "createdAt"],
 };
 
 module.exports = Object.freeze(defaults);

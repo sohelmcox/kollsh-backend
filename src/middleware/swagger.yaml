@@ -598,7 +598,7 @@ paths:
           $ref: "#/components/responses/500"
       tags:
         - Item-details
-      summary: create item Details
+      summary: get all items details
       parameters:
         - $ref: "#/components/parameters/sortParams"
         - $ref: "#/components/parameters/paginationPage"
@@ -663,7 +663,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "get/item-details/{id}"
-    put:
+    patch:
       responses:
         "200":
           description: OK
@@ -687,7 +687,7 @@ paths:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "put/item-details/{id}"
+      operationId: "patch/item-details/{id}"
       requestBody:
         required: true
         content:
@@ -1246,6 +1246,202 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/upload/files/{id}"
+  /comments:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentListResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Comment
+      parameters:
+        - $ref: "#/components/parameters/sortParams"
+        - $ref: "#/components/parameters/paginationPage"
+        - $ref: "#/components/parameters/paginationPageSize"
+        - $ref: "#/components/parameters/paginationStart"
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/populate"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/locale"
+      operationId: get/comments
+    post:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Comment
+      security:
+        - bearerAuth: []
+      parameters: []
+      operationId: post/comments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Comments Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Comments Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/comments"
+  /comments/{id}:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Comment
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "get/comments/{id}"
+    put:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Comment
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "put/comments/{id}"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommentResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Comment
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/comments/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentRequest"
+    delete:
+      responses:
+        "202":
+          $ref: "#/components/responses/202"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Comment
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "delete/comments/{id}"
   /attributes:
     get:
       responses:
@@ -2036,135 +2232,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/cities/{id}"
-  /comments:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommentListResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Comment
-      parameters:
-        - $ref: "#/components/parameters/sortParams"
-        - $ref: "#/components/parameters/paginationPage"
-        - $ref: "#/components/parameters/paginationPageSize"
-        - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/fields"
-        - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/search"
-        - $ref: "#/components/parameters/locale"
-      operationId: get/comments
-    post:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommentResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Comment
-      security:
-        - bearerAuth: []
-      parameters: []
-      operationId: post/comments
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CommentRequest"
-  /comments/{id}:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommentResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Comment
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "get/comments/{id}"
-    put:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/CommentResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Comment
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "put/comments/{id}"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CommentRequest"
-    delete:
-      responses:
-        "202":
-          $ref: "#/components/responses/202"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Comment
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "delete/comments/{id}"
   /countries:
     get:
       responses:
@@ -3622,12 +3689,13 @@ components:
       properties:
         data:
           required:
+            - item
             - description
             - images
             - ContactNumber
           type: object
           properties:
-            itemId:
+            item:
               oneOf:
                 - type: integer
                 - type: string
@@ -3862,31 +3930,14 @@ components:
               $ref: "#/components/schemas/Pagination"
     CommentRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            content:
-              type: string
-            item:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            author:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            replays:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+        content:
+          type: string
+        item:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
     CommentResponse:
       type: object
       properties:

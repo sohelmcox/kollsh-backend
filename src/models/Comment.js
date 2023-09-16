@@ -7,20 +7,22 @@ const CommentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    item: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Item",
-    },
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
     },
-    replies: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Reply",
-      },
-    ],
+    item: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Item",
+      required: true,
+    },
+    // replies: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Reply",
+    //   },
+    // ],
   },
   { timestamps: true },
 );

@@ -5,6 +5,7 @@ const stateRouter = require("./state.routes");
 const roleRouter = require("./role.routes");
 const permissionRouter = require("./permission.routes");
 const uploadRouter = require("./upload.routes");
+const commentRouter = require("./comment.routes");
 
 // health check
 indexRoute.get("/health", (req, res) => {
@@ -15,6 +16,7 @@ indexRoute.use("/items", itemRouter);
 indexRoute.use("/states", stateRouter);
 indexRoute.use("/roles", roleRouter);
 indexRoute.use("/permissions", permissionRouter);
+indexRoute.use("/comments", commentRouter);
 
 indexRoute.use("/users", (req, res) => {
   res.status(200).send("Users route");

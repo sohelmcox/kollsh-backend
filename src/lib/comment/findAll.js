@@ -4,7 +4,7 @@ const {
   parsePopulatedFields,
 } = require("../../utils/Query/queryParser");
 const config = require("../../config/defaults");
-const { Permission } = require("../../models");
+const { Comment } = require("../../models");
 const { selectFields } = require("../../utils/Query/selectField");
 const { getPagination } = require("../../utils/Query/getPagination");
 const getHATEOASForAllItems = require("../../utils/Query/getHATEOASForAllItems");
@@ -15,7 +15,7 @@ const removeUndefinedQuery = require("../../utils/Query/removeUndefinedQuery");
 const { removeAllListeners } = require("../../models/Country");
 
 /**
- * Find all Permissions based on provided query parameters.
+ * Find all Comments based on provided query parameters.
  *
  * @param {Object} params - The parameters for the query.
  * @param {string} params.sort - Sorting criteria for the query.
@@ -24,16 +24,17 @@ const { removeAllListeners } = require("../../models/Country");
  * @param {Object} params.search - Search criteria for filtering results.
  * @param {string} params.locale - Locale information for localization.
  * @param {number} params.pageNumber - Page number for pagination.
- * @param {number} params.pageSize - Number of Permissions per page for pagination.
+ * @param {number} params.pageSize - Number of Comments per page for pagination.
  * @param {number} params.pageStart - Starting index for pagination.
  * @param {string} params.url - URL information.
  * @param {string} params.path - Path information.
  * @param {Object} params.requestQuery - Query parameters from the request.
- * @returns {Object} - The result containing Permissions, metadata, and filters.
+ * @returns {Object} - The result containing Comments, metadata, and filters.
  */
 const findAll = async ({
   sort,
   fields,
+  populate,
   search,
   locale,
   pageNumber = 1,
@@ -45,8 +46,9 @@ const findAll = async ({
 }) => {
   // Parse query parameters
   const query = {
-    sortCriteria: parseSortCriteria(sort, config.permissionAllowedSorByFields),
+    sortCriteria: parseSortCriteria(sort, config.commentAllowedSorByFields),
     selectedFields: parseSelectedFields(fields),
+    populatedFields: parsePopulatedFields(populate),
     searchQuery: search,
     locale,
     pageNumber: parseInt(pageNumber, defaults.radix) || 1,
@@ -59,27 +61,33 @@ const findAll = async ({
   if (query.searchQuery) {
     searchQuery = getSearchQuery(
       query.searchQuery,
-      defaults.permissionAllowedSearchFields,
+      defaults.commentAllowedSearchFields,
     );
   }
   const sortStr = query.sortCriteria;
-  // Fetch permissions from the database
-  let permissions = await Permission.find(searchQuery)
+  // Fetch comments from the database
+  let comments = await Comment.find(searchQuery)
     .sort(sortStr)
     .skip(pageNumber * pageSize - pageSize)
     .limit(pageSize)
     .exec();
 
+  // Apply population
+  const { populatedFields } = query;
+  if (populatedFields.length > 0) {
+    comments = await getPopulatedFields(populatedFields, comments);
+  }
+
   // Select fields
   if (query.selectedFields.length > 0) {
-    permissions = selectFields(permissions, query.selectedFields);
+    comments = selectFields(comments, query.selectedFields);
   }
   // skip pageStart
   if (query.skip > 0) {
-    permissions = permissions.slice(query.skip);
+    comments = comments.slice(query.skip);
   }
   // limit totalEntities
-  const totalCount = await Permission.count(searchQuery);
+  const totalCount = await Comment.count(searchQuery);
   const pagination = getPagination({
     totalCount,
     pageSize,
@@ -113,14 +121,14 @@ const findAll = async ({
   };
   let finalItems = [];
   if (query.selectedFields.length > 0) {
-    finalItems = permissions.map((permission) => ({
-      id: permission.id,
-      data: { ...permission },
+    finalItems = comments.map((comment) => ({
+      id: comment.id,
+      data: { ...comment },
     }));
   } else {
-    finalItems = permissions.map((permission) => ({
-      id: permission.id,
-      data: { ...permission._doc },
+    finalItems = comments.map((comment) => ({
+      id: comment.id,
+      data: { ...comment._doc },
     }));
   }
 
