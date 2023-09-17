@@ -11,6 +11,8 @@ const countryRouter = require("./country.routes");
 const brandRouter = require("./brand.routes");
 const categoryRouter = require("./category.routes");
 const subcategoryRouter = require("./subcategory.routes");
+const attributeRouter = require("./attribute.routes");
+const attributeValueRouter = require("./attributeValue.routes");
 
 // health check
 indexRoute.get("/health", (req, res) => {
@@ -28,6 +30,8 @@ indexRoute.use("/countries", countryRouter);
 indexRoute.use("/brands", brandRouter);
 indexRoute.use("/categories", categoryRouter);
 indexRoute.use("/subcategories", subcategoryRouter);
+indexRoute.use("/attributes", attributeRouter);
+indexRoute.use("/attribute-values", attributeValueRouter);
 
 indexRoute.use("/users", (req, res) => {
   res.status(200).send("Users route");

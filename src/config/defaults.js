@@ -68,9 +68,21 @@ const defaults = {
   //category
   categoryAllowedSearchFields: ["name", "priority"],
   categoryAllowedSorByFields: ["name", "priority", "updatedAt", "createdAt"],
-  //brand
+  //subcategory
   subcategoryAllowedSearchFields: ["name", "priority"],
   subcategoryAllowedSorByFields: ["name", "priority", "updatedAt", "createdAt"],
+  //attribute
+  attributeAllowedSearchFields: ["name"],
+  attributeAllowedSorByFields: ["name", "updatedAt", "createdAt"],
+  //attributeValue
+  attributeValueAllowedSearchFields: ["name", "value", "color_code"],
+  attributeValueAllowedSorByFields: [
+    "name",
+    "value",
+    "color_code",
+    "updatedAt",
+    "createdAt",
+  ],
 };
 
 module.exports = Object.freeze(defaults);

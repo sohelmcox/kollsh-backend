@@ -22,12 +22,11 @@ const AttributeValueSchema = new mongoose.Schema(
     brands: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        example: "string or id",
         ref: "Brand",
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("AttributeValue", AttributeValueSchema);

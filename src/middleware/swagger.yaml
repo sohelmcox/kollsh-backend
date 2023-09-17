@@ -1499,6 +1499,43 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AttributeRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Attributes Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Attributes Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute
+      summary: delete may roles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/attributes"
   /attributes/{id}:
     get:
       responses:
@@ -1507,7 +1544,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AttributeResponse"
+                $ref: "#/components/schemas/AttributeResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -1518,8 +1555,9 @@ paths:
         - Attribute
       parameters:
         - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/queryIdParam"
       operationId: "get/attributes/{id}"
-    patch:
+    put:
       responses:
         "200":
           description: OK
@@ -1550,6 +1588,37 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AttributeRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributeResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/attributes/{id}"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttributePatchRequest"
     delete:
       responses:
         "202":
@@ -1571,135 +1640,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/attributes/{id}"
-  /attribute-categories:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AttributeCategoryListResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      parameters:
-        - $ref: "#/components/parameters/sortParams"
-        - $ref: "#/components/parameters/paginationPage"
-        - $ref: "#/components/parameters/paginationPageSize"
-        - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/fields"
-        - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/search"
-        - $ref: "#/components/parameters/locale"
-      operationId: get/attribute-categories
-    post:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AttributeCategoryResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      security:
-        - bearerAuth: []
-      parameters: []
-      operationId: post/attribute-categories
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AttributeCategoryRequest"
-  /attribute-categories/{id}:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AttributeCategoryResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "get/attribute-categories/{id}"
-    put:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AttributeCategoryResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "put/attribute-categories/{id}"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AttributeCategoryRequest"
-    delete:
-      responses:
-        "202":
-          $ref: "#/components/responses/202"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "delete/attribute-categories/{id}"
   /attribute-values:
     get:
       responses:
@@ -1757,6 +1697,43 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AttributeValueRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Attribute-value Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Attribute-value Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute-value
+      summary: delete many attribute value
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/attributes-values"
   /attribute-values/{id}:
     get:
       responses:
@@ -1765,7 +1742,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AttributeValueResponse"
+                $ref: "#/components/schemas/AttributeValueResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -1780,6 +1757,7 @@ paths:
         - Attribute-value
       parameters:
         - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/queryIdParam"
       operationId: "get/attribute-values/{id}"
     put:
       responses:
@@ -1812,6 +1790,37 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/AttributeValueRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributeValueResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute-value
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/attribute-values/{id}"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttributeValuePatchRequest"
     delete:
       responses:
         "202":
@@ -1833,6 +1842,203 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/attribute-values/{id}"
+  /attribute-categories:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributeCategoryListResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute-category
+      parameters:
+        - $ref: "#/components/parameters/sortParams"
+        - $ref: "#/components/parameters/paginationPage"
+        - $ref: "#/components/parameters/paginationPageSize"
+        - $ref: "#/components/parameters/paginationStart"
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/populate"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/locale"
+      operationId: get/attribute-categories
+    post:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributeCategoryResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute-category
+      security:
+        - bearerAuth: []
+      parameters: []
+      operationId: post/attribute-categories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttributeCategoryRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Attribute-categories Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Attribute-categories Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute-category
+      summary: delete many attribute categories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/attributes-categories"
+  /attribute-categories/{id}:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributeCategoryResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute-category
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "get/attribute-categories/{id}"
+    put:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributeCategoryResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute-category
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "put/attribute-categories/{id}"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttributeCategoryRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttributeCategoryResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute-category
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/attribute-categories/{id}"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttributeCategoryPatchRequest"
+    delete:
+      responses:
+        "202":
+          $ref: "#/components/responses/202"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Attribute-category
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "delete/attribute-categories/{id}"
   /brands:
     get:
       responses:
@@ -5148,35 +5354,58 @@ components:
           $ref: "#/components/schemas/BrandResponseDataObject"
     AttributeRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            name:
-              type: string
-            attribute_values:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            subcategories:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            brands:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+        name:
+          type: string
+        attribute_values:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        subcategories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        brands:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+      required:
+        - name
+    AttributePatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        attribute_values:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        subcategories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        brands:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
     AttributeListResponseDataItem:
       type: object
       properties:
@@ -5194,15 +5423,17 @@ components:
         meta:
           type: object
           properties:
-            item:
+            links:
               type: object
               properties:
-                slef:
+                self:
                   type: string
                 relatedCategory:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     Attribute:
       allOf:
         - type: object
@@ -5228,30 +5459,47 @@ components:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
           $ref: "#/components/schemas/Attribute"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/attributes/5f9b9b4b3c9b3c2b1c3b2b1c"
     AttributeResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/AttributeResponseDataObject"
-        meta:
-          type: object
     AttributeCategoryRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            name:
-              type: string
-            categories:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+        name:
+          type: string
+        categories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+      required:
+        - name
+    AttributeCategoryPatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        categories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
     AttributeCategoryListResponseDataItem:
       type: object
       properties:
@@ -5297,39 +5545,70 @@ components:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
           $ref: "#/components/schemas/AttributeCategory"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/attribute-categories/5f9b9b4b3c9b3c2b1c3b2b1c"
     AttributeCategoryResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/AttributeCategoryResponseDataObject"
-        meta:
-          type: object
+    AttributeValuePatchRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        color_code:
+          type: string
+        attribute:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        value:
+          type: string
+        brands:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
     AttributeValueRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            name:
-              type: string
-            color_code:
-              type: string
-            attribute:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            value:
-              type: string
-            brands:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+        name:
+          type: string
+        color_code:
+          type: string
+        attribute:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        value:
+          type: string
+        brands:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+      required:
+        - name
+        - value
     AttributeValueListResponseDataItem:
       type: object
       properties:
@@ -5347,15 +5626,17 @@ components:
         meta:
           type: object
           properties:
-            item:
+            links:
               type: object
               properties:
-                slef:
+                self:
                   type: string
                 attribute:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     AttributeValue:
       allOf:
         - type: object
@@ -5376,13 +5657,21 @@ components:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
           $ref: "#/components/schemas/AttributeValue"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/attribute-values/5f9b9b4b3c9b3c2b1c3b2b1c"
     AttributeValueResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/AttributeValueResponseDataObject"
-        meta:
-          type: object
     UploadFileRequest:
       type: object
       properties:
