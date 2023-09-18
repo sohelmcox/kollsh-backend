@@ -8,7 +8,7 @@ const Upload = require("./Upload");
 const Item = require("./Item");
 const ItemDetails = require("./ItemDetails");
 // eslint-disable-next-line import/no-unresolved
-const MetaData = require("./MetaData");
+const Metadata = require("./Metadata");
 const Notification = require("./Notification");
 const Replay = require("./Replay");
 const State = require("./State");
@@ -29,7 +29,7 @@ module.exports = {
   Upload,
   Item,
   ItemDetails,
-  MetaData,
+  Metadata,
   Notification,
   Replay,
   State,

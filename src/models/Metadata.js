@@ -2,17 +2,17 @@ const mongoose = require("mongoose");
 
 const MetadataSchema = new mongoose.Schema(
   {
-    metaDescription: {
+    title: {
       type: String,
     },
-    metaTitle: {
+    description: {
       type: String,
     },
-    metaImage: {
+    image: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Image",
     },
-    metaKeyword: [
+    keywords: [
       {
         type: String,
       },

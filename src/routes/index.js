@@ -14,6 +14,8 @@ const subcategoryRouter = require("./subcategory.routes");
 const attributeRouter = require("./attribute.routes");
 const attributeValueRouter = require("./attributeValue.routes");
 const userRouter = require("./user.routes");
+const replayRouter = require("./replay.routes");
+const metadataRouter = require("./metadata.routes");
 
 // health check
 indexRoute.get("/health", (req, res) => {
@@ -34,5 +36,7 @@ indexRoute.use("/subcategories", subcategoryRouter);
 indexRoute.use("/attributes", attributeRouter);
 indexRoute.use("/attribute-values", attributeValueRouter);
 indexRoute.use("/users", userRouter);
+indexRoute.use("/replays", replayRouter);
+indexRoute.use("/metadata", metadataRouter);
 
 module.exports = indexRoute;

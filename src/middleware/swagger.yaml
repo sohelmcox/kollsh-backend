@@ -2942,38 +2942,8 @@ paths:
         - Replay
       parameters:
         - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/queryIdParam"
       operationId: "get/replays/{id}"
-    put:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ReplayResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Replay
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "put/replays/{id}"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ReplayRequest"
     patch:
       responses:
         "200":
@@ -3024,13 +2994,7 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: id
-          in: path
-          description: ""
-          deprecated: false
-          required: true
-          schema:
-            type: number
+        - $ref: "#/components/parameters/id"
       operationId: "delete/replays/{id}"
   /subcategories:
     get:
@@ -3816,7 +3780,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/item-suggestions/{id}"
-  /metadatas:
+  /metadata:
     get:
       responses:
         "200":
@@ -3839,10 +3803,9 @@ paths:
         - $ref: "#/components/parameters/paginationPageSize"
         - $ref: "#/components/parameters/paginationStart"
         - $ref: "#/components/parameters/fields"
-        - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
-      operationId: get/metadatas
+      operationId: get/metadata
     post:
       responses:
         "200":
@@ -3866,14 +3829,50 @@ paths:
       security:
         - bearerAuth: []
       parameters: []
-      operationId: post/seos
+      operationId: post/metadata
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/MetadataRequest"
-  /metadatas/{id}:
+    delete:
+      responses:
+        "202":
+          description: "example(5) Metadata's Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Metadata's Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Metadata
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/metadata"
+  /metadata/{id}:
     get:
       responses:
         "200":
@@ -3881,7 +3880,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MetadataResponse"
+                $ref: "#/components/schemas/MetadataResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -3892,8 +3891,8 @@ paths:
         - Metadata
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "get/seos/{id}"
-    put:
+      operationId: "get/metadata/{id}"
+    patch:
       responses:
         "200":
           description: OK
@@ -3917,13 +3916,13 @@ paths:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "put/seos/{id}"
+      operationId: "patch/metadata/{id}"
       requestBody:
-        required: true
+        required: false
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/MetadataRequest"
+              $ref: "#/components/schemas/MetadataPatchRequest"
     delete:
       responses:
         "202":
@@ -4707,11 +4706,6 @@ components:
       properties:
         content:
           type: string
-        user:
-          oneOf:
-            - type: integer
-            - type: string
-          example: string or id
         comment:
           oneOf:
             - type: integer
@@ -4719,23 +4713,12 @@ components:
           example: string or id
       required:
         - content
-        - user
         - comment
     ReplayPatchRequest:
       type: object
       properties:
         content:
           type: string
-        user:
-          oneOf:
-            - type: integer
-            - type: string
-          example: string or id
-        comment:
-          oneOf:
-            - type: integer
-            - type: string
-          example: string or id
     ReplayListResponseDataItem:
       type: object
       properties:
@@ -6050,12 +6033,6 @@ components:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
           $ref: "#/components/schemas/Permission"
-        links:
-          type: object
-          properties:
-            self:
-              type: string
-              example: "http://localhost:4000/permissions/5f9b9b4b3c9b3c2b1c3b2b1c"
     PermissionResponse:
       type: object
       properties:
@@ -6065,6 +6042,12 @@ components:
           type: string
         data:
           $ref: "#/components/schemas/PermissionResponseDataObject"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/permissions/5f9b9b4b3c9b3c2b1c3b2b1c"
     PatchPermissionRequest:
       type: object
       properties:
@@ -6111,27 +6094,41 @@ components:
         - controller
         - actions
         - description
+    MetadataPatchRequest:
+      type: object
+      properties:
+        description:
+          type: string
+        title:
+          type: string
+        image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        keywords:
+          type: array
+          items:
+            type: string
     MetadataRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            metaDescription:
-              type: string
-            metaTitle:
-              type: string
-            metaImage:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            metaKeyword:
-              type: array
-              items:
-                type: string
+        description:
+          type: string
+        title:
+          type: string
+        image:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        keywords:
+          type: array
+          items:
+            type: string
+      required:
+        - title
+        - description
     MetadataListResponseDataItem:
       type: object
       properties:
@@ -6152,37 +6149,47 @@ components:
             item:
               type: object
               properties:
-                slef:
+                self:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     Metadata:
-      allOf:
-        - type: object
-          properties:
-            metaDescription:
-              type: string
-            metaTitle:
-              type: string
-            metaImage:
-              $ref: "#/components/schemas/Image"
-            metaKeyword:
-              type: string
-        - $ref: "#/components/schemas/Timestamp"
+      type: object
+      properties:
+        description:
+          type: string
+        title:
+          type: string
+        image:
+          $ref: "#/components/schemas/Image"
+        keywords:
+          type: array
+          items:
+            type: string
     MetadataResponseDataObject:
       type: object
       properties:
         id:
           $ref: "#/components/schemas/MongoDBObjectId"
-        metaData:
+        data:
           $ref: "#/components/schemas/Metadata"
     MetadataResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/MetadataResponseDataObject"
-        meta:
+        links:
           type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/permissions/5f9b9b4b3c9b3c2b1c3b2b1c"
     IdsRequestObject:
       type: object
       properties:

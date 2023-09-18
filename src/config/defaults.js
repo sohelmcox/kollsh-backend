@@ -6,6 +6,7 @@ const defaults = {
   sortBy: "updatedAt",
   search: "",
   radix: 10,
+  totalEntities: 0,
   // Item
   ItemsAllowedSearchFields: ["name", "description"],
   itemAllowedSorByFields: [
@@ -92,6 +93,9 @@ const defaults = {
     "updatedAt",
     "createdAt",
   ],
+  //replay
+  replayAllowedSearchFields: ["content"],
+  replayAllowedSorByFields: ["content", "updatedAt", "createdAt"],
 };
 
 module.exports = Object.freeze(defaults);
