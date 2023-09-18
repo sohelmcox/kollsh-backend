@@ -13,6 +13,7 @@ const categoryRouter = require("./category.routes");
 const subcategoryRouter = require("./subcategory.routes");
 const attributeRouter = require("./attribute.routes");
 const attributeValueRouter = require("./attributeValue.routes");
+const userRouter = require("./user.routes");
 
 // health check
 indexRoute.get("/health", (req, res) => {
@@ -32,9 +33,6 @@ indexRoute.use("/categories", categoryRouter);
 indexRoute.use("/subcategories", subcategoryRouter);
 indexRoute.use("/attributes", attributeRouter);
 indexRoute.use("/attribute-values", attributeValueRouter);
-
-indexRoute.use("/users", (req, res) => {
-  res.status(200).send("Users route");
-});
+indexRoute.use("/users", userRouter);
 
 module.exports = indexRoute;

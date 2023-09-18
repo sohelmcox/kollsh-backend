@@ -2887,6 +2887,42 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ReplayRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Replays Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Replays Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Replay
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/replays"
   /replays/{id}:
     get:
       responses:
@@ -2895,7 +2931,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ReplayResponse"
+                $ref: "#/components/schemas/ReplayResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -2938,6 +2974,37 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ReplayRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReplayResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Replay
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/replays/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReplayPatchRequest"
     delete:
       responses:
         "202":
@@ -3361,17 +3428,22 @@ paths:
       security:
         - bearerAuth: []
       summary: Get list of users
+      parameters:
+        - $ref: "#/components/parameters/sortParams"
+        - $ref: "#/components/parameters/paginationPage"
+        - $ref: "#/components/parameters/paginationPageSize"
+        - $ref: "#/components/parameters/paginationStart"
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/populate"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/locale"
       responses:
         "200":
           description: Returns an array of users
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/UserDTO"
-              example:
-                - $ref: "#/components/schemas/UserDTO"
+                $ref: "#/components/schemas/UserListResponse"
         default:
           description: Error
           content:
@@ -3389,35 +3461,81 @@ paths:
             schema:
               type: object
               required:
+                - name
                 - username
                 - email
                 - password
               properties:
+                name:
+                  type: string
                 email:
                   type: string
                 username:
                   type: string
                 password:
                   type: string
+                confirmed:
+                  type: boolean
+                  example: true
+                blocked:
+                  type: boolean
+                  example: false
             example:
-              username: ibrahim
+              name: Ibrahim Sifat
+              username: ibrahimsifat
               email: hello@kollsh.com
               password: password
+              confirmed: true
+              blocked: false
       responses:
         "201":
           description: Returns created user info
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserDTO"
-              example:
-                $ref: "#/components/schemas/UserDTO"
+                $ref: "#/components/schemas/UserResponse"
         default:
           description: Error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    delete:
+      responses:
+        "202":
+          description: "example(5) Users Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 Users Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/users"
   /users/{id}:
     get:
       tags:
@@ -3433,25 +3551,40 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserDTO"
-              example:
-                $ref: "#/components/schemas/UserDTO"
+                $ref: "#/components/schemas/UsersResponseDataObject"
         default:
           description: Error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-    put:
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
       tags:
         - User
       security:
         - bearerAuth: []
-      summary: Update a user
       parameters:
         - $ref: "#/components/parameters/id"
+      operationId: "patch/users/{id}"
       requestBody:
-        required: true
+        required: false
         content:
           application/json:
             schema:
@@ -3459,33 +3592,14 @@ paths:
               required:
                 - username
                 - email
-                - password
               properties:
                 email:
                   type: string
                 username:
                   type: string
-                password:
-                  type: string
             example:
-              username: username
-              email: user@kollsh.com
-              password: Password
-      responses:
-        "200":
-          description: Returns updated user info
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UserDTO"
-              example:
-                $ref: "#/components/schemas/UserDTO"
-        default:
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+              username: ibrahim
+              email: hello@kollsh.com
     delete:
       tags:
         - User
@@ -3515,6 +3629,8 @@ paths:
       security:
         - bearerAuth: []
       summary: Get authenticated user info
+      parameters:
+        - $ref: "#/components/parameters/queryIdParam"
       responses:
         "200":
           description: Returns user info
@@ -3522,14 +3638,53 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserDTO"
-              example:
-                $ref: "#/components/schemas/UserDTO"
         default:
           description: Error
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /users/change-password:
+    put:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/202"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      operationId: "put/users/{id}"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - password
+                - passwordConfirmation
+              properties:
+                id:
+                  type: string
+                password:
+                  type: string
+                passwordConfirmation:
+                  type: string
   /item-suggestions:
     get:
       responses:
@@ -3982,48 +4137,41 @@ components:
           type: boolean
         role:
           type: object
-        items:
-          type: object
-          properties:
-            data:
-              type: array
-              items:
-                type: object
-                properties:
-                  id:
-                    $ref: "#/components/schemas/MongoDBObjectId"
-                  data:
-                    type: object
-                    properties: {}
-        comments:
-          type: object
-          properties:
-            data:
-              type: array
-              items:
-                type: object
-                properties: {}
-        replays:
-          type: object
-          properties:
-            data:
-              type: array
-              items:
-                type: object
-                properties: {}
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-    UserResponse:
+    UserListResponseDataItem:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/MongoDBObjectId"
+        data:
+          $ref: "#/components/schemas/UserDTO"
+    UserListResponse:
       type: object
       properties:
         data:
-          $ref: "#/components/schemas/UsersResponseDataObject"
+          type: array
+          items:
+            $ref: "#/components/schemas/UserListResponseDataItem"
         meta:
           type: object
+          properties:
+            links:
+              type: object
+              properties:
+                self:
+                  type: string
+            pagination:
+              $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
+    UserResponse:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/UsersResponseDataObject"
     UsersResponseDataObject:
       type: object
       properties:
@@ -4556,24 +4704,38 @@ components:
           $ref: "#/components/schemas/Comment"
     ReplayRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            content:
-              type: string
-            user:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            comment:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
+        content:
+          type: string
+        user:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        comment:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+      required:
+        - content
+        - user
+        - comment
+    ReplayPatchRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        user:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        comment:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
     ReplayListResponseDataItem:
       type: object
       properties:
@@ -4602,27 +4764,25 @@ components:
                   type: string
                 author:
                   type: string
-                subcategory:
-                  type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     Replay:
-      allOf:
-        - type: object
+      type: object
+      properties:
+        content:
+          type: string
+        user:
+          type: object
           properties:
-            content:
-              type: string
-            user:
-              type: object
-              properties:
-                data:
-                  $ref: "#/components/schemas/UserDTO"
-            comment:
-              type: object
-              properties:
-                data:
-                  $ref: "#/components/schemas/CommentResponseDataObject"
-        - $ref: "#/components/schemas/Timestamp"
+            data:
+              $ref: "#/components/schemas/UserDTO"
+        comment:
+          type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/CommentResponseDataObject"
     ReplayResponseDataObject:
       type: object
       properties:
@@ -4633,10 +4793,18 @@ components:
     ReplayResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/ReplayResponseDataObject"
-        meta:
+        links:
           type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/states/5f9b9b4b3c9b3c2b1c3b2b1c"
     CategoryPatchRequest:
       type: object
       properties:

@@ -1,7 +1,7 @@
 const generateUniqueCode = require("../../utils/generateUniqueCode");
 const { badRequest } = require("../../utils/error");
 const { hashing } = require("../../utils");
-const { userExist, createUser, findByUsername } = require("../user");
+const { userExist, createUser, findByUsername } = require("../user/utils");
 const sendVerificationEmail = require("../../utils/mail/sendVerificationEmail");
 const { findRoleByRoleName } = require("../role");
 

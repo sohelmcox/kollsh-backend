@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { findUserById } = require("../lib/user");
+const { findUserById } = require("../lib/user/utils");
 const { authorizationError, notFound } = require("../utils/error");
 
 const hasOwnership =

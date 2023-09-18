@@ -1,11 +1,11 @@
 const userServices = require("../../../../lib/user");
 
-const findSingle = async (req, res, next) => {
-  const { id } = req.params;
+const userSelf = async (req, res, next) => {
+  const { id } = req.user;
   const { populate } = req.query || "";
-
+  console.log("user", req.user);
   try {
-    const user = await userServices.findSingle({ id, populate });
+    const user = await userServices.userSelf({ id, populate });
     const { id: userId } = user;
     const response = {
       id: userId,
@@ -21,4 +21,4 @@ const findSingle = async (req, res, next) => {
   }
 };
 
-module.exports = findSingle;
+module.exports = userSelf;

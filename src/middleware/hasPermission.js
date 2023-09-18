@@ -1,4 +1,4 @@
-const { findUserByIdPopulateRole } = require("../lib/user");
+const { findUserByIdPopulateRole } = require("../lib/user/utils");
 
 function hasPermission(controller, action) {
   return async (req, res, next) => {

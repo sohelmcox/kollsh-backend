@@ -83,6 +83,15 @@ const defaults = {
     "updatedAt",
     "createdAt",
   ],
+  //user
+  userAllowedSearchFields: ["name", "username", "email", "blocked", "confirm"],
+  userAllowedSorByFields: [
+    "name",
+    "email",
+    "blocked",
+    "updatedAt",
+    "createdAt",
+  ],
 };
 
 module.exports = Object.freeze(defaults);

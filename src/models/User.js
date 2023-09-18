@@ -45,6 +45,7 @@ const UserSchema = new mongoose.Schema(
     emailVerificationAttempts: {
       type: Number,
       default: 0,
+      select: false,
     },
     confirmed: {
       type: Boolean,
