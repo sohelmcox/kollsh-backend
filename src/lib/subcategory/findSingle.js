@@ -25,6 +25,7 @@ const findSingle = async ({ id, populate }) => {
     subcategory = await getSinglePopulatedFields(subcategory, populatedFields);
     // subcategory = await subcategory.populate(populatedFields.join(" "));
   }
-  return { id: subcategory.id, ...subcategory._doc };
+  // return { id: subcategory.id, ...subcategory._doc };
+  return subcategory;
 };
 module.exports = findSingle;

@@ -25,6 +25,7 @@ const findSingle = async ({ id, populate }) => {
     user = await getSinglePopulatedFields(user, populatedFields);
     // user = await user.populate(populatedFields.join(" "));
   }
-  return { id: user.id, ...user._doc };
+  // return { id: user.id, ...user._doc };
+  return user;
 };
 module.exports = findSingle;

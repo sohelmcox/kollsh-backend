@@ -1,5 +1,6 @@
 const indexRoute = require("express").Router();
 const itemRouter = require("./item.routes");
+const itemDetailsRouter = require("./itemDetails.routes");
 const authRouter = require("./auth.routes");
 const stateRouter = require("./state.routes");
 const roleRouter = require("./role.routes");
@@ -14,8 +15,9 @@ const subcategoryRouter = require("./subcategory.routes");
 const attributeRouter = require("./attribute.routes");
 const attributeValueRouter = require("./attributeValue.routes");
 const userRouter = require("./user.routes");
-const replayRouter = require("./replay.routes");
+const replyRouter = require("./reply.routes");
 const metadataRouter = require("./metadata.routes");
+const itemSuggestionRouter = require("./itemSuggestion.routes");
 
 // health check
 indexRoute.get("/health", (req, res) => {
@@ -24,6 +26,7 @@ indexRoute.get("/health", (req, res) => {
 indexRoute.use("/upload", uploadRouter);
 indexRoute.use("/auth", authRouter);
 indexRoute.use("/items", itemRouter);
+indexRoute.use("/item-details", itemDetailsRouter);
 indexRoute.use("/states", stateRouter);
 indexRoute.use("/roles", roleRouter);
 indexRoute.use("/permissions", permissionRouter);
@@ -36,7 +39,8 @@ indexRoute.use("/subcategories", subcategoryRouter);
 indexRoute.use("/attributes", attributeRouter);
 indexRoute.use("/attribute-values", attributeValueRouter);
 indexRoute.use("/users", userRouter);
-indexRoute.use("/replays", replayRouter);
+indexRoute.use("/replies", replyRouter);
 indexRoute.use("/metadata", metadataRouter);
+indexRoute.use("/item-suggestions", itemSuggestionRouter);
 
 module.exports = indexRoute;

@@ -4,7 +4,7 @@ const {
   parsePopulatedFields,
 } = require("../../utils/Query/queryParser");
 const config = require("../../config/defaults");
-const { Replay } = require("../../models");
+const { Comment } = require("../../models");
 const { selectFields } = require("../../utils/Query/selectField");
 const { getPagination } = require("../../utils/Query/getPagination");
 const getHATEOASForAllItems = require("../../utils/Query/getHATEOASForAllItems");
@@ -15,7 +15,7 @@ const removeUndefinedQuery = require("../../utils/Query/removeUndefinedQuery");
 const { removeAllListeners } = require("../../models/Country");
 
 /**
- * Find all Replay based on provided query parameters.
+ * Find all Comments based on provided query parameters.
  *
  * @param {Object} params - The parameters for the query.
  * @param {string} params.sort - Sorting criteria for the query.
@@ -24,14 +24,15 @@ const { removeAllListeners } = require("../../models/Country");
  * @param {Object} params.search - Search criteria for filtering results.
  * @param {string} params.locale - Locale information for localization.
  * @param {number} params.pageNumber - Page number for pagination.
- * @param {number} params.pageSize - Number of Replay per page for pagination.
+ * @param {number} params.pageSize - Number of Comments per page for pagination.
  * @param {number} params.pageStart - Starting index for pagination.
  * @param {string} params.url - URL information.
  * @param {string} params.path - Path information.
  * @param {Object} params.requestQuery - Query parameters from the request.
- * @returns {Object} - The result containing Cities, metadata, and filters.
+ * @returns {Object} - The result containing Comments, metadata, and filters.
  */
-const findAll = async ({
+const findComments = async ({
+  itemId,
   sort,
   fields,
   populate,
@@ -46,7 +47,7 @@ const findAll = async ({
 }) => {
   // Parse query parameters
   const query = {
-    sortCriteria: parseSortCriteria(sort, config.replayAllowedSorByFields),
+    sortCriteria: parseSortCriteria(sort, config.commentAllowedSorByFields),
     selectedFields: parseSelectedFields(fields),
     populatedFields: parsePopulatedFields(populate),
     searchQuery: search,
@@ -61,12 +62,14 @@ const findAll = async ({
   if (query.searchQuery) {
     searchQuery = getSearchQuery(
       query.searchQuery,
-      defaults.replayAllowedSearchFields,
+      defaults.commentAllowedSearchFields,
     );
   }
   const sortStr = query.sortCriteria;
-  // Fetch replays from the database
-  let replays = await Replay.find(searchQuery)
+  // Fetch comments from the database
+  //TODO: implement find by id
+  // itemId
+  let comments = await Comment.find(searchQuery)
     .sort(sortStr)
     .skip(pageNumber * pageSize - pageSize)
     .limit(pageSize)
@@ -75,19 +78,19 @@ const findAll = async ({
   // Apply population
   const { populatedFields } = query;
   if (populatedFields.length > 0) {
-    replays = await getPopulatedFields(populatedFields, replays);
+    comments = await getPopulatedFields(populatedFields, comments);
   }
 
   // Select fields
   if (query.selectedFields.length > 0) {
-    replays = selectFields(replays, query.selectedFields);
+    comments = selectFields(comments, query.selectedFields);
   }
   // skip pageStart
   if (query.skip > 0) {
-    replays = replays.slice(query.skip);
+    comments = comments.slice(query.skip);
   }
   // limit totalEntities
-  const totalCount = await Replay.count(searchQuery);
+  const totalCount = await Comment.count(searchQuery);
   const pagination = getPagination({
     totalCount,
     pageSize,
@@ -121,14 +124,14 @@ const findAll = async ({
   };
   let finalItems = [];
   if (query.selectedFields.length > 0) {
-    finalItems = replays.map((replay) => ({
-      id: replay.id,
-      data: { ...replay },
+    finalItems = comments.map((comment) => ({
+      id: comment.id,
+      data: { ...comment },
     }));
   } else {
-    finalItems = replays.map((replay) => ({
-      id: replay.id,
-      data: { ...replay._doc },
+    finalItems = comments.map((comment) => ({
+      id: comment.id,
+      data: { ...comment._doc },
     }));
   }
 
@@ -145,4 +148,4 @@ const findAll = async ({
   return data;
 };
 
-module.exports = findAll;
+module.exports = findComments;

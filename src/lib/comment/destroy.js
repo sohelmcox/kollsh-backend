@@ -1,19 +1,19 @@
-const { Role } = require("../../models");
+const { Comment } = require("../../models");
 const { notFound } = require("../../utils/error");
 /**
- * Destroy (delete) an role by its ID.
+ * Destroy (delete) an comment by its ID.
  *
- * @param {string} id - The ID of the role to be deleted.
- * @throws {Error} - Throws an error if the role with the provided ID is not found.
+ * @param {string} id - The ID of the comment to be deleted.
+ * @throws {Error} - Throws an error if the comment with the provided ID is not found.
  */
 const destroy = async (id) => {
-  const role = await Role.findById(id);
-  if (!role) {
-    throw notFound("Role not found.");
+  const comment = await Comment.findById(id);
+  if (!comment) {
+    throw notFound("Comment not found.");
   }
   // TODO:
-  // Asynchronously delete all replay
+  // Asynchronously delete all reply
 
-  await role.deleteOne();
+  await comment.deleteOne();
 };
 module.exports = destroy;

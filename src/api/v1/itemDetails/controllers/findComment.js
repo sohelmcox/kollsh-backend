@@ -1,9 +1,10 @@
-const replayServices = require("../../../../lib/replay");
+const itemDetailsService = require("../../../../lib/itemDetails");
 
-const find = async (req, res, next) => {
+const findComment = async (req, res, next) => {
   try {
     // Retrieve query parameters
     const {
+      itemId,
       sort,
       fields,
       populate,
@@ -13,8 +14,9 @@ const find = async (req, res, next) => {
       pageStart,
       search,
     } = req.query;
-    // Parse query parameters
-    const data = await replayServices.findAll({
+    // Parse query parameter
+    const data = await itemDetailsService.findComments({
+      itemId,
       sort,
       fields,
       populate,
@@ -33,4 +35,4 @@ const find = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = find;
+module.exports = findComment;

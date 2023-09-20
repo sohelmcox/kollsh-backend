@@ -476,7 +476,12 @@ paths:
         - Item
       parameters:
         - $ref: "#/components/parameters/id"
-        - $ref: "#/components/parameters/queryIdParam"
+        - name: populate
+          in: query
+          description: populate relations
+          schema:
+            type: string
+            example: "details"
       operationId: "get/items/{id}"
     put:
       responses:
@@ -583,22 +588,6 @@ paths:
       operationId: "get/items/{id}/seller"
   /item-details:
     get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ItemsDetailListResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Item-details
-      summary: get all items details
       parameters:
         - $ref: "#/components/parameters/sortParams"
         - $ref: "#/components/parameters/paginationPage"
@@ -608,15 +597,30 @@ paths:
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
-      operationId: get/item-details
-    post:
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ItemsDetailResponse"
+                $ref: "#/components/schemas/ItemDetailsListResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - ItemDetails
+      operationId: get/item-details
+    post:
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemDetailsResponse"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -628,17 +632,18 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-details
+        - ItemDetails
       security:
         - bearerAuth: []
       parameters: []
-      operationId: post/item-details
+      operationId: post/item-details/
+      summary: Create a new item and item details
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ItemsDetailRequest"
+              $ref: "#/components/schemas/ItemDetailsRequest"
   /item-details/{id}:
     get:
       responses:
@@ -647,7 +652,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ItemsDetailResponse"
+                $ref: "#/components/schemas/ItemDetailsResponseDataObject"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - ItemDetails
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - name: populate
+          in: query
+          description: populate relations
+          schema:
+            type: string
+            example: "comments"
+      operationId: "get/item-details/{id}"
+    put:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemDetailsResponse"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -659,10 +689,18 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-details
+        - ItemDetails
+      security:
+        - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "get/item-details/{id}"
+      operationId: "put/item-details/{id}"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemDetailsRequest"
     patch:
       responses:
         "200":
@@ -670,7 +708,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ItemsDetailResponse"
+                $ref: "#/components/schemas/ItemDetailsResponse"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -682,18 +720,18 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-details
+        - ItemDetails
       security:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "patch/item-details/{id}"
       requestBody:
-        required: true
+        required: false
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ItemsDetailRequest"
+              $ref: "#/components/schemas/ItemDetailsPatchRequest"
     delete:
       responses:
         "202":
@@ -709,13 +747,13 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-details
+        - ItemDetails
       security:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/item-details/{id}"
-  /items/:id/comments:
+  /item-details/{id}/comments:
     get:
       responses:
         "200":
@@ -731,8 +769,15 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-details
+        - ItemDetails
       parameters:
+        - name: itemId
+          in: path
+          description: ""
+          deprecated: false
+          required: true
+          schema:
+            type: string
         - $ref: "#/components/parameters/sortParams"
         - $ref: "#/components/parameters/paginationPage"
         - $ref: "#/components/parameters/paginationPageSize"
@@ -761,7 +806,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-details
+        - ItemDetails
       security:
         - bearerAuth: []
       parameters: []
@@ -1177,7 +1222,25 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: "#/components/schemas/ImageRequest"
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                folderName:
+                  type: string
+                  description: folder name to upload file
+                  example: "items"
+                width:
+                  type: number
+                  description: width of the file
+                  example: 400
+                height:
+                  type: number
+                  description: height of the file
+                  example: 400
       security:
         - bearerAuth: []
       responses:
@@ -1358,6 +1421,12 @@ paths:
         - Comment
       parameters:
         - $ref: "#/components/parameters/id"
+        - name: populate
+          in: query
+          description: populate relations
+          schema:
+            type: string
+            example: "replies"
       operationId: "get/comments/{id}"
     put:
       responses:
@@ -1842,203 +1911,6 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/attribute-values/{id}"
-  /attribute-categories:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AttributeCategoryListResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      parameters:
-        - $ref: "#/components/parameters/sortParams"
-        - $ref: "#/components/parameters/paginationPage"
-        - $ref: "#/components/parameters/paginationPageSize"
-        - $ref: "#/components/parameters/paginationStart"
-        - $ref: "#/components/parameters/fields"
-        - $ref: "#/components/parameters/populate"
-        - $ref: "#/components/parameters/search"
-        - $ref: "#/components/parameters/locale"
-      operationId: get/attribute-categories
-    post:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AttributeCategoryResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      security:
-        - bearerAuth: []
-      parameters: []
-      operationId: post/attribute-categories
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AttributeCategoryRequest"
-    delete:
-      responses:
-        "202":
-          description: "example(5) Attribute-categories Deleted"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: number
-                    example: 202
-                  message:
-                    type: string
-                    example: "5 Attribute-categories Deleted"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      summary: delete many attribute categories
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/IdsRequestObject"
-      security:
-        - bearerAuth: []
-      operationId: "delete/attributes-categories"
-  /attribute-categories/{id}:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AttributeCategoryResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "get/attribute-categories/{id}"
-    put:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AttributeCategoryResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "put/attribute-categories/{id}"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AttributeCategoryRequest"
-    patch:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/AttributeCategoryResponse"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "patch/attribute-categories/{id}"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AttributeCategoryPatchRequest"
-    delete:
-      responses:
-        "202":
-          $ref: "#/components/responses/202"
-        "400":
-          $ref: "#/components/responses/400"
-        "401":
-          $ref: "#/components/responses/401"
-        "403":
-          $ref: "#/components/responses/403"
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-      tags:
-        - Attribute-category
-      security:
-        - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "delete/attribute-categories/{id}"
   /brands:
     get:
       responses:
@@ -2350,6 +2222,12 @@ paths:
         - Category
       parameters:
         - $ref: "#/components/parameters/id"
+        - name: populate
+          in: query
+          description: populate relations
+          schema:
+            type: string
+            example: "subcategories"
       operationId: "get/categories/{id}"
     put:
       responses:
@@ -2746,6 +2624,12 @@ paths:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
+        - name: populate
+          in: query
+          description: populate relations
+          schema:
+            type: string
+            example: "states"
       operationId: "get/countries/{id}"
     put:
       responses:
@@ -2830,7 +2714,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/countries/{id}"
-  /replays:
+  /replies:
     get:
       responses:
         "200":
@@ -2838,7 +2722,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ReplayListResponse"
+                $ref: "#/components/schemas/ReplyListResponse"
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -2846,7 +2730,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Replay
+        - Reply
       parameters:
         - $ref: "#/components/parameters/sortParams"
         - $ref: "#/components/parameters/paginationPage"
@@ -2856,7 +2740,7 @@ paths:
         - $ref: "#/components/parameters/populate"
         - $ref: "#/components/parameters/search"
         - $ref: "#/components/parameters/locale"
-      operationId: get/replays
+      operationId: get/replies
     post:
       responses:
         "200":
@@ -2864,7 +2748,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ReplayResponse"
+                $ref: "#/components/schemas/ReplyResponse"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2876,21 +2760,21 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Replay
+        - Reply
       security:
         - bearerAuth: []
       parameters: []
-      operationId: post/replays
+      operationId: post/replies
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ReplayRequest"
+              $ref: "#/components/schemas/ReplyRequest"
     delete:
       responses:
         "202":
-          description: "example(5) Replays Deleted"
+          description: "example(5) Replies Deleted"
           content:
             application/json:
               schema:
@@ -2901,7 +2785,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                    example: "5 Replays Deleted"
+                    example: "5 Replies Deleted"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2913,7 +2797,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Replay
+        - Reply
       requestBody:
         required: true
         content:
@@ -2922,8 +2806,8 @@ paths:
               $ref: "#/components/schemas/IdsRequestObject"
       security:
         - bearerAuth: []
-      operationId: "delete/replays"
-  /replays/{id}:
+      operationId: "delete/replies"
+  /replies/{id}:
     get:
       responses:
         "200":
@@ -2931,7 +2815,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ReplayResponseDataObject"
+                $ref: "#/components/schemas/ReplyResponseDataObject"
         "400":
           $ref: "#/components/responses/400"
         "404":
@@ -2939,11 +2823,10 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Replay
+        - Reply
       parameters:
         - $ref: "#/components/parameters/id"
-        - $ref: "#/components/parameters/queryIdParam"
-      operationId: "get/replays/{id}"
+      operationId: "get/replies/{id}"
     patch:
       responses:
         "200":
@@ -2951,7 +2834,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ReplayResponse"
+                $ref: "#/components/schemas/ReplyResponse"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -2963,18 +2846,18 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Replay
+        - Reply
       security:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "patch/replays/{id}"
+      operationId: "patch/replies/{id}"
       requestBody:
         required: false
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ReplayPatchRequest"
+              $ref: "#/components/schemas/ReplyPatchRequest"
     delete:
       responses:
         "202":
@@ -2990,12 +2873,12 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Replay
+        - Reply
       security:
         - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
-      operationId: "delete/replays/{id}"
+      operationId: "delete/replies/{id}"
   /subcategories:
     get:
       responses:
@@ -3665,7 +3548,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-suggestion
+        - ItemSuggestion
       parameters:
         - $ref: "#/components/parameters/sortParams"
         - $ref: "#/components/parameters/paginationPage"
@@ -3695,7 +3578,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-suggestion
+        - ItemSuggestion
       security:
         - bearerAuth: []
       parameters: []
@@ -3706,6 +3589,27 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ItemSuggestionRequest"
+    delete:
+      responses:
+        "202":
+          $ref: "#/components/responses/202"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - ItemSuggestion
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "delete/item-suggestions/{id}"
   /item-suggestions/{id}:
     get:
       responses:
@@ -3722,7 +3626,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-suggestion
+        - ItemSuggestion
       security:
         - bearerAuth: []
       parameters:
@@ -3747,7 +3651,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-suggestion
+        - ItemSuggestion
       security:
         - bearerAuth: []
       parameters:
@@ -3759,6 +3663,37 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/ItemSuggestionRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemSuggestionResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - ItemSuggestion
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/item-suggestions/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemSuggestionPatchRequest"
     delete:
       responses:
         "202":
@@ -3774,7 +3709,7 @@ paths:
         "500":
           $ref: "#/components/responses/500"
       tags:
-        - Item-suggestion
+        - ItemSuggestion
       security:
         - bearerAuth: []
       parameters:
@@ -4227,6 +4162,8 @@ components:
               type: boolean
             is_argent:
               type: boolean
+            itemDetails:
+              $ref: "#/components/schemas/ObjectTypeRelationId"
             brand:
               oneOf:
                 - $ref: "#/components/schemas/ObjectTypeRelationId"
@@ -4240,16 +4177,17 @@ components:
       type: object
       required:
         - name
-        - description
         - thumbnail
         - subcategory
         - state
         - cities
         - price
+        - item
+        - description
+        - images
+        - contactNumber
       properties:
         name:
-          type: string
-        description:
           type: string
         released:
           type: string
@@ -4289,7 +4227,49 @@ components:
             - type: integer
             - type: string
           example: string or id
-        seller:
+        item:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        description:
+          type: string
+        images:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        comments:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        contactNumber:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        whatsappNumber:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+        latitude:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        longitude:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        metadata:
           oneOf:
             - type: integer
             - type: string
@@ -4347,8 +4327,18 @@ components:
     ItemResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/ItemResponseDataObject"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/items/5f9b9b4b3c9b3c2b1c3b2b1c"
     ItemResponseDataObject:
       type: object
       properties:
@@ -4385,138 +4375,183 @@ components:
             $ref: "#/components/schemas/ItemListResponseDataItem"
         meta:
           $ref: "#/components/schemas/ListDataMetaResponse"
-    ItemsDetail:
-      allOf:
-        - type: object
-          required:
-            - description
-            - images
-            - ContactNumber
-          properties:
-            description:
-              type: string
-            images:
-              type: object
-              properties:
-                data:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/Image"
-            comments:
-              type: object
-              properties:
-                data:
-                  type: array
-                  items:
-                    $ref: "#/components/schemas/CommentResponseDataObject"
-            contactNumber:
-              type: string
-              pattern: ^\d*$
-              example: "123456789"
-            whatsappNumber:
-              type: string
-              pattern: ^\d*$
-              example: "123456789"
-            email:
-              type: string
-              format: email
-            address:
-              type: string
-            latitude:
-              type: string
-              pattern: ^\d*$
-              example: "123456789"
-            longitude:
-              type: string
-              pattern: ^\d*$
-              example: "123456789"
-        - $ref: "#/components/schemas/Timestamp"
-    ItemsDetailRequest:
+    ItemDetails:
       type: object
       properties:
-        data:
-          required:
-            - item
-            - description
-            - images
-            - ContactNumber
+        description:
+          type: string
+        images:
           type: object
           properties:
-            item:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            description:
-              type: string
-            images:
+            data:
               type: array
               items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            comments:
+                $ref: "#/components/schemas/Image"
+        tag:
+          type: string
+          default: "hello"
+        comments:
+          type: object
+          properties:
+            data:
               type: array
               items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            ContactNumber:
-              type: string
-              pattern: ^\d*$
-              example: "123456789"
-            whatsappNumber:
-              type: string
-              pattern: ^\d*$
-              example: "123456789"
-            email:
-              type: string
-              format: email
-            address:
-              type: string
-            latitude:
-              type: string
-              pattern: ^\d*$
-              example: "123456789"
-            longitude:
-              type: string
-              pattern: ^\d*$
-              example: "123456789"
-            metadata:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-    ItemsDetailResponseDataObject:
+                $ref: "#/components/schemas/CommentResponseDataObject"
+        contactNumber:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        whatsappNumber:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+        latitude:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        longitude:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+    ItemDetailsRequest:
+      required:
+        - item
+        - description
+        - images
+        - contactNumber
+      type: object
+      properties:
+        item:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        description:
+          type: string
+        images:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        contactNumber:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        whatsappNumber:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+        latitude:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        longitude:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        metadata:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+    ItemDetailsPatchRequest:
+      type: object
+      properties:
+        item:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        description:
+          type: string
+        images:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        comments:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        ContactNumber:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        whatsappNumber:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        email:
+          type: string
+          format: email
+        address:
+          type: string
+        latitude:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        longitude:
+          type: string
+          pattern: ^\d*$
+          example: "123456789"
+        metadata:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+    ItemDetailsResponseDataObject:
       type: object
       properties:
         id:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
-          $ref: "#/components/schemas/ItemsDetail"
-    ItemsDetailResponse:
+          $ref: "#/components/schemas/ItemDetails"
+    ItemDetailsResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
-          $ref: "#/components/schemas/ItemsDetailResponseDataObject"
-        meta:
+          $ref: "#/components/schemas/ItemDetailsResponseDataObject"
+        links:
           type: object
-    ItemsDetailListResponseDataItem:
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/items/5f9b9b4b3c9b3c2b1c3b2b1c"
+    ItemDetailsListResponseDataItem:
       type: object
       properties:
         id:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
-          $ref: "#/components/schemas/ItemsDetail"
-    ItemsDetailListResponse:
+          $ref: "#/components/schemas/ItemDetails"
+    ItemDetailsListResponse:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/ItemsDetailListResponseDataItem"
+            $ref: "#/components/schemas/ItemDetailsListResponseDataItem"
         meta:
           type: object
           properties:
@@ -4531,40 +4566,66 @@ components:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     ItemSuggestionRequest:
       type: object
-      required:
-        - data
       properties:
-        data:
-          type: object
-          properties:
-            userId:
-              oneOf:
-                - type: integer
-                - type: string
-              example: string or id
-            categories:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            subcategories:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
-            brands:
-              type: array
-              items:
-                oneOf:
-                  - type: integer
-                  - type: string
-                example: string or id
+        user:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        categories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        subcategories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        brands:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+    ItemSuggestionPatchRequest:
+      type: object
+      properties:
+        user:
+          oneOf:
+            - type: integer
+            - type: string
+          example: string or id
+        categories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        subcategories:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
+        brands:
+          type: array
+          items:
+            oneOf:
+              - type: integer
+              - type: string
+            example: string or id
     ItemSuggestionListResponseDataItem:
       type: object
       properties:
@@ -4584,10 +4645,14 @@ components:
           properties:
             pagination:
               $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
     ItemSuggestion:
       allOf:
         - type: object
           properties:
+            user:
+              $ref: "#/components/schemas/UserDTO"
             categories:
               type: object
               properties:
@@ -4620,30 +4685,38 @@ components:
     ItemSuggestionResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/ItemSuggestionResponseDataObject"
-        meta:
+        links:
           type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/replies/5f9b9b4b3c9b3c2b1c3b2b1c"
     Comment:
       allOf:
         - type: object
           properties:
             content:
               type: string
-            item:
+            itemDetails:
               type: string
             author:
               type: object
               properties:
                 data:
                   $ref: "#/components/schemas/UserDTO"
-            replays:
+            replies:
               type: object
               properties:
                 data:
                   type: array
                   items:
-                    $ref: "#/components/schemas/ReplayResponseDataObject"
+                    $ref: "#/components/schemas/ReplyResponseDataObject"
         - $ref: "#/components/schemas/Timestamp"
     CommentListResponseDataItem:
       type: object
@@ -4662,16 +4735,14 @@ components:
         meta:
           type: object
           properties:
-            item:
+            links:
               type: object
               properties:
                 self:
                   type: string
-                seller:
+                next:
                   type: string
-                author:
-                  type: string
-                subcategory:
+                prev:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
@@ -4682,7 +4753,7 @@ components:
       properties:
         content:
           type: string
-        item:
+        itemDetails:
           oneOf:
             - type: integer
             - type: string
@@ -4690,10 +4761,18 @@ components:
     CommentResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/CommentResponseDataObject"
-        meta:
+        links:
           type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/comments/5f9b9b4b3c9b3c2b1c3b2b1c"
     CommentResponseDataObject:
       type: object
       properties:
@@ -4701,7 +4780,7 @@ components:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
           $ref: "#/components/schemas/Comment"
-    ReplayRequest:
+    ReplyRequest:
       type: object
       properties:
         content:
@@ -4714,25 +4793,25 @@ components:
       required:
         - content
         - comment
-    ReplayPatchRequest:
+    ReplyPatchRequest:
       type: object
       properties:
         content:
           type: string
-    ReplayListResponseDataItem:
+    ReplyListResponseDataItem:
       type: object
       properties:
         id:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
-          $ref: "#/components/schemas/Replay"
-    ReplayListResponse:
+          $ref: "#/components/schemas/Reply"
+    ReplyListResponse:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/ReplayListResponseDataItem"
+            $ref: "#/components/schemas/ReplyListResponseDataItem"
         meta:
           type: object
           properties:
@@ -4751,7 +4830,7 @@ components:
               $ref: "#/components/schemas/Pagination"
             appliedFilters:
               $ref: "#/components/schemas/AppliedFilters"
-    Replay:
+    Reply:
       type: object
       properties:
         content:
@@ -4766,14 +4845,14 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/CommentResponseDataObject"
-    ReplayResponseDataObject:
+    ReplyResponseDataObject:
       type: object
       properties:
         id:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
-          $ref: "#/components/schemas/Replay"
-    ReplayResponse:
+          $ref: "#/components/schemas/Reply"
+    ReplyResponse:
       type: object
       properties:
         code:
@@ -4781,13 +4860,13 @@ components:
         message:
           type: string
         data:
-          $ref: "#/components/schemas/ReplayResponseDataObject"
+          $ref: "#/components/schemas/ReplyResponseDataObject"
         links:
           type: object
           properties:
             self:
               type: string
-              example: "http://localhost:4000/states/5f9b9b4b3c9b3c2b1c3b2b1c"
+              example: "http://localhost:4000/replies/5f9b9b4b3c9b3c2b1c3b2b1c"
     CategoryPatchRequest:
       type: object
       properties:

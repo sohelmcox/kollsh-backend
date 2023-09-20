@@ -5,6 +5,7 @@ const update = async (req, res, next) => {
   const {
     item,
     description,
+    images,
     contactNumber,
     whatsappNumber,
     email,
@@ -16,13 +17,13 @@ const update = async (req, res, next) => {
     const { data, code } = await itemDetailsService.updateOrCreate(id, {
       item,
       description,
+      images,
       contactNumber,
       whatsappNumber,
       email,
       address,
       latitude,
       longitude,
-      images: ["imageId"],
     });
 
     const response = {

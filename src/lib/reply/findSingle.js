@@ -1,33 +1,34 @@
 const { parsePopulatedFields } = require("../../utils/Query/queryParser");
-const { Replay, Comment } = require("../../models");
+const { Reply, Comment } = require("../../models");
 const {
   getSinglePopulatedFields,
 } = require("../../utils/Query/getPopulatedFields");
 const { notFound } = require("../../utils/error");
 
 /**
- * Find a single replay based on provided ID and populate fields if specified.
+ * Find a single reply based on provided ID and populate fields if specified.
  *
  * @param {Object} params - The parameters for the query.
- * @param {string} params.id - The ID of the replay to find.
+ * @param {string} params.id - The ID of the reply to find.
  * @param {string[]} params.populate - Fields to populate in the result.
- * @returns {Object} - The replay data with populated fields if requested.
+ * @returns {Object} - The reply data with populated fields if requested.
  */
 const findSingle = async ({ id, populate }) => {
   const populatedFields = parsePopulatedFields(populate);
-  let replay = await Replay.findById(id).exec();
-  if (!replay) {
-    throw notFound("Replay Not Found");
+  let reply = await Reply.findById(id).exec();
+  if (!reply) {
+    throw notFound("Reply Not Found");
   }
-  const isCommentExist = Comment.findById(replay.comment);
+  const isCommentExist = Comment.findById(reply.comment);
   if (!isCommentExist) {
     throw notFound("This Comment Is Not Found");
   }
   // Apply population
   if (populatedFields.length > 0) {
-    replay = await getSinglePopulatedFields(replay, populatedFields);
-    // replay = await replay.populate(populatedFields.join(" "));
+    reply = await getSinglePopulatedFields(reply, populatedFields);
+    // reply = await reply.populate(populatedFields.join(" "));
   }
-  return { id: replay.id, ...replay._doc };
+  // return { id: reply.id, ...reply._doc };
+  return reply;
 };
 module.exports = findSingle;

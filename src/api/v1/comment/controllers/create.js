@@ -8,11 +8,11 @@ const commentServices = require("../../../../lib/comment");
  * @returns {void}
  */
 const create = async (req, res, next) => {
-  const { content, item } = req.body;
+  const { content, itemDetails } = req.body;
   try {
     const comment = await commentServices.create({
       content,
-      item,
+      itemDetails,
       author: req.user.id,
     });
     const response = {

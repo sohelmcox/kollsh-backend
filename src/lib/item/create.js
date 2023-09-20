@@ -1,6 +1,6 @@
 const { Item } = require("../../models");
 const { generateUniqueSlug } = require("../../utils/generateUniqueSlug");
-
+const { create: createItemDetails } = require("../itemDetails");
 /**
  * Create a new item.
  *
@@ -19,12 +19,20 @@ const { generateUniqueSlug } = require("../../utils/generateUniqueSlug");
  * @param {string} itemData.seller - The seller of the item.
  * @param {string} itemData.createdBy - The user who created the item.
  * @param {string} itemData.updatedBy - The user who updated the item.
+ * --details
+ * @param {string} itemData.description - The description of the item.
+ * @param {string[]} itemData.images - An array of images associated with the item.
+ * @param {string} itemData.contactNumber - The contact number of the item.
+ * @param {string} itemData.whatsappNumber - The whatsapp number of the item.
+ * @param {string} itemData.email - The email of the item.
+ * @param {string} itemData.address - The address of the item.
+ * @param {number} itemData.latitude - The latitude of the item.
+ * @param {number} itemData.longitude - The longitude of the item.
  *
  * @returns {Object} - The newly created item with additional properties (id).
  */
 const create = async ({
   name,
-  description,
   released,
   thumbnail,
   subcategory,
@@ -37,13 +45,21 @@ const create = async ({
   seller,
   createdBy,
   updatedBy,
+  // details part
+  description,
+  images,
+  contactNumber,
+  whatsappNumber,
+  email,
+  address,
+  latitude,
+  longitude,
 }) => {
   // Generate a unique slug
   const uniqueSlug = await generateUniqueSlug(Item, name);
   const itemData = {
     name,
     slug: uniqueSlug,
-    description,
     released,
     thumbnail,
     subcategory,
@@ -68,7 +84,37 @@ const create = async ({
   // Save the new item to the database
   await newItem.save();
 
-  return { ...newItem._doc, id: newItem.id };
+  // Create item details
+  const itemDetailsData = {
+    item: newItem._id,
+    description,
+    images,
+    contactNumber,
+    whatsappNumber,
+    email,
+    address,
+    latitude,
+    longitude,
+  };
+
+  const itemDetailsCreateService = await createItemDetails(itemDetailsData);
+  // generate response
+  const response = {
+    code: 201,
+    message: "Item Created Successfully",
+    data: {
+      id: newItem.id,
+      ...newItem._doc,
+      details: { ...itemDetailsCreateService },
+    },
+    links: {
+      self: `/items/${newItem.id}`,
+      seller: `/items/${newItem.id}/seller`,
+      details: `/item-details/${itemDetailsCreateService.id}`,
+      comments: `/item-details/${itemDetailsCreateService.id}/comments`,
+    },
+  };
+  return response;
 };
 
 module.exports = create;

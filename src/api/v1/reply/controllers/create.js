@@ -1,6 +1,6 @@
-const replayServices = require("../../../../lib/replay");
+const replyServices = require("../../../../lib/reply");
 /**
- * Create a new Replay.
+ * Create a new Reply.
  *
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
@@ -10,18 +10,18 @@ const replayServices = require("../../../../lib/replay");
 const create = async (req, res, next) => {
   const { content, comment } = req.body;
   try {
-    const replay = await replayServices.create({
+    const reply = await replyServices.create({
       content,
       comment,
       user: req.user.id,
     });
-    const { id: replayId } = replay;
+    const { id: replyId } = reply;
     const response = {
       code: 201,
-      message: "Replay Created Successfully",
-      data: replay,
+      message: "Reply Created Successfully",
+      data: reply,
       links: {
-        self: `/replays/${replayId}`,
+        self: `/replies/${replyId}`,
       },
     };
 

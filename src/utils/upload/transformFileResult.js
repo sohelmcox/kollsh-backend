@@ -1,4 +1,4 @@
-const transformImageResult = (data) => {
+const transformFileResult = (data) => {
   const {
     asset_id,
     public_id,
@@ -23,4 +23,4 @@ const transformImageResult = (data) => {
   };
 };
 
-module.exports = transformImageResult;
+module.exports = transformFileResult;

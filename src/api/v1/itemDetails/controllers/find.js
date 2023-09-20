@@ -13,7 +13,7 @@ const find = async (req, res, next) => {
       pageStart,
       search,
     } = req.query;
-    // Parse query parameters
+    // Parse query parameters);
     const data = await itemDetailsService.findAll({
       sort,
       fields,

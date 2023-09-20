@@ -1,4 +1,4 @@
-const { Replay } = require("../../models");
+const { Reply } = require("../../models");
 const { notFound } = require("../../utils/error");
 /**
  * Destroy (delete) an brand by its ID.
@@ -7,7 +7,7 @@ const { notFound } = require("../../utils/error");
  * @throws {Error} - Throws an error if the brand with the provided ID is not found.
  */
 const destroy = async (id) => {
-  const brand = await Replay.findById(id);
+  const brand = await Reply.findById(id);
   if (!brand) {
     throw notFound("brand not found.");
   }

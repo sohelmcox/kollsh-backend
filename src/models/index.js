@@ -10,7 +10,7 @@ const ItemDetails = require("./ItemDetails");
 // eslint-disable-next-line import/no-unresolved
 const Metadata = require("./Metadata");
 const Notification = require("./Notification");
-const Replay = require("./Replay");
+const Reply = require("./Reply");
 const State = require("./State");
 const Subcategory = require("./Subcategory");
 const User = require("./User");
@@ -18,6 +18,7 @@ const UserProfile = require("./UserProfile");
 const Brand = require("./Brand");
 const Role = require("./Role");
 const Permission = require("./Permission");
+const ItemSuggestion = require("./ItemSuggestion");
 
 module.exports = {
   Attribute,
@@ -31,12 +32,13 @@ module.exports = {
   ItemDetails,
   Metadata,
   Notification,
-  Replay,
   State,
   Subcategory,
   User,
   UserProfile,
   Brand,
+  Reply,
   Role,
   Permission,
+  ItemSuggestion,
 };

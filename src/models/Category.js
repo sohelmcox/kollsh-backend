@@ -32,14 +32,24 @@ const CategorySchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    attribute_categories: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "AttributeCategory",
-      },
-    ],
+    // attribute_categories: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "AttributeCategory",
+    //   },
+    // ],
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
 );
+CategorySchema.virtual("subcategories", {
+  ref: "Subcategory",
+  foreignField: "category",
+  localField: "_id",
+  justOne: true,
+});
 
 module.exports = mongoose.model("Category", CategorySchema);

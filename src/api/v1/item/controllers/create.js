@@ -10,7 +10,6 @@ const itemService = require("../../../../lib/item");
 const create = async (req, res, next) => {
   const {
     name,
-    description,
     released,
     thumbnail,
     subcategory,
@@ -20,11 +19,19 @@ const create = async (req, res, next) => {
     negotiable,
     is_argent,
     brand,
+    // details part
+    description,
+    images,
+    contactNumber,
+    whatsappNumber,
+    email,
+    address,
+    latitude,
+    longitude,
   } = req.body;
   try {
-    const newItem = await itemService.create({
+    const response = await itemService.create({
       name,
-      description,
       released,
       thumbnail,
       subcategory,
@@ -37,19 +44,16 @@ const create = async (req, res, next) => {
       seller: req.user.id,
       createdBy: req.user.id,
       updatedBy: req.user.id,
+      // details part
+      description,
+      images,
+      contactNumber,
+      whatsappNumber,
+      email,
+      address,
+      latitude,
+      longitude,
     });
-
-    const response = {
-      code: 201,
-      message: "Item Created Successfully",
-      data: newItem,
-      links: {
-        self: `/items/${newItem.id}`,
-        seller: `/items/${newItem.id}/seller`,
-        comments: `/item-details/${newItem.id}/comments`,
-      },
-    };
-
     res.status(201).json(response);
   } catch (error) {
     next(error);

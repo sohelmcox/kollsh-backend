@@ -5,10 +5,15 @@ const { ItemDetails } = require("../../models");
  *
  * @param {string} id - The ID of the itemDetail to update. If it doesn't exist, a new itemDetail will be created.
  * @param {Object} data - Updated data for the itemDetail.
- * @param {string} data.name - The updated name of the itemDetail.
+ * @param {string} data.item - The updated item of the itemDetail.
  * @param {string} data.description - The updated description of the itemDetail.
- * @param {string} data.permission - The updated permission of the itemDetail.
- * @param {string} data.createdBy - The updated createdBy of the itemDetail.
+ * @param {string} data.images - The updated images of the itemDetail.
+ * @param {string} data.contactNumber - The updated contactNumber of the itemDetail.
+ * @param {string} data.whatsappNumber - The updated whatsappNumber of the itemDetail.
+ * @param {string} data.email - The updated email of the itemDetail.
+ * @param {string} data.address - The updated address of the itemDetail.
+ * @param {string} data.latitude - The updated latitude of the itemDetail.
+ * @param {string} data.longitude - The updated longitude of the itemDetail.
  *
  * @returns {Object} - An object containing the updated itemDetail or newly created itemDetail and a status code (201 for creation, 200 for update).
  */
@@ -18,13 +23,13 @@ const updateOrCreate = async (
   {
     item,
     description,
+    images,
     contactNumber,
     whatsappNumber,
     email,
     address,
     latitude,
     longitude,
-    images,
   },
 ) => {
   const itemDetails = await ItemDetails.findById(id);
@@ -32,13 +37,13 @@ const updateOrCreate = async (
     const newItemDetails = await ItemDetails.create({
       item,
       description,
+      images,
       contactNumber,
       whatsappNumber,
       email,
       address,
       latitude,
       longitude,
-      images,
     });
     await newItemDetails.save();
     return {
@@ -50,13 +55,13 @@ const updateOrCreate = async (
   const payload = {
     item,
     description,
+    images,
     contactNumber,
     whatsappNumber,
     email,
     address,
     latitude,
     longitude,
-    images,
   };
 
   itemDetails.overwrite(payload);

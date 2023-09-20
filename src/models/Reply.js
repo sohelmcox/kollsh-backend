@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ReplaySchema = new mongoose.Schema(
+const ReplySchema = new mongoose.Schema(
   {
     content: {
       type: String,
@@ -14,7 +14,7 @@ const ReplaySchema = new mongoose.Schema(
       ref: "Comment",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-module.exports = mongoose.model("Replay", ReplaySchema);
+module.exports = mongoose.model("Reply", ReplySchema);

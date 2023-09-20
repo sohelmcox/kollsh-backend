@@ -15,6 +15,7 @@ const findSingle = async (id) => {
     throw notFound();
   }
 
-  return { id: metadata.id, ...metadata._doc };
+  // return { id: metadata.id, ...metadata._doc };
+  return metadata;
 };
 module.exports = findSingle;

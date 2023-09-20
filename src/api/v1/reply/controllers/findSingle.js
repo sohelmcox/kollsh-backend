@@ -1,17 +1,17 @@
-const replayServices = require("../../../../lib/replay");
+const replyServices = require("../../../../lib/reply");
 
 const findSingle = async (req, res, next) => {
   const { id } = req.params;
   const { populate } = req.query || "";
 
   try {
-    const replay = await replayServices.findSingle({ id, populate });
-    const { id: replayId, comment } = replay;
+    const reply = await replyServices.findSingle({ id, populate });
+    const { id: replyId, comment } = reply;
     const response = {
-      id: replayId,
-      data: replay,
+      id: replyId,
+      data: reply,
       links: {
-        self: `/replays/${replayId}`,
+        self: `/replies/${replyId}`,
         comment: `/comments/${populate ? comment?.id : comment}`,
       },
     };

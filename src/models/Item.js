@@ -6,10 +6,6 @@ const ItemSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    description: {
-      type: String,
-      required: true,
-    },
     released: {
       type: Date,
       required: true,
@@ -30,11 +26,6 @@ const ItemSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "State",
     },
-    comment: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
-    },
-
     cities: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -62,7 +53,20 @@ const ItemSchema = new mongoose.Schema(
       ref: "User",
     },
   },
-  { timestamps: true },
+
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+    timestamps: true,
+  },
 );
+// Define a virtual field for details
+ItemSchema.virtual("details", {
+  ref: "ItemDetails",
+  localField: "_id",
+  foreignField: "item",
+});
+
+// console.log("ItemSchema", ItemSchema.seller);
 
 module.exports = mongoose.model("Item", ItemSchema);

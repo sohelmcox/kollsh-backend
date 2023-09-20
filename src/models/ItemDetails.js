@@ -36,12 +36,12 @@ const ItemDetailsSchema = new mongoose.Schema(
     address: {
       type: String,
     },
-    comments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
-      },
-    ],
+    // comments: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Comment",
+    //   },
+    // ],
     latitude: {
       type: String,
       match: /^\d*$/,
@@ -57,7 +57,26 @@ const ItemDetailsSchema = new mongoose.Schema(
       ref: "MetaData",
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
 );
+// Define a virtual field for comments
+ItemDetailsSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "itemDetails",
+});
+
+// ItemDetailsSchema.pre(/^find/, function (next) {
+//   // ^find here is we use regex and can able to find,findOne ...etc
+//   this.populate({
+//     path: "item",
+//     select: " _id name",
+//   });
+//   next();
+// });
 
 module.exports = mongoose.model("ItemDetails", ItemDetailsSchema);

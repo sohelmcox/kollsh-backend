@@ -25,5 +25,10 @@ const CountrySchema = new mongoose.Schema(
   },
   { timestamps: true },
 );
-
+CountrySchema.virtual("states", {
+  ref: "State",
+  foreignField: "country",
+  localField: "_id",
+  justOne: true,
+});
 module.exports = mongoose.model("Country", CountrySchema);

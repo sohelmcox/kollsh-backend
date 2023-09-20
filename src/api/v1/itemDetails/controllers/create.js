@@ -11,6 +11,7 @@ const create = async (req, res, next) => {
   const {
     item,
     description,
+    images,
     contactNumber,
     whatsappNumber,
     email,
@@ -18,18 +19,17 @@ const create = async (req, res, next) => {
     latitude,
     longitude,
   } = req.body;
-  // TODO: change Images to real Image Id
   try {
     const itemDetails = await itemDetailsService.create({
       item,
       description,
+      images,
       contactNumber,
       whatsappNumber,
       email,
       address,
       latitude,
       longitude,
-      images: ["imageId", "imageId"],
     });
     const response = {
       code: 201,

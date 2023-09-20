@@ -93,9 +93,18 @@ const defaults = {
     "updatedAt",
     "createdAt",
   ],
-  //replay
-  replayAllowedSearchFields: ["content"],
-  replayAllowedSorByFields: ["content", "updatedAt", "createdAt"],
+  //metadata
+  metadataAllowedSearchFields: ["content"],
+  metadataAllowedSorByFields: ["content", "updatedAt", "createdAt"],
+  //reply
+  replyAllowedSearchFields: ["content"],
+  replyAllowedSorByFields: ["content", "updatedAt", "createdAt"],
+  //comment
+  commentAllowedSearchFields: ["content"],
+  commentAllowedSorByFields: ["content", "updatedAt", "createdAt"],
+  //itemSuggestion
+  itemSuggestionAllowedSearchFields: ["user"],
+  itemSuggestionAllowedSorByFields: ["user", "updatedAt", "createdAt"],
 };
 
 module.exports = Object.freeze(defaults);

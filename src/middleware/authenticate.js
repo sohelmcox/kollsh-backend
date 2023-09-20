@@ -7,6 +7,13 @@ const authenticate = async (req, _res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   try {
     const decoded = tokenService.decodeToken({ token });
+    if (!decoded) {
+      next(
+        authenticationError(
+          "Your token expired or invalid. Provide a Valid Token",
+        ),
+      );
+    }
     const user = await findUserByEmail(decoded.email);
     if (!user) {
       next(authenticationError("user not found"));

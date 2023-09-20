@@ -1,11 +1,13 @@
 const uploader = require("../../utils/upload/multerMemoryUploader");
 const { Upload } = require("../../models");
-const transformImageResult = require("../../utils/upload/transformImageResult");
+const transformImageResult = require("../../utils/upload/transformFileResult");
 const config = require("../../config");
 const { cloudinaryImageUploader } = require("../../utils/upload/cloudinarySDK");
 const { slugify } = require("../../utils/generateUniqueSlug");
-const thumbnailUpload = (folderName) => async (req, res, next) => {
-  uploader.single("thumbnail")(req, res, async (err) => {
+const fileUpload = async (req, res, next) => {
+  const { folderName } = req.body;
+  console.log("folderName", folderName);
+  uploader.array("thumbnail")(req, res, async (err) => {
     if (err) {
       return next(err);
     }
@@ -63,7 +65,7 @@ const thumbnailUpload = (folderName) => async (req, res, next) => {
       });
       const savedImage = await image.save();
       // set the imageId in the current req
-      req.uploadedThumbnailId = savedImage._id;
+      req.uploaded = true;
       // Continue with the next middleware or route handler
       next();
     } catch (error) {
@@ -72,4 +74,4 @@ const thumbnailUpload = (folderName) => async (req, res, next) => {
   });
 };
 
-module.exports = thumbnailUpload;
+module.exports = fileUpload;
