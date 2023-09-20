@@ -1,7 +1,7 @@
 const { Brand } = require("../../models");
-const { generateUniqueSlug } = require("../../utils");
 const { badRequest } = require("../../utils/error");
 const { slugify } = require("../../utils/generateUniqueSlug");
+const { create: createMetadata } = require("../metadata");
 
 /**
  * Create a new brand.
@@ -21,12 +21,22 @@ const create = async ({ name, image, description, priority }) => {
   }
   const uniqueSlug = await slugify(name);
 
+  const metadataObject = {
+    title: name,
+    description,
+    image,
+    keywords: name.split(" "),
+  };
+  // create metadata
+  const newMetadata = await createMetadata({ ...metadataObject });
+
   const brandData = {
     name,
     slug: uniqueSlug,
     image,
     description,
     priority,
+    metadata: newMetadata.id,
   };
   const newBrand = new Brand(brandData);
 

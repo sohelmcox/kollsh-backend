@@ -2,11 +2,11 @@ const itemSuggestionServices = require("../../../../lib/itemSuggestion");
 
 const update = async (req, res, next) => {
   const { id } = req.params;
-  const { user, categories, subcategories, brands } = req.body;
+  const { user, item, subcategories, brands } = req.body;
   try {
     const { data, code } = await itemSuggestionServices.updateOrCreate(id, {
       user,
-      categories,
+      item,
       subcategories,
       brands,
     });

@@ -12,7 +12,7 @@ const ItemSchema = new mongoose.Schema(
     },
     thumbnail: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Image",
+      ref: "Upload",
     },
 
     slug: {

@@ -5,22 +5,19 @@ const { ItemSuggestion } = require("../../models");
  *
  * @param {Object} itemSuggestionData - Data to create a new itemSuggestion.
  * @param {string} itemSuggestionData.user - The user of the itemSuggestion.
- * @param {string} itemSuggestionData.categories - The categories of the itemSuggestion.
+ * @param {string} itemSuggestionData.item - The categories of the itemSuggestion.
  * @param {string} itemSuggestionData.subcategories - The subcategories of the itemSuggestion.
  * @param {string} itemSuggestionData.brands - The brands of the itemSuggestion.
  *
  * @returns {Object} - An object containing the updated itemSuggestion or newly created itemSuggestion and a status code (201 for creation, 200 for update).
  */
 
-const updateOrCreate = async (
-  id,
-  { user, categories, subcategories, brands },
-) => {
+const updateOrCreate = async (id, { user, item, subcategories, brands }) => {
   const itemSuggestion = await ItemSuggestion.findById(id);
   if (!itemSuggestion) {
     const newItemSuggestion = await ItemSuggestion.create({
       user,
-      categories,
+      item,
       subcategories,
       brands,
     });
@@ -33,7 +30,7 @@ const updateOrCreate = async (
 
   const payload = {
     user,
-    categories,
+    item,
     subcategories,
     brands,
   };

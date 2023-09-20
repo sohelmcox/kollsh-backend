@@ -1,6 +1,6 @@
 const { Subcategory } = require("../../models");
-const { badRequest } = require("../../utils/error");
-const { slugify } = require("../../utils/generateUniqueSlug");
+const { generateUniqueSlug } = require("../../utils/generateUniqueSlug");
+const { create: createMetadata } = require("../metadata");
 
 /**
  * Create a new subcategory.
@@ -23,12 +23,15 @@ const create = async ({
   priority,
   is_brand,
 }) => {
-  const checkIsExist = await Subcategory.findOne({ name });
-  if (checkIsExist) {
-    throw badRequest("Subcategory already exist");
-  }
-  const uniqueSlug = await slugify(name);
-
+  const uniqueSlug = await generateUniqueSlug(Subcategory, name);
+  const metadataObject = {
+    title: name,
+    description: name + category,
+    image,
+    keywords: name.split(" "),
+  };
+  // create metadata
+  const newMetadata = await createMetadata({ ...metadataObject });
   const subcategoryData = {
     name,
     slug: uniqueSlug,
@@ -37,6 +40,7 @@ const create = async ({
     cover_image,
     priority,
     is_brand,
+    metadata: newMetadata.id,
   };
   const newSubcategory = new Subcategory(subcategoryData);
 

@@ -9,7 +9,7 @@ const CountrySchema = new mongoose.Schema(
     flag_image: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Image",
+        ref: "Upload",
       },
     ],
     code: {

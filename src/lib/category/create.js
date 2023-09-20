@@ -1,7 +1,7 @@
 const { Category } = require("../../models");
-const { generateUniqueSlug } = require("../../utils");
 const { badRequest } = require("../../utils/error");
 const { slugify } = require("../../utils/generateUniqueSlug");
+const { create: createMetadata } = require("../metadata");
 
 /**
  * Create a new category.
@@ -21,7 +21,14 @@ const create = async ({ name, image, cover_image, priority, featured }) => {
     throw badRequest("Category already exist");
   }
   const uniqueSlug = await slugify(name);
-
+  const metadataObject = {
+    title: name,
+    description: name,
+    image,
+    keywords: name.split(" "),
+  };
+  // create metadata
+  const newMetadata = await createMetadata({ ...metadataObject });
   const categoryData = {
     name,
     slug: uniqueSlug,
@@ -29,6 +36,7 @@ const create = async ({ name, image, cover_image, priority, featured }) => {
     cover_image,
     priority,
     featured,
+    metadata: newMetadata.id,
   };
   const newCategory = new Category(categoryData);
 

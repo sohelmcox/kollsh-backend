@@ -8,11 +8,11 @@ const itemSuggestionServices = require("../../../../lib/itemSuggestion");
  * @returns {void}
  */
 const create = async (req, res, next) => {
-  const { user, categories, subcategories, brands } = req.body;
+  const { user, item, subcategories, brands } = req.body;
   try {
     const itemSuggestion = await itemSuggestionServices.create({
       user,
-      categories,
+      item,
       subcategories,
       brands,
     });

@@ -12,7 +12,7 @@ const BrandSchema = new mongoose.Schema(
     },
     image: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Image",
+      ref: "Upload",
     },
     description: {
       type: String,
@@ -26,6 +26,10 @@ const BrandSchema = new mongoose.Schema(
         ref: "Attribute",
       },
     ],
+    metadata: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Metadata",
+    },
   },
   { timestamps: true },
 );

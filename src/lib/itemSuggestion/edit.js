@@ -13,7 +13,7 @@ const { notFound } = require("../../utils/error");
  * @throws {Error} - Throws an error if the itemSuggestion with the provided ID is not found.
  */
 
-const edit = async (id, { user, categories, subcategories, brands }) => {
+const edit = async (id, { user, item, subcategories, brands }) => {
   const itemSuggestion = await ItemSuggestion.findById(id);
   if (!itemSuggestion) {
     throw notFound("ItemSuggestion not found.");
@@ -21,7 +21,7 @@ const edit = async (id, { user, categories, subcategories, brands }) => {
 
   const payload = {
     user,
-    categories,
+    item,
     subcategories,
     brands,
   };

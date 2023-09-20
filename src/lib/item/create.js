@@ -1,6 +1,7 @@
 const { Item } = require("../../models");
 const { generateUniqueSlug } = require("../../utils/generateUniqueSlug");
 const { create: createItemDetails } = require("../itemDetails");
+const { create: createMetadata } = require("../metadata");
 /**
  * Create a new item.
  *
@@ -84,6 +85,14 @@ const create = async ({
   // Save the new item to the database
   await newItem.save();
 
+  const metadataObject = {
+    title: name,
+    description,
+    image: thumbnail,
+    keywords: name.split(" "),
+  };
+  // create metadata
+  const newMetadata = await createMetadata(metadataObject);
   // Create item details
   const itemDetailsData = {
     item: newItem._id,
@@ -95,9 +104,13 @@ const create = async ({
     address,
     latitude,
     longitude,
+    metadata: newMetadata.id,
   };
 
-  const itemDetailsCreateService = await createItemDetails(itemDetailsData);
+  // create item details
+  const itemDetailsCreateService = await createItemDetails({
+    ...itemDetailsData,
+  });
   // generate response
   const response = {
     code: 201,
@@ -106,6 +119,7 @@ const create = async ({
       id: newItem.id,
       ...newItem._doc,
       details: { ...itemDetailsCreateService },
+      metadata: { ...newMetadata },
     },
     links: {
       self: `/items/${newItem.id}`,

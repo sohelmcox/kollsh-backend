@@ -14,11 +14,11 @@ const SubcategorySchema = new mongoose.Schema(
     },
     image: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Image",
+      ref: "Upload",
     },
     cover_image: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Image",
+      ref: "Upload",
     },
 
     priority: {
@@ -39,6 +39,10 @@ const SubcategorySchema = new mongoose.Schema(
         ref: "Attribute",
       },
     ],
+    metadata: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Metadata",
+    },
   },
   { timestamps: true },
 );

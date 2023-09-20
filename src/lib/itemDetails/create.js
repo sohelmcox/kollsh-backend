@@ -27,6 +27,7 @@ const create = async ({
   address,
   latitude,
   longitude,
+  metadata,
 }) => {
   const itemDetailsData = {
     item,
@@ -38,6 +39,7 @@ const create = async ({
     address,
     latitude,
     longitude,
+    metadata,
   };
   const newItemDetails = new ItemDetails(itemDetailsData);
 

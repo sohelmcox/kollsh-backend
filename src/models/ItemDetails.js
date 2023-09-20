@@ -14,7 +14,7 @@ const ItemDetailsSchema = new mongoose.Schema(
     images: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Image",
+        ref: "Upload",
         required: true,
       },
     ],
@@ -54,7 +54,7 @@ const ItemDetailsSchema = new mongoose.Schema(
     },
     metadata: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "MetaData",
+      ref: "Metadata",
     },
   },
   {

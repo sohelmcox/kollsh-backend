@@ -413,6 +413,7 @@ paths:
         - Item
       security:
         - bearerAuth: []
+      summary: Create a new item and item details
       parameters: []
       operationId: post/items
       requestBody:
@@ -637,7 +638,7 @@ paths:
         - bearerAuth: []
       parameters: []
       operationId: post/item-details/
-      summary: Create a new item and item details
+      summary: Create a item details
       requestBody:
         required: true
         content:
@@ -668,7 +669,7 @@ paths:
           description: populate relations
           schema:
             type: string
-            example: "comments"
+            example: "comments,images,metadata"
       operationId: "get/item-details/{id}"
     put:
       responses:
@@ -2023,6 +2024,12 @@ paths:
         - Brand
       parameters:
         - $ref: "#/components/parameters/id"
+        - name: populate
+          in: query
+          description: populate relations
+          schema:
+            type: string
+            example: "metadata"
       operationId: "get/brands/{id}"
     put:
       responses:
@@ -2227,7 +2234,7 @@ paths:
           description: populate relations
           schema:
             type: string
-            example: "subcategories"
+            example: "subcategories,metadata"
       operationId: "get/categories/{id}"
     put:
       responses:
@@ -2991,7 +2998,12 @@ paths:
         - Subcategory
       parameters:
         - $ref: "#/components/parameters/id"
-        - $ref: "#/components/parameters/queryIdParam"
+        - name: populate
+          in: query
+          description: populate relations
+          schema:
+            type: string
+            example: "metadata"
       operationId: "get/subcategories/{id}"
     put:
       responses:
@@ -4173,6 +4185,7 @@ components:
                 - $ref: "#/components/schemas/ObjectTypeRelationId"
                 - type: string
         - $ref: "#/components/schemas/Timestamp"
+        - $ref: "#/components/schemas/Metadata"
     ItemRequest:
       type: object
       required:

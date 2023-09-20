@@ -12,11 +12,11 @@ const CategorySchema = new mongoose.Schema(
     },
     image: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Image",
+      ref: "Upload",
     },
     cover_image: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Image",
+      ref: "Upload",
     },
     priority: {
       type: Number,
@@ -32,12 +32,10 @@ const CategorySchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    // attribute_categories: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "AttributeCategory",
-    //   },
-    // ],
+    metadata: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Metadata",
+    },
   },
   {
     timestamps: true,

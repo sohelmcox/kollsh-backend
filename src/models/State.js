@@ -7,7 +7,7 @@ const StateSchema = new mongoose.Schema(
     },
     image: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Image",
+      ref: "Upload",
     },
 
     priority: {

@@ -7,12 +7,11 @@ const ItemSuggestionSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    categories: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Category",
-      },
-    ],
+    item: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Item",
+      required: true,
+    },
     subcategories: [
       {
         type: mongoose.Schema.Types.ObjectId,
