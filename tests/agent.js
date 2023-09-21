@@ -1,5 +1,8 @@
 const request = require("supertest");
+const express = require("express");
 const app = require("../src/app/app");
+app.use(express.json());
+
 const agent = request.agent(app);
 
 // Set the global base URL

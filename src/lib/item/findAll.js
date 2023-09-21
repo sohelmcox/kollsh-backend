@@ -71,14 +71,12 @@ const findAll = async ({
     .limit(pageSize)
     .exec();
 
-  console.log("item", items);
   // Apply population
   const { populatedFields } = query;
   if (populatedFields.length > 0) {
     items = await getPopulatedFields(populatedFields, items);
   }
   console.log("populatedFields", populatedFields);
-  console.log("item", items);
   // Select fields
   if (query.selectedFields.length > 0) {
     items = selectFields(items, query.selectedFields);
