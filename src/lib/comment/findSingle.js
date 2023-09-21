@@ -26,6 +26,6 @@ const findSingle = async ({ id, populate }) => {
     // comment = await comment.populate(populatedFields.join(" "));
   }
   // return { id: comment.id, ...comment._doc };
-  console.log(populatedFields);
+  return comment;
 };
 module.exports = findSingle;

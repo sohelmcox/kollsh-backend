@@ -1,8 +1,8 @@
 const request = require("supertest");
-const { app } = require("./utils");
+const { app } = require("../../../setup/app");
 const brandController = require("../../../../src/api/v1/brand/controllers");
 const brandServices = require("../../../../src/lib/brand");
-const { brandTestUrl } = require("../../../testSeed/brand");
+const { brandTestUrl, mockBrand } = require("../../../testSeed/brand");
 
 // Mock your service methods
 jest.mock("../../../../src/lib/brand", () => ({
@@ -15,11 +15,7 @@ app.get(`${brandTestUrl}/:id`, brandController.findSingle);
 describe("Brand FindSingle Controller", () => {
   it("should find a single brand by ID", async () => {
     // Mock the findSingle method from your service to return a brand
-    const mockBrand = {
-      id: "brandId",
-      name: "Test Brand",
-      description: "Test Description",
-    };
+
     brandServices.findSingle.mockResolvedValue(mockBrand);
 
     const response = await request(app).get(`${brandTestUrl}/brandId`);

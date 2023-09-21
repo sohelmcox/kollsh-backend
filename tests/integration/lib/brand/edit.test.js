@@ -1,6 +1,6 @@
 const { edit } = require("../../../../src/lib/brand");
 const { Brand } = require("../../../../src/models");
-// const { notFound } = require("../../utils/error");
+const { updatedBrandData } = require("../../../testSeed/brand");
 
 // Mock the Brand model's methods
 jest.mock("../../../../src/models", () => {
@@ -30,25 +30,17 @@ describe("Brand Edit Service", () => {
     };
     Brand.findById.mockResolvedValue(existingBrand);
 
-    const updatedData = {
-      name: "New Brand Name",
-      slug: "new-brand-name",
-      image: "new-image.jpg",
-      description: "New Description",
-      priority: 2,
-    };
-
-    const result = await edit("brandId", updatedData);
+    const result = await edit("brandId", updatedBrandData);
 
     // Verify that the findById method was called with the correct ID
     expect(Brand.findById).toHaveBeenCalledWith("brandId");
 
     // Verify that the brand's properties were updated correctly
-    expect(existingBrand.name).toBe(updatedData.name);
-    expect(existingBrand.slug).toBe(updatedData.slug);
-    expect(existingBrand.image).toBe(updatedData.image);
-    expect(existingBrand.description).toBe(updatedData.description);
-    expect(existingBrand.priority).toBe(updatedData.priority);
+    expect(existingBrand.name).toBe(updatedBrandData.name);
+    expect(existingBrand.slug).toBe(updatedBrandData.slug);
+    expect(existingBrand.image).toBe(updatedBrandData.image);
+    expect(existingBrand.description).toBe(updatedBrandData.description);
+    expect(existingBrand.priority).toBe(updatedBrandData.priority);
 
     // Verify that the save method was called on the brand instance
     expect(existingBrand.save).toHaveBeenCalled();
@@ -62,16 +54,8 @@ describe("Brand Edit Service", () => {
     // Mock the findById method to return null, indicating the brand was not found
     Brand.findById.mockResolvedValue(null);
 
-    const updatedData = {
-      name: "New Brand Name",
-      slug: "new-brand-name",
-      image: "new-image.jpg",
-      description: "New Description",
-      priority: 2,
-    };
-
     try {
-      await edit("nonExistentBrandId", updatedData);
+      await edit("nonExistentBrandId", updatedBrandData);
       // If the code reaches this point, the test should fail
       expect(true).toBe(false);
     } catch (error) {

@@ -1,5 +1,5 @@
 const request = require("supertest");
-const { app } = require("./utils");
+const { app } = require("../../../setup/app");
 const brandController = require("../../../../src/api/v1/brand/controllers");
 const brandServices = require("../../../../src/lib/brand");
 const { brandTestUrl } = require("../../../testSeed/brand");

@@ -1,6 +1,6 @@
 const { updateOrCreate } = require("../../../../src/lib/brand");
 const { Brand } = require("../../../../src/models");
-
+const { newBrandData, existingBrand } = require("../../../testSeed/brand");
 // Mock the Brand model's methods
 jest.mock("../../../../src/models", () => {
   const mockBrand = {
@@ -28,13 +28,6 @@ describe("Brand Update or Create Service", () => {
     // Mock the findOne method to return null, indicating the brand name is not found
     Brand.findOne.mockResolvedValue(null);
 
-    const newBrandData = {
-      name: "New Brand Name",
-      image: "new-image.jpg",
-      description: "New Description",
-      priority: 2,
-    };
-
     // Mock the create method to return a new brand instance
     const createdBrandInstance = {
       id: "newBrandId",
@@ -53,18 +46,7 @@ describe("Brand Update or Create Service", () => {
     Brand.findById.mockResolvedValue(null);
 
     // Mock the findOne method to return an existing brand with the same name
-    const existingBrand = {
-      id: "existingBrandId",
-      name: "Existing Brand Name",
-    };
     Brand.findOne.mockResolvedValue(existingBrand);
-
-    const newBrandData = {
-      name: "Existing Brand Name", // Same name as the existing brand
-      image: "new-image.jpg",
-      description: "New Description",
-      priority: 2,
-    };
 
     try {
       await updateOrCreate("newBrandId", newBrandData);

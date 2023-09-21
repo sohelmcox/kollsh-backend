@@ -76,7 +76,6 @@ const findAll = async ({
   if (populatedFields.length > 0) {
     items = await getPopulatedFields(populatedFields, items);
   }
-  console.log("populatedFields", populatedFields);
   // Select fields
   if (query.selectedFields.length > 0) {
     items = selectFields(items, query.selectedFields);

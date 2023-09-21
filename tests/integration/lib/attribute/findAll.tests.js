@@ -1,29 +1,29 @@
-const { findAll } = require("../../../../src/lib/brand");
-const { Brand } = require("../../../../src/models");
+const { findAll } = require("../../../../src/lib/attribute");
+const { Attribute } = require("../../../../src/models");
 
-jest.mock("../../../../src/models/brand");
+jest.mock("../../../../src/models/attribute");
 
 describe("findAll Service", () => {
-  it("should return a list of brands with pagination and filters", async () => {
+  it("should return a list of attributes with pagination and filters", async () => {
     // Mock input parameters
     const params = {
       sort: "name:asc",
       fields: "name",
       populate: ["relatedField"],
-      search: { name: "Example Brand" },
+      search: { name: "Example Attribute" },
       locale: "en",
       pageNumber: 2,
       pageSize: 10,
       pageStart: 10,
       url: "https://example.com",
-      path: "/brands",
+      path: "/attributes",
       requestQuery: { filter: "true" },
     };
 
-    // Mock the expected output from the Brand model
-    const mockBrands = [
-      { id: "brand1", name: "Brand 1", description: "Description 1" },
-      { id: "brand2", name: "Brand 2", description: "Description 2" },
+    // Mock the expected output from the Attribute model
+    const mockAttributes = [
+      { id: "attribute1", name: "Attribute 1", description: "Description 1" },
+      { id: "attribute2", name: "Attribute 2", description: "Description 2" },
     ];
 
     // Mock the count result
@@ -31,13 +31,13 @@ describe("findAll Service", () => {
 
     // Mock the pagination result
     const mockPagination = {
-      next: "/brands?page=3",
-      prev: "/brands?page=1",
+      next: "/attributes?page=3",
+      prev: "/attributes?page=1",
     };
 
-    // Set up the Brand model methods
-    Brand.find.mockResolvedValue(mockBrands);
-    Brand.count.mockResolvedValue(mockTotalCount);
+    // Set up the Attribute model methods
+    Attribute.find.mockResolvedValue(mockAttributes);
+    Attribute.count.mockResolvedValue(mockTotalCount);
 
     // Call the findAll service function
     const result = await findAll({ sort: "name:asc" });
@@ -47,16 +47,16 @@ describe("findAll Service", () => {
     expect(result.data).toEqual(
       expect.arrayContaining([
         {
-          id: "brand1",
+          id: "attribute1",
           data: expect.objectContaining({
-            name: "Brand 1",
+            name: "Attribute 1",
             description: "Description 1",
           }),
         },
         {
-          id: "brand2",
+          id: "attribute2",
           data: expect.objectContaining({
-            name: "Brand 2",
+            name: "Attribute 2",
             description: "Description 2",
           }),
         },
@@ -77,7 +77,7 @@ describe("findAll Service", () => {
         sortCriteria: "name",
         selectedFields: ["name", "description"],
         populatedFields: ["relatedField"],
-        searchQuery: { name: "Example Brand" },
+        searchQuery: { name: "Example Attribute" },
       }),
     );
   });

@@ -6,7 +6,6 @@ const { cloudinaryImageUploader } = require("../../utils/upload/cloudinarySDK");
 const { slugify } = require("../../utils/generateUniqueSlug");
 const fileUpload = async (req, res, next) => {
   const { folderName } = req.body;
-  console.log("folderName", folderName);
   uploader.array("thumbnail")(req, res, async (err) => {
     if (err) {
       return next(err);

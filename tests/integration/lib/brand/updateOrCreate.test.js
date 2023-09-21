@@ -1,6 +1,10 @@
 const { updateOrCreate } = require("../../../../src/lib/brand");
 const { Brand } = require("../../../../src/models");
-
+const {
+  newBrandData,
+  updatedBrandData,
+  existingBrandData,
+} = require("../../../testSeed/brand");
 // Mock the Brand model's methods
 jest.mock("../../../../src/models", () => {
   const mockBrand = {
@@ -28,13 +32,6 @@ describe("Brand Update or Create Service", () => {
     // Mock the findOne method to return null, indicating the brand name is not found
     Brand.findOne.mockResolvedValue(null);
 
-    const newBrandData = {
-      name: "New Brand Name",
-      image: "new-image.jpg",
-      description: "New Description",
-      priority: 2,
-    };
-
     // Mock the create method to return a new brand instance
     const createdBrandInstance = {
       id: "newBrandId",
@@ -51,7 +48,7 @@ describe("Brand Update or Create Service", () => {
     // Mock an existing brand
     const existingBrand = {
       id: "existingBrandId",
-      name: "Existing Brand Name",
+      name: "Existing Brand",
       image: "existing-image.jpg",
       description: "Existing Description",
       priority: 1,
@@ -63,25 +60,18 @@ describe("Brand Update or Create Service", () => {
     // Mock the findOne method to return null, indicating the brand name is not found
     Brand.findOne.mockResolvedValue(null);
 
-    const updatedData = {
-      name: "Updated Brand Name",
-      image: "updated-image.jpg",
-      description: "Updated Description",
-      priority: 2,
-    };
-
-    const result = await updateOrCreate("existingBrandId", updatedData);
+    const result = await updateOrCreate("existingBrandId", updatedBrandData);
 
     // Verify that the findById method was called with the correct ID
     expect(Brand.findById).toHaveBeenCalledWith("existingBrandId");
 
     // Verify that the overwrite and save methods were called on the existing brand
     expect(existingBrand.overwrite).toHaveBeenCalledWith({
-      name: updatedData.name,
+      name: updatedBrandData.name,
       slug: expect.any(String),
-      image: updatedData.image,
-      description: updatedData.description,
-      priority: updatedData.priority,
+      image: updatedBrandData.image,
+      description: updatedBrandData.description,
+      priority: updatedBrandData.priority,
     });
     expect(existingBrand.save).toHaveBeenCalled();
 
@@ -95,18 +85,8 @@ describe("Brand Update or Create Service", () => {
     Brand.findById.mockResolvedValue(null);
 
     // Mock the findOne method to return an existing brand with the same name
-    const existingBrand = {
-      id: "existingBrandId",
-      name: "Existing Brand Name",
-    };
-    Brand.findOne.mockResolvedValue(existingBrand);
 
-    const newBrandData = {
-      name: "Existing Brand Name", // Same name as the existing brand
-      image: "new-image.jpg",
-      description: "New Description",
-      priority: 2,
-    };
+    Brand.findOne.mockResolvedValue(existingBrandData);
 
     try {
       await updateOrCreate("newBrandId", newBrandData);

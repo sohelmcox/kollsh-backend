@@ -1,5 +1,5 @@
 const request = require("supertest");
-const { app } = require("./utils");
+const { app } = require("../../../setup/app");
 const brandController = require("../../../../src/api/v1/brand/controllers");
 const brandServices = require("../../../../src/lib/brand");
 const { brandTestUrl } = require("../../../testSeed/brand");
@@ -32,7 +32,7 @@ describe("Brand DestroyMany Controller", () => {
 
     const response = await request(app)
       .delete(brandTestUrl)
-      .send({ ids: "invalidId" }); //  invalid IDs
+      .send({ ids: "invalidId" });
 
     expect(response.statusCode).toBe(400);
   });

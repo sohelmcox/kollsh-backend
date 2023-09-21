@@ -14,20 +14,6 @@ const find = async (req, res, next) => {
       search,
     } = req.query;
     // Parse query parameters
-    const hello = {
-      sort,
-      fields,
-      populate,
-      locale,
-      pageNumber,
-      pageSize,
-      pageStart,
-      search,
-      url: req.url,
-      path: req.path,
-      requestQuery: req.query,
-    };
-    console.log("hello", hello);
     const data = await brandServices.findAll({
       sort,
       fields,

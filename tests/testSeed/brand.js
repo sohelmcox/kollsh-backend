@@ -17,6 +17,7 @@ const brandData2 = {
   attributes: ["string or id", "string or id"],
 };
 const newBrandData = {
+  id: "newBrandId",
   name: "New Brand",
   slug: "new-brand",
   priority: 0,
@@ -25,9 +26,14 @@ const newBrandData = {
 };
 const updatedBrandData = {
   name: "Updated Brand",
+  slug: "updated-brand",
   description: "Updated Description",
   priority: 0,
   image: "string or id",
+};
+const editBrandData = {
+  name: "Edit Brand",
+  description: "Edit Description",
 };
 const existingBrandData = {
   name: "Existing Brand",
@@ -36,12 +42,29 @@ const existingBrandData = {
   priority: 0,
   image: "string or id",
 };
+const existingBrand = {
+  id: "existingBrandId",
+  name: "Existing Brand Name",
+};
 const brandTestData = {
+  id: "brandId",
   name: "Test Brand",
   description: "Test Description",
   slug: "test-brand",
   priority: 0,
   image: "string or id",
+};
+const mockBrand = {
+  id: "brandId",
+  name: "Test Brand",
+  description: "Test Description",
+  priority: 0,
+  image: "string or id",
+};
+const mockUpdatedBrand = {
+  id: "brandId",
+  name: "Updated Brand",
+  description: "Updated Description",
 };
 const updatedDescription = { description: "Updated Description" };
 const createBrandData = [
@@ -62,14 +85,25 @@ const createBrandData = [
     attributes: ["string or id", "string or id"],
   },
 ];
+const brandTestQuery = {
+  sort: "name",
+  fields: "name,description",
+  pageSize: 10,
+  pageNumber: 1,
+};
 module.exports = {
   brandData1,
   brandData2,
   newBrandData,
   updatedBrandData,
+  editBrandData,
   existingBrandData,
+  existingBrand,
   updatedDescription,
   brandTestData,
   createBrandData,
+  mockBrand,
+  mockUpdatedBrand,
   brandTestUrl,
+  brandTestQuery,
 };

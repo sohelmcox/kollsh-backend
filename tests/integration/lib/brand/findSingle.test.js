@@ -1,5 +1,7 @@
 const { findSingle } = require("../../../../src/lib/brand");
 const { Brand } = require("../../../../src/models");
+const { newBrandData } = require("../../../testSeed/brand");
+
 // Mock the Brand model's methods
 jest.mock("../../../../src/models", () => {
   const mockBrand = {
@@ -17,28 +19,22 @@ jest.mock("../../../../src/models", () => {
 describe("Brand Find Single Service", () => {
   it("should find a single brand by ID", async () => {
     // Mock the Brand model's findById method to return a sample brand
-    const sampleBrand = {
-      _id: "sampleBrandId",
-      name: "Sample Brand",
-      description: "Sample Description",
-      image: "sample-image.jpg",
-      priority: 1,
-    };
-    Brand.findById.mockResolvedValue(sampleBrand);
+
+    Brand.findById.mockResolvedValue(newBrandData);
 
     const params = {
-      id: "sampleBrandId",
+      id: "newBrandId",
       populate: [],
     };
 
     const result = await findSingle(params);
 
     // Verify that the findById method was called with the correct ID
-    expect(Brand.findById).toHaveBeenCalledWith("sampleBrandId");
+    expect(Brand.findById).toHaveBeenCalledWith("newBrandId");
 
     // Verify the result
-    expect(result).toEqual(sampleBrand);
-    expect(result.name).toEqual("Sample Brand");
+    expect(result).toEqual(newBrandData);
+    expect(result.name).toEqual("New Brand");
   });
 
   it("should throw a notFound error if brand with given ID is not found", async () => {

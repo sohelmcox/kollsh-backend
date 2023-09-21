@@ -15,9 +15,9 @@ const { notFound } = require("../../utils/error");
  */
 const findSingle = async ({ id, populate }) => {
   const populatedFields = parsePopulatedFields(populate);
-  let attribute = await Attribute.findById(id).exec();
+  let attribute = await Attribute.findById(id);
   if (!attribute) {
-    throw notFound();
+    throw notFound("Attribute not found");
   }
 
   // Apply population
