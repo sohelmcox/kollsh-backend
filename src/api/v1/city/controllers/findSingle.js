@@ -8,6 +8,7 @@ const findSingle = async (req, res, next) => {
     const city = await cityServices.findSingle({ id, populate });
     const { id: cityId } = city;
     const response = {
+      id: cityId,
       data: city,
       links: {
         self: `/cities/${cityId}`,

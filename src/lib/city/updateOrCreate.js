@@ -16,7 +16,7 @@ const { badRequest } = require("../../utils/error");
 const updateOrCreate = async (id, { name, state, priority }) => {
   const city = await City.findById(id);
   if (!city) {
-    const checkIsExist = await State.findOne({ name });
+    const checkIsExist = await City.findOne({ name });
     if (checkIsExist) {
       throw badRequest("City name already exist");
     }

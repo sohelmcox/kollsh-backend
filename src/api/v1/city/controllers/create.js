@@ -18,6 +18,7 @@ const create = async (req, res, next) => {
     const { id: cityId } = city;
     const response = {
       code: 201,
+      id: cityId,
       message: "City Created Successfully",
       data: city,
       links: {

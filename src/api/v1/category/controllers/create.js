@@ -20,7 +20,7 @@ const create = async (req, res, next) => {
     const { id: categoryId } = category;
     const response = {
       code: 201,
-      message: "Brand Created Successfully",
+      message: "Category Created Successfully",
       data: category,
       links: {
         self: `/categories/${categoryId}`,

@@ -15,9 +15,9 @@ const { notFound } = require("../../utils/error");
  */
 const findSingle = async ({ id, populate }) => {
   const populatedFields = parsePopulatedFields(populate);
-  let city = await City.findById(id).exec();
+  let city = await City.findById(id);
   if (!city) {
-    throw notFound();
+    throw notFound("City not found");
   }
 
   // Apply population
