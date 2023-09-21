@@ -60,13 +60,13 @@ const attributeTestData = {
 const updatedDescription = { description: "Updated Description" };
 const createAttributeData = [
   {
-    name: "string",
+    name: "attribute name new",
     attribute_values: ["string or id", "string or id"],
     subcategories: ["string or id", "string or id"],
     brands: ["string or id", "string or id"],
   },
   {
-    name: "attribute name",
+    name: "attribute name 1",
     attribute_values: ["string or id", "string or id"],
     subcategories: ["string or id", "string or id"],
     brands: ["string or id", "string or id"],

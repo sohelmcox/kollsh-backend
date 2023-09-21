@@ -103,7 +103,7 @@ describe("Attribute API Integration Tests", () => {
 
       // Perform a PUT request to update the attribute by name
       const response = await agent
-        .put(`${attributeTestBaseUrl}/${existingAttribute.id}`)
+        .put(`${attributeTestBaseUrl}/${existingAttribute._id}`)
         .send(updatedAttributeData)
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
@@ -146,7 +146,7 @@ describe("Attribute API Integration Tests", () => {
       // Find an existing attribute (assuming it exists)
       const attributeToUpdate = await findAttributeByProperty(
         "name",
-        "attribute name",
+        "attribute name new",
       );
 
       // If a attribute with the specified name exists, update it
@@ -164,7 +164,7 @@ describe("Attribute API Integration Tests", () => {
     it("should delete a attribute DELETE", async () => {
       const attributeToDelete = await findAttributeByProperty(
         "name",
-        "attribute name",
+        "attribute name new",
       );
 
       const response = await agent
