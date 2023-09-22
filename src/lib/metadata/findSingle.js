@@ -10,9 +10,9 @@ const { notFound } = require("../../utils/error");
  * @returns {Object} - The metadata data with populated fields if requested.
  */
 const findSingle = async (id) => {
-  let metadata = await Metadata.findById(id).exec();
+  let metadata = await Metadata.findById(id);
   if (!metadata) {
-    throw notFound();
+    throw notFound("Metadata not found");
   }
 
   // return { id: metadata.id, ...metadata._doc };

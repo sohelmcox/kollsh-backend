@@ -18,12 +18,9 @@ const create = async ({ title, description, image, keywords }) => {
     image,
     keywords,
   };
-  const newMetadata = new Metadata(metadataData);
+  const newMetadata = await Metadata.create(metadataData);
 
-  // Save the new metadata to the database
-  await newMetadata.save();
-
-  return { id: newMetadata.id, ...newMetadata._doc };
+  return { id: newMetadata._id, ...newMetadata._doc, code: 201 };
 };
 
 module.exports = create;
