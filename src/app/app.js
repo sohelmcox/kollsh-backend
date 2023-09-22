@@ -14,7 +14,12 @@ applyMiddleware(app);
 
 // use router
 app.use("/api/v1", indexRoute);
-
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    status: 200,
+    message: "Welcome to the Kollsh API",
+  });
+});
 // cron job
 resetUserEmailAttempt();
 resetPasswordAttempt();
