@@ -9,7 +9,9 @@ Welcome to Kollsh, your go-to online marketplace for buying and selling new and 
 
 ## ER Diagram
 
-![ER Diagram](./public/images/er.png)
+![ER Diagram](https://drive.google.com/file/d/1tsJr_-SEnZ_dGpWMNfEyTxOmGA3MZoZr/view)
+![Swagger API Doc](https://app.swaggerhub.com/apis/ibrahimsifat/kollsh/1.0.0)
+![Documentation](https://ibrahimsifat.notion.site/Buy-Sale-name-Kollsh-a09317cd34024c389e76e95b57e8fe86?pvs=4)
 
 ## Installation and Setup
 
@@ -19,4 +21,13 @@ Welcome to Kollsh, your go-to online marketplace for buying and selling new and 
 
    ```shell
    yarn install
+   ```
+
+3. Development Server
+   ```shell
+   yarn run dev
+   ```
+4. Run Test
+   ```shell
+   yarn test
    ```
