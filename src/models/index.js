@@ -9,7 +9,6 @@ const Item = require("./Item");
 const ItemDetails = require("./ItemDetails");
 // eslint-disable-next-line import/no-unresolved
 const Metadata = require("./Metadata");
-const Notification = require("./Notification");
 const Reply = require("./Reply");
 const State = require("./State");
 const Subcategory = require("./Subcategory");
@@ -31,7 +30,6 @@ module.exports = {
   Item,
   ItemDetails,
   Metadata,
-  Notification,
   State,
   Subcategory,
   User,

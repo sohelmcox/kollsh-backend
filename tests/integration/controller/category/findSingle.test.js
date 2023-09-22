@@ -9,7 +9,7 @@ jest.mock("../../../../src/lib/category", () => ({
   findSingle: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(`${categoryTestUrl}/:id`, categoryController.findSingle);
 
 describe("Category FindSingle Controller", () => {

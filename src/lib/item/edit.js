@@ -42,7 +42,7 @@ const edit = async (
 ) => {
   const item = await Item.findById(id);
   if (!item) {
-    throw notFound();
+    throw notFound("Item not found.");
   }
 
   const payload = {

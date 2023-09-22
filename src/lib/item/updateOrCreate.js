@@ -42,7 +42,7 @@ const updateOrCreate = async (
   const item = await Item.findById(id);
 
   if (!item) {
-    const newItem = await create({
+    const newItem = await Item.create({
       name,
       description,
       released,
@@ -58,7 +58,8 @@ const updateOrCreate = async (
       seller,
     });
     return {
-      newItem,
+      id: newItem.id,
+      item: newItem,
       code: 201,
     };
   }
@@ -82,6 +83,6 @@ const updateOrCreate = async (
   item.overwrite(payload);
   await item.save();
 
-  return { item: { ...item._doc, id: item.id }, code: 200 };
+  return { item: { id: item.id, ...item._doc }, code: 200 };
 };
 module.exports = updateOrCreate;

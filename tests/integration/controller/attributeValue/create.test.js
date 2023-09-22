@@ -11,7 +11,7 @@ jest.mock("../../../../src/lib/attributeValue", () => ({
   create: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.post(attributeValueTestUrl, attributeValueController.create);
 
 describe("AttributeValue Controller", () => {

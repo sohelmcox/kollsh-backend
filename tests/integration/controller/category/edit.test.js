@@ -13,7 +13,7 @@ jest.mock("../../../../src/lib/category", () => ({
   edit: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.put(`${categoryTestUrl}/:id`, categoryController.edit);
 
 describe("Category Edit Controller", () => {

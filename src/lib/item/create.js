@@ -115,6 +115,7 @@ const create = async ({
   const response = {
     code: 201,
     message: "Item Created Successfully",
+    id: newItem.id,
     data: {
       id: newItem.id,
       ...newItem._doc,

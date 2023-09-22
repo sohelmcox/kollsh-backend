@@ -13,7 +13,7 @@ jest.mock("../../../../src/lib/comment", () => ({
   edit: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.put(`${commentTestUrl}/:id`, commentController.edit);
 
 describe("Comment Edit Controller", () => {

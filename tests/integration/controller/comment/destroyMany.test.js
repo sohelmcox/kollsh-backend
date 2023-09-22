@@ -9,7 +9,7 @@ jest.mock("../../../../src/lib/comment", () => ({
   destroyMany: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.delete(commentTestUrl, commentController.destroyMany);
 
 describe("Comment DestroyMany Controller", () => {

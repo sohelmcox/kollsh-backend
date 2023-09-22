@@ -9,7 +9,7 @@ jest.mock("../../../../src/lib/city", () => ({
   destroy: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.delete(`${cityTestUrl}/:id`, cityController.destroy);
 
 describe("City Destroy Controller", () => {

@@ -19,9 +19,9 @@ const {
  */
 const findSingle = async ({ id, populate, user }) => {
   const populatedFields = parsePopulatedFields(populate);
-  let item = await Item.findById(id).exec();
+  let item = await Item.findById(id);
   if (!item) {
-    throw notFound();
+    throw notFound("Item not found");
   }
 
   // Apply population

@@ -8,7 +8,7 @@ jest.mock("../../../../src/lib/brand", () => ({
   create: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.post(brandTestUrl, brandController.create);
 
 describe("Brand Controller", () => {

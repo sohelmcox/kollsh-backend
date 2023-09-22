@@ -13,7 +13,7 @@ jest.mock("../../../../src/lib/city", () => ({
   edit: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.put(`${cityTestUrl}/:id`, cityController.edit);
 
 describe("City Edit Controller", () => {

@@ -13,7 +13,7 @@ jest.mock("../../../../src/lib/category", () => ({
   findAll: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(categoryTestUrl, categoryController.find);
 
 describe("Category Find Controller", () => {

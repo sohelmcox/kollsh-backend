@@ -13,7 +13,7 @@ jest.mock("../../../../src/lib/city", () => ({
   findAll: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(cityTestUrl, cityController.find);
 
 describe("City Find Controller", () => {

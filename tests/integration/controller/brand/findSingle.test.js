@@ -9,7 +9,7 @@ jest.mock("../../../../src/lib/brand", () => ({
   findSingle: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(`${brandTestUrl}/:id`, brandController.findSingle);
 
 describe("Brand FindSingle Controller", () => {

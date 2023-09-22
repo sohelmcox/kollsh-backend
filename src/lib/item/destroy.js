@@ -9,7 +9,7 @@ const { notFound } = require("../../utils/error");
 const destroy = async (id) => {
   const item = await Item.findById(id);
   if (!item) {
-    throw notFound();
+    throw notFound("item not found.");
   }
   // TODO:
   // Asynchronously delete all item details and images

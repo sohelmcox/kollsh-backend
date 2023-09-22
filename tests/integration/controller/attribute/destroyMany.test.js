@@ -9,7 +9,7 @@ jest.mock("../../../../src/lib/attribute", () => ({
   destroyMany: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.delete(attributeTestUrl, attributeController.destroyMany);
 
 describe("Attribute DestroyMany Controller", () => {

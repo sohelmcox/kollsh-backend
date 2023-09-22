@@ -12,7 +12,7 @@ jest.mock("../../../../src/lib/attributeValue", () => ({
   findSingle: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(`${attributeValueTestUrl}/:id`, attributeValueController.findSingle);
 
 describe("AttributeValue FindSingle Controller", () => {

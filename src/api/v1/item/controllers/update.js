@@ -30,9 +30,9 @@ const update = async (req, res, next) => {
       negotiable,
       is_argent,
       brand,
-      publisher: req.user.id,
+      seller: req.user.id,
     });
-
+    console.log(req.user);
     const response = {
       code,
       message:
@@ -41,7 +41,7 @@ const update = async (req, res, next) => {
           : "Item created successfully",
       data: item,
       links: {
-        self: `/items/${item.id}`,
+        self: `/items/${item._id}`,
       },
     };
 

@@ -14,7 +14,7 @@ jest.mock("../../../../src/lib/comment", () => ({
   updateOrCreate: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.put(`${commentTestUrl}/:id`, commentController.updateOrCreate);
 
 describe("Comment Update Controller", () => {

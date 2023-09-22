@@ -11,7 +11,7 @@ jest.mock("../../../../src/lib/comment", () => ({
   create: jest.fn(),
 }));
 // TODO: fix this create comment test
-// Set up Express app and route
+// Set up route
 app.post(commentTestUrl, commentController.create);
 
 describe("Comment Controller", () => {

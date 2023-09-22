@@ -13,7 +13,7 @@ jest.mock("../../../../src/lib/comment", () => ({
   findAll: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(commentTestUrl, commentController.find);
 
 describe("Comment Find Controller", () => {

@@ -9,7 +9,7 @@ jest.mock("../../../../src/lib/comment", () => ({
   findSingle: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(`${commentTestUrl}/:id`, commentController.findSingle);
 
 describe("Comment FindSingle Controller", () => {

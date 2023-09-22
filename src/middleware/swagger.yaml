@@ -2627,8 +2627,6 @@ paths:
           $ref: "#/components/responses/500"
       tags:
         - Country
-      security:
-        - bearerAuth: []
       parameters:
         - $ref: "#/components/parameters/id"
         - name: populate
@@ -4248,13 +4246,6 @@ components:
         description:
           type: string
         images:
-          type: array
-          items:
-            oneOf:
-              - type: integer
-              - type: string
-            example: string or id
-        comments:
           type: array
           items:
             oneOf:

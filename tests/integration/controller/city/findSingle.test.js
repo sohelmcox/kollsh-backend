@@ -9,7 +9,7 @@ jest.mock("../../../../src/lib/city", () => ({
   findSingle: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(`${cityTestUrl}/:id`, cityController.findSingle);
 
 describe("City FindSingle Controller", () => {

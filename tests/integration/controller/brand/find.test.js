@@ -13,7 +13,7 @@ jest.mock("../../../../src/lib/brand", () => ({
   findAll: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(brandTestUrl, brandController.find);
 
 describe("Brand Find Controller", () => {

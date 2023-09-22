@@ -29,11 +29,11 @@ router
 router
   .route("/:id")
   .get(getUserIdMiddleware, controllers.findSingle)
-  .put(controllers.updateOrCreate)
+  .put(authenticate, controllers.updateOrCreate)
   .patch(
     authenticate,
-    hasPermission("item", ["update"]),
-    hasOwnership("Item", "seller"),
+    // hasPermission("item", ["update"]),
+    // hasOwnership("Item", "seller"),
     controllers.edit,
   )
   .delete(controllers.destroy);

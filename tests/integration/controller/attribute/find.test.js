@@ -13,7 +13,7 @@ jest.mock("../../../../src/lib/attribute", () => ({
   findAll: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.get(attributeTestUrl, attributeController.find);
 
 describe("Attribute Find Controller", () => {

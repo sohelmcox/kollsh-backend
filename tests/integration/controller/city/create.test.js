@@ -8,7 +8,7 @@ jest.mock("../../../../src/lib/city", () => ({
   create: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.post(cityTestUrl, cityController.create);
 
 describe("City Controller", () => {

@@ -14,7 +14,7 @@ jest.mock("../../../../src/lib/city", () => ({
   updateOrCreate: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.put(`${cityTestUrl}/:id`, cityController.updateOrCreate);
 
 describe("City Update Controller", () => {

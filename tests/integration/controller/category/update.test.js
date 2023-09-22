@@ -14,7 +14,7 @@ jest.mock("../../../../src/lib/category", () => ({
   updateOrCreate: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.put(`${categoryTestUrl}/:id`, categoryController.updateOrCreate);
 
 describe("Category Update Controller", () => {

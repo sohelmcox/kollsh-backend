@@ -14,7 +14,7 @@ jest.mock("../../../../src/lib/brand", () => ({
   updateOrCreate: jest.fn(),
 }));
 
-// Set up Express app and route
+// Set up route
 app.put(`${brandTestUrl}/:id`, brandController.updateOrCreate);
 
 describe("Brand Update Controller", () => {
