@@ -4,7 +4,7 @@ const categoryController = require("../../../../src/api/v1/category/controllers"
 const categoryServices = require("../../../../src/lib/category");
 const { categoryTestUrl } = require("../../../testSeed/category");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/category", () => ({
   destroyMany: jest.fn(),
 }));

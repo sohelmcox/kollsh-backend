@@ -4,7 +4,7 @@ const { create: createMetadataService } = require("../../../src/lib/metadata");
 const { badRequest } = require("../../../src/utils/error");
 const { slugify } = require("../../../src/utils/generateUniqueSlug");
 
-// Mock your dependencies and services
+// Mock dependencies and services
 jest.mock("../../../src/lib/metadata", () => ({
   create: jest.fn(),
 }));

@@ -9,7 +9,7 @@ const {
   mockUpdatedAttributeValue,
 } = require("../../../testSeed/attributeValue");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/attributeValue", () => ({
   updateOrCreate: jest.fn(),
 }));

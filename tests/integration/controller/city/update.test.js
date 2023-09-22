@@ -9,7 +9,7 @@ const {
   mockUpdatedCity,
 } = require("../../../testSeed/city");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/city", () => ({
   updateOrCreate: jest.fn(),
 }));

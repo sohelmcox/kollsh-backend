@@ -15,9 +15,9 @@ const { notFound } = require("../../utils/error");
  */
 const findSingle = async ({ id, populate }) => {
   const populatedFields = parsePopulatedFields(populate);
-  let comment = await Comment.findById(id).exec();
+  let comment = await Comment.findById(id);
   if (!comment) {
-    throw notFound();
+    throw notFound("Comment not found");
   }
 
   // Apply population

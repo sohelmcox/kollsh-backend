@@ -18,12 +18,13 @@ const create = async (req, res, next) => {
     const response = {
       code: 201,
       message: "Comment Created Successfully",
+      id: comment.id,
       data: comment,
       links: {
         self: `/comments/${comment.id}`,
       },
     };
-    res.status(201).json(response);
+    res.status(201).json({ ...response });
   } catch (error) {
     next(error);
   }

@@ -7,7 +7,7 @@ const {
   mockAttribute,
 } = require("../../../testSeed/attribute");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/attribute", () => ({
   findSingle: jest.fn(),
 }));

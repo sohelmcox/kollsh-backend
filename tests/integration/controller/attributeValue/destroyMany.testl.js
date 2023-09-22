@@ -4,7 +4,7 @@ const attributeValueController = require("../../../../src/api/v1/attributeValue/
 const attributeValueServices = require("../../../../src/lib/attributeValue");
 const { attributeValueTestUrl } = require("../../../testSeed/attributeValue");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/attributeValue", () => ({
   destroyMany: jest.fn(),
 }));

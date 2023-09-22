@@ -8,7 +8,7 @@ const {
   editCityData,
 } = require("../../../testSeed/city");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/city", () => ({
   edit: jest.fn(),
 }));

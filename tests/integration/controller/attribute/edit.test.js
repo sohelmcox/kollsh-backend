@@ -8,7 +8,7 @@ const {
   editAttributeData,
 } = require("../../../testSeed/attribute");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/attribute", () => ({
   edit: jest.fn(),
 }));

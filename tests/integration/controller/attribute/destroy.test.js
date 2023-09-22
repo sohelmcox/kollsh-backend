@@ -4,7 +4,7 @@ const attributeController = require("../../../../src/api/v1/attribute/controller
 const attributeServices = require("../../../../src/lib/attribute");
 const { attributeTestUrl } = require("../../../testSeed/attribute");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/attribute", () => ({
   destroy: jest.fn(),
 }));

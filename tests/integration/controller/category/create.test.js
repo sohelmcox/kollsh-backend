@@ -6,7 +6,7 @@ const {
   categoryTestUrl,
   categoryTestData,
 } = require("../../../testSeed/category");
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/category", () => ({
   create: jest.fn(),
 }));

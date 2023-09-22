@@ -3,7 +3,7 @@ const { app } = require("../../../setup/app");
 const cityController = require("../../../../src/api/v1/city/controllers");
 const cityServices = require("../../../../src/lib/city");
 const { cityTestUrl, cityTestData } = require("../../../testSeed/city");
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/city", () => ({
   create: jest.fn(),
 }));

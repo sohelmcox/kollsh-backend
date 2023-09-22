@@ -4,7 +4,7 @@ const brandController = require("../../../../src/api/v1/brand/controllers");
 const brandServices = require("../../../../src/lib/brand");
 const { brandTestUrl } = require("../../../testSeed/brand");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/brand", () => ({
   destroyMany: jest.fn(),
 }));

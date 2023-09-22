@@ -8,7 +8,7 @@ const {
   editCategoryData,
 } = require("../../../testSeed/category");
 
-// Mock your service methods
+// Mock service methods
 jest.mock("../../../../src/lib/category", () => ({
   edit: jest.fn(),
 }));
