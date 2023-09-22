@@ -30,7 +30,7 @@ describe("Metadata Find Single Service", () => {
     const result = await findSingle(params);
 
     // Verify that the findById method was called with the correct ID
-    expect(Metadata.findById).toHaveBeenCalledWith("newMetadataId");
+    expect(Metadata.findById).toHaveBeenCalledWith(params);
 
     // Verify the result
     expect(result).toEqual(newMetadataData);

@@ -13,7 +13,7 @@ const { notFound } = require("../../utils/error");
  * @returns {Object} - The permission data with populated fields if requested.
  */
 const findSingle = async (id) => {
-  let permission = await Permission.findById(id).exec();
+  let permission = await Permission.findById(id);
   if (!permission) {
     throw notFound("Permission not Found");
   }

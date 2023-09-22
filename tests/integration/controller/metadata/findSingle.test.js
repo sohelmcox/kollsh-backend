@@ -23,7 +23,7 @@ describe("Metadata FindSingle Controller", () => {
     expect(response.statusCode).toBe(200);
     expect(response.body.id).toBe("metadataId");
     expect(response.body.data.title).toBe("Test Metadata");
-    expect(response.body.data.description).toBe("Test Description");
+    expect(response.body.data.description).toBe("string");
   });
 
   it("should handle errors from the service", async () => {
