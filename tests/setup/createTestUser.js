@@ -9,7 +9,7 @@ const createTestUser = async () => {
     email: "ibsifat900@gmail.com",
     confirmed: true,
     blocked: false,
-    password: await hashing.generateHash("string"),
+    password: "string",
   });
 };
 module.exports = createTestUser;

@@ -15,7 +15,7 @@ const { notFound } = require("../../utils/error");
  */
 const findSingle = async ({ id, populate }) => {
   const populatedFields = parsePopulatedFields(populate);
-  let subcategory = await Subcategory.findById(id).exec();
+  let subcategory = await Subcategory.findById(id);
   if (!subcategory) {
     throw notFound("Subcategory Not Found");
   }

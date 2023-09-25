@@ -1,7 +1,5 @@
 const { Reply } = require("../../models");
 
-const { badRequest } = require("../../utils/error");
-
 /**
  * Create a new reply.
  *
@@ -18,11 +16,8 @@ const create = async ({ content, comment, user }) => {
     comment,
     user,
   };
-  const newReply = new Reply(replyData);
-
-  // Save the new reply to the database
-  await newReply.save();
-
+  const newReply = await Reply.create({ ...replyData });
+  console.log(newReply);
   return { id: newReply.id, ...newReply._doc };
 };
 

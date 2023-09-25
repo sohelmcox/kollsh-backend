@@ -15,11 +15,11 @@ const { notFound } = require("../../utils/error");
  */
 const findSingle = async ({ id, populate }) => {
   const populatedFields = parsePopulatedFields(populate);
-  let reply = await Reply.findById(id).exec();
+  let reply = await Reply.findById(id);
   if (!reply) {
     throw notFound("Reply Not Found");
   }
-  const isCommentExist = Comment.findById(reply.comment);
+  const isCommentExist = await Comment.findById(reply.comment);
   if (!isCommentExist) {
     throw notFound("This Comment Is Not Found");
   }

@@ -11,9 +11,19 @@ const { accessToken } = require("../../../../src/config");
 jest.mock("../../../../src/lib/permission", () => ({
   create: jest.fn(),
 }));
-
+function setTestUser(req, res, next) {
+  req.user = {
+    id: "6502a59b35d01ff95a2c2527",
+    name: "Ibrahim Sifat",
+    username: "username",
+    email: "ibsifat900@gmail.com",
+    confirmed: true,
+    blocked: false,
+  };
+  next();
+}
 // Set up route
-app.post(permissionTestUrl, permissionController.create);
+app.post(permissionTestUrl, setTestUser, permissionController.create);
 // TODO: fix this test
 describe("Permission Controller", () => {
   it("should create a new permission", async () => {
@@ -25,7 +35,6 @@ describe("Permission Controller", () => {
       .post(permissionTestUrl)
       .send(permissionTestData)
       .set("authorization", `Bearer ${accessToken}`);
-    console.log(response);
     expect(response.statusCode).toBe(201);
     expect(response.body.code).toBe(201);
     expect(response.body.message).toBe("Permission Created Successfully");

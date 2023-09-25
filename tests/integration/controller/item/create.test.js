@@ -1,8 +1,6 @@
-const request = require("supertest");
-const { app } = require("../../../setup/app");
 const itemController = require("../../../../src/api/v1/item/controllers");
 const itemService = require("../../../../src/lib/item");
-const { itemTestUrl, itemTestData } = require("../../../testSeed/item");
+const { itemTestData } = require("../../../testSeed/item");
 // Mock service methods
 jest.mock("../../../../src/lib/item", () => ({
   create: jest.fn(),

@@ -28,12 +28,11 @@ const create = async ({
   if (checkIsExist) {
     throw badRequest("User already exist");
   }
-  const hashedPassword = await hashing.generateHash(password);
   const userData = {
     name,
     username,
     email,
-    password: hashedPassword,
+    password,
     confirmed: confirmed ? true : false,
     blocked: blocked ? false : true,
   };

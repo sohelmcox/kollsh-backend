@@ -9,9 +9,9 @@ const replyData2 = {
   comment: "string or id",
 };
 const newReplyData = {
-  id: "newReplyId",
   content: "New Reply",
   comment: "string or id",
+  user: "6502a59b35d01ff95a2c2527",
 };
 const updatedReplyData = {
   content: "Updated Reply",
@@ -33,6 +33,7 @@ const replyTestData = {
   id: "replyId",
   content: "Test Reply",
   comment: "string or id",
+  user: "6502a59b35d01ff95a2c2527",
 };
 const mockReply = {
   id: "replyId",

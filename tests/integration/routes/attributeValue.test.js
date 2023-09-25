@@ -11,7 +11,6 @@ const {
   newAttributeValueData,
   updatedAttributeValueData,
   existingAttributeValueData,
-  updatedDescription,
   updatedColorCode,
 } = require("../../testSeed/attributeValue");
 const agent = require("../../agent");

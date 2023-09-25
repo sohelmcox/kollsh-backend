@@ -64,6 +64,12 @@ const createRoleData = [
     permissions: ["6502a59b35d01ff95a2c2527"],
   },
 ];
+const userRole = {
+  name: "user",
+  description: "this is a user role",
+  permissions: ["6502a59b35d01ff95a2c2527"],
+  createdBy: "6502a59b35d01ff95a2c2527",
+};
 const roleTestQuery = {
   sort: "name",
   fields: "name,description",
@@ -84,5 +90,6 @@ module.exports = {
   mockRole,
   mockUpdatedRole,
   roleTestUrl,
+  userRole,
   roleTestQuery,
 };

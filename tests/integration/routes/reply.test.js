@@ -1,6 +1,7 @@
 // setup database test connection
 require("../../setup/testSetup");
 const { create: createReply } = require("../../../src/lib/reply");
+const { create: createComment } = require("../../../src/lib/comment");
 const {
   replyData1,
   replyData2,
@@ -8,11 +9,10 @@ const {
   createReplyData,
   newReplyData,
   updatedReplyData,
-  existingReplyData,
   updatedContent,
 } = require("../../testSeed/reply");
 const agent = require("../../agent");
-const { Reply, User } = require("../../../src/models");
+const { Reply, User, Comment } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const replyTestBaseUrl = `${testBaseUrl}/replies`;
@@ -32,6 +32,7 @@ describe("Reply API Integration Tests", () => {
     // Clean up test data after each test case
     await Reply.deleteMany({});
     await User.deleteMany({});
+    await Comment.deleteMany({});
   });
   describe("Create A new Reply", () => {
     it("should create a new reply POST", async () => {
@@ -41,7 +42,9 @@ describe("Reply API Integration Tests", () => {
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
       expect(response.statusCode).toBe(201);
+      console.log(response.body);
       expect(response.body.data.content).toBe(newReplyData.content);
+      expect(response.body.message).toBe("Reply Created Successfully");
     });
   });
   describe("Retrieve Multiple Replies", () => {
@@ -79,15 +82,23 @@ describe("Reply API Integration Tests", () => {
   describe("Retrieve Single Replies", () => {
     it("should find a single reply by its ID GET:", async () => {
       // Create a test reply record in the database
-      const testReply = await createReply({ ...replyTestData });
+      const comment = await createComment({
+        content: "awesome comment",
+        itemDetails: "string or id",
+        author: "6502a59b35d01ff95a2c2527",
+      });
+      const testReply = await createReply({
+        ...replyTestData,
+        comment: comment.id,
+      });
 
       // Perform a GET request to find the reply by its ID
       const response = await agent
         .get(`${replyTestBaseUrl}/${testReply.id}`)
         .set("Accept", "application/json");
 
+      console.log(response);
       expect(response.statusCode).toBe(200);
-
       // Check if the response matches the testReply
       expect(response.body.id).toBe(String(testReply.id));
       expect(response.body.data.content).toBe(testReply.content);

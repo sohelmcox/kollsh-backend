@@ -39,6 +39,7 @@ const updateOrCreate = async (
     });
     await newSubcategory.save();
     return {
+      id: newSubcategory.id,
       data: { ...newSubcategory._doc },
       code: 201,
     };
@@ -58,6 +59,6 @@ const updateOrCreate = async (
   subcategory.overwrite(payload);
   await subcategory.save();
 
-  return { data: { ...subcategory._doc }, code: 200 };
+  return { id: subcategory.id, data: { ...subcategory._doc }, code: 200 };
 };
 module.exports = updateOrCreate;

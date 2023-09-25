@@ -8,7 +8,6 @@ const update = async (req, res, next) => {
       name,
       description,
       permission,
-      createdBy: req.user.id,
     });
 
     const response = {

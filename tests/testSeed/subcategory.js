@@ -33,7 +33,6 @@ const newSubcategoryData = {
 };
 const updatedSubcategoryData = {
   name: "Updated Subcategory",
-  slug: "updated-subcategory",
   category: "string or id",
   image: "string or id",
   cover_image: "string or id",

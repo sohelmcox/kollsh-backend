@@ -1,5 +1,5 @@
 const { User } = require("../../models");
-const { userServices } = require("..");
+const { updatePassword } = require("../user/utils");
 const { badRequest } = require("../../utils/error");
 const { findUserByEmail } = require("./userService");
 const { hashing } = require("../../utils");
@@ -45,8 +45,7 @@ const resetPassword = async ({
   }
   const { email } = user;
   // Update the user's password
-  const hashedPassword = await hashing.generateHash(newPassword);
-  await userServices.updatePassword({ email, newPassword: hashedPassword });
+  await updatePassword({ email, newPassword });
 
   // Delete the reset code from the database
   await deletePasswordResetCode(email);

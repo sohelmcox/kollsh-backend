@@ -9,7 +9,7 @@ const { notFound } = require("../../utils/error");
 const destroy = async (id) => {
   const brand = await Reply.findById(id);
   if (!brand) {
-    throw notFound("brand not found.");
+    throw notFound("Reply not found.");
   }
   await brand.deleteOne();
 };

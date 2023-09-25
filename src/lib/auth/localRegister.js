@@ -1,9 +1,8 @@
 const generateUniqueCode = require("../../utils/generateUniqueCode");
 const { badRequest } = require("../../utils/error");
-const { hashing } = require("../../utils");
 const { userExist, createUser, findByUsername } = require("../user/utils");
 const sendVerificationEmail = require("../../utils/mail/sendVerificationEmail");
-const { findRoleByRoleName } = require("../role");
+const { Role } = require("../../models");
 
 const localRegister = async ({ name, username, email, password }) => {
   try {
@@ -15,14 +14,13 @@ const localRegister = async ({ name, username, email, password }) => {
     if (existingUsername) {
       throw badRequest("Username already taken, try another one");
     }
-    const getRole = (await findRoleByRoleName({ name: "user" })) || "user";
+    const getRole = (await Role.findOne({ name: "user" })) || "user";
     // Generate hashed password
-    const hashedPassword = await hashing.generateHash(password);
     const userObj = {
       name,
       username,
       email,
-      password: hashedPassword,
+      password,
       confirmationCode: generateUniqueCode(),
       confirmed: false,
       blocked: false,

@@ -13,8 +13,7 @@ const changePassword = async ({ id, password, passwordConfirmation }) => {
   }
   const { email } = user;
   // Update the user's password
-  const hashedPassword = await hashing.generateHash(password);
-  await updatePassword({ email, newPassword: hashedPassword });
+  await updatePassword({ email, newPassword: password });
 
   return { status: 200, message: "Password changed successfully." };
 };

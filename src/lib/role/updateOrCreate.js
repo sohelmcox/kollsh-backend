@@ -9,22 +9,17 @@ const { badRequest } = require("../../utils/error");
  * @param {string} data.name - The updated name of the role.
  * @param {string} data.description - The updated description of the role.
  * @param {string} data.permission - The updated permission of the role.
- * @param {string} data.createdBy - The updated createdBy of the role.
  *
  * @returns {Object} - An object containing the updated role or newly created role and a status code (201 for creation, 200 for update).
  */
 
-const updateOrCreate = async (
-  id,
-  { name, description, permission, createdBy },
-) => {
+const updateOrCreate = async (id, { name, description, permission }) => {
   const role = await Role.findById(id);
   if (!role) {
     const newRole = await Role.create({
       name,
       description,
       permission,
-      createdBy,
     });
     await newRole.save();
     return {
@@ -37,7 +32,6 @@ const updateOrCreate = async (
     name,
     description,
     permission,
-    createdBy,
   };
 
   role.overwrite(payload);

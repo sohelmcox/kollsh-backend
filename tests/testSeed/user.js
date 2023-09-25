@@ -1,5 +1,3 @@
-const { hashing } = require("../../src/utils");
-
 const testUsers = [
   {
     name: "Ibrahim Sifat",
@@ -7,52 +5,55 @@ const testUsers = [
     email: "ibsifat900@gmail.com",
     confirmed: true,
     blocked: false,
-    password: await hashing.generateHash("string"),
+    password: "string",
   },
 ];
 const { testBaseUrl } = require("../../src/config");
 const userTestUrl = `${testBaseUrl}/users`;
 const userData1 = {
   name: "User 1",
-  slug: "user-1",
-  image: "string or id",
-  description: "Description 1",
-  priority: 0,
-  attributes: ["string or id", "string or id"],
+  username: "username2",
+  email: "ibsifat900@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
 };
 const userData2 = {
   name: "User 2",
-  slug: "user-2",
-  image: "string or id",
-  description: "Description 2",
-  priority: 0,
-  attributes: ["string or id", "string or id"],
+  username: "username4",
+  email: "ibsifat900@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
 };
 const newUserData = {
   id: "newUserId",
   name: "New User",
-  slug: "new-user",
-  priority: 0,
-  description: "New Description",
-  image: "string or id",
+  username: "usernames",
+  email: "ibsifat900@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
 };
 const updatedUserData = {
   name: "Updated User",
-  slug: "updated-user",
-  description: "Updated Description",
-  priority: 0,
-  image: "string or id",
+  username: "username5",
+  email: "ibsifat900@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
 };
 const editUserData = {
   name: "Edit User",
-  description: "Edit Description",
+  username: "Edit username",
 };
 const existingUserData = {
   name: "Existing User",
-  description: "Existing Description",
-  slug: "existing-user",
-  priority: 0,
-  image: "string or id",
+  username: "Existing username",
+  email: "ibsifat900@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
 };
 const existingUser = {
   id: "existingUserId",
@@ -61,47 +62,58 @@ const existingUser = {
 const userTestData = {
   id: "userId",
   name: "Test User",
-  description: "Test Description",
-  slug: "test-user",
-  priority: 0,
-  image: "string or id",
+  username: "test_username",
+  email: "ibsifat900@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
 };
 const mockUser = {
   id: "userId",
   name: "Test User",
-  description: "Test Description",
-  priority: 0,
-  image: "string or id",
+  username: "username",
+  email: "ibsifat900@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
 };
 const mockUpdatedUser = {
   id: "userId",
   name: "Updated User",
-  description: "Updated Description",
+  username: "Updated Username",
 };
-const updatedDescription = { description: "Updated Description" };
+const updatedUsername = { username: "Updated Username" };
 const createUserData = [
   {
     name: "string",
-    slug: "string",
-    image: "string or id",
-    description: "string",
-    priority: 0,
-    attributes: ["string or id", "string or id"],
+    username: "username",
+    email: "ibsifat900@gmail.com",
+    confirmed: true,
+    blocked: false,
+    password: "string",
   },
   {
     name: "user name",
-    slug: "user-name",
-    image: "string or id",
-    description: "string",
-    priority: 0,
-    attributes: ["string or id", "string or id"],
+    username: "username",
+    email: "ibsifat900@gmail.com",
+    confirmed: true,
+    blocked: false,
+    password: "string",
   },
 ];
 const userTestQuery = {
   sort: "name",
-  fields: "name,description",
+  fields: "name,username,email",
   pageSize: 10,
   pageNumber: 1,
+};
+const reqTestUser = {
+  id: "6502a59b35d01ff95a2c2527",
+  name: "Ibrahim Sifat",
+  username: "username",
+  email: "ibsifat900@gmail.com",
+  confirmed: true,
+  blocked: false,
 };
 module.exports = {
   testUsers,
@@ -112,11 +124,12 @@ module.exports = {
   editUserData,
   existingUserData,
   existingUser,
-  updatedDescription,
+  updatedUsername,
   userTestData,
   createUserData,
   mockUser,
   mockUpdatedUser,
   userTestUrl,
   userTestQuery,
+  reqTestUser,
 };
