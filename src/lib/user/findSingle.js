@@ -15,7 +15,7 @@ const { notFound } = require("../../utils/error");
  */
 const findSingle = async ({ id, populate }) => {
   const populatedFields = parsePopulatedFields(populate);
-  let user = await User.findById(id).exec();
+  let user = await User.findById(id);
   if (!user) {
     throw notFound("User Not Found");
   }

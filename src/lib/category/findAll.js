@@ -69,8 +69,7 @@ const findAll = async ({
   let categories = await Category.find(searchQuery)
     .sort(sortStr)
     .skip(pageNumber * pageSize - pageSize)
-    .limit(pageSize)
-    .exec();
+    .limit(pageSize);
 
   // Apply population
   const { populatedFields } = query;

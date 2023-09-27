@@ -67,8 +67,7 @@ const findAll = async ({
   let permissions = await Permission.find(searchQuery)
     .sort(sortStr)
     .skip(pageNumber * pageSize - pageSize)
-    .limit(pageSize)
-    .exec();
+    .limit(pageSize);
 
   // Select fields
   if (query.selectedFields.length > 0) {

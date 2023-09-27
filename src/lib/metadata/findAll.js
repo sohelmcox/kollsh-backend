@@ -63,8 +63,7 @@ const findAll = async ({
   let metadata = await Metadata.find(searchQuery)
     .sort(sortStr)
     .skip(pageNumber * pageSize - pageSize)
-    .limit(pageSize)
-    .exec();
+    .limit(pageSize);
 
   // Select fields
   if (query.selectedFields.length > 0) {

@@ -1,13 +1,21 @@
 const mongoose = require("mongoose");
 
 const uploadSchema = new mongoose.Schema({
-  asset_id: String,
-  public_id: String,
+  asset_id: {
+    type: String,
+    required: true,
+  },
+  public_id: {
+    type: String,
+    required: true,
+  },
   alternativeText: {
     type: String,
     required: true,
   },
-  caption: String,
+  caption: {
+    type: String,
+  },
   width: {
     type: Number,
     integer: true,
@@ -16,9 +24,16 @@ const uploadSchema = new mongoose.Schema({
     type: Number,
     integer: true,
   },
-  folder: String,
-  resource_type: String,
-  format: String,
+  folder: {
+    type: String,
+    required: true,
+  },
+  resource_type: {
+    type: String,
+  },
+  format: {
+    type: String,
+  },
   size: {
     type: Number,
     format: "float",

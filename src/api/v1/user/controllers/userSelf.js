@@ -1,11 +1,15 @@
 const userServices = require("../../../../lib/user");
+const { authenticationError } = require("../../../../utils/error");
 
 const userSelf = async (req, res, next) => {
-  const { id } = req.user;
+  // const { id } = req.user;
   const { populate } = req.query || "";
-  console.log("user", req.user);
+  // Check if the user is authenticated
   try {
-    const user = await userServices.userSelf({ id, populate });
+    if (!req.user) {
+      throw authenticationError("Unauthorized");
+    }
+    const user = await userServices.userSelf({ id: req.user.id, populate });
     const { id: userId } = user;
     const response = {
       id: userId,

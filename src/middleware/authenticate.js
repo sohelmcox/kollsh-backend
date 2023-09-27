@@ -28,7 +28,7 @@ const authenticate = async (req, _res, next) => {
       next(authenticationError("Your account is blocked"));
     }
     const userDTO = getUserDTO(user);
-    req.user = { id: user._id, userDTO };
+    req.user = { ...userDTO };
     next();
   } catch (e) {
     next(e);

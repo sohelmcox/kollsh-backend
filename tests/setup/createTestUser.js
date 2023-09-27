@@ -1,5 +1,4 @@
 const { User } = require("../../src/models");
-const { hashing } = require("../../src/utils");
 
 // Helper function to create a new user with a token
 const createTestUser = async () => {

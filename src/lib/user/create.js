@@ -1,5 +1,5 @@
 const { User } = require("../../models");
-const { hashing, getUserDTO } = require("../../utils");
+const { getUserDTO } = require("../../utils");
 const { badRequest } = require("../../utils/error");
 const { userExist } = require("./utils");
 
@@ -36,12 +36,13 @@ const create = async ({
     confirmed: confirmed ? true : false,
     blocked: blocked ? false : true,
   };
-  const newUser = new User(userData);
+  // const newUser = new User({ ...userData });
 
   // Save the new user to the database
-  await newUser.save();
+  // await newUser.save();
+  const newUser = await User.create({ ...userData });
   const result = getUserDTO(newUser);
-  return { id: newUser.id, ...result };
+  return { id: newUser.id, code: 201, ...result };
 };
 
 module.exports = create;

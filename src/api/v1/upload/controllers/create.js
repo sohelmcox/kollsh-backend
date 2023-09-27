@@ -1,12 +1,25 @@
+const uploadService = require("../../../../lib/upload");
 const create = async (req, res, next) => {
+  const {
+    folderName,
+    width: givenFileWidth,
+    height: givenFileHeight,
+  } = req.body;
+  console.log(folderName, givenFileHeight, givenFileWidth);
+  const { files } = req;
+
   try {
-    res.json({
-      status: 201,
-      message: "File Successfully Uploaded",
-      uploadedThumbnailId: req.uploadedThumbnailId,
+    const result = await uploadService.create({
+      folderName,
+      givenFileWidth,
+      givenFileHeight,
+      files,
     });
+    res
+      .status(201)
+      .json({ message: "Successfully Uploaded File", data: result });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 

@@ -5,7 +5,7 @@ cloudinary.config({
   cloud_name: config.cloudinaryCloudName,
   api_key: config.cloudinaryApiKey,
   api_secret: config.cloudinaryApiSecret,
-  secure: true,
+  // secure: true,
 });
 
 const cloudinaryImageUploader = async ({

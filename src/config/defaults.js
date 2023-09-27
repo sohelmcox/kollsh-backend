@@ -94,8 +94,13 @@ const defaults = {
     "createdAt",
   ],
   //metadata
-  metadataAllowedSearchFields: ["content"],
-  metadataAllowedSorByFields: ["content", "updatedAt", "createdAt"],
+  metadataAllowedSearchFields: ["title", "description"],
+  metadataAllowedSorByFields: [
+    "title",
+    "description",
+    "updatedAt",
+    "createdAt",
+  ],
   //reply
   replyAllowedSearchFields: ["content"],
   replyAllowedSorByFields: ["content", "updatedAt", "createdAt"],

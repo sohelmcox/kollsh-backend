@@ -1223,25 +1223,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              type: object
-              properties:
-                files:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
-                folderName:
-                  type: string
-                  description: folder name to upload file
-                  example: "items"
-                width:
-                  type: number
-                  description: width of the file
-                  example: 400
-                height:
-                  type: number
-                  description: height of the file
-                  example: 400
+              $ref: "#/components/schemas/UploadFileRequest"
       security:
         - bearerAuth: []
       responses:
@@ -1250,17 +1232,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: number
-                    example: 201
-                  message:
-                    type: string
-                    example: "file uploaded successfully"
-                  uploadedThumbnailId:
-                    type: string
-                    example: 6502d517703a924c39996ca5
+                $ref: "#/components/schemas/UploadFileResponse"
         "400":
           $ref: "#/components/responses/400"
         "500":
@@ -3502,7 +3474,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /users/change-password:
-    put:
+    post:
       responses:
         "200":
           description: OK
@@ -5909,18 +5881,23 @@ components:
     UploadFileRequest:
       type: object
       properties:
-        alternativeText:
+        files:
+          type: array
+          items:
+            type: string
+            format: binary
+        folderName:
           type: string
-        file:
-          type: string
-        fileType:
-          type: string
-        filename:
-          type: string
-        folder:
-          type: string
-      required:
-        - file
+          description: folder name to upload file
+          example: "items"
+        width:
+          type: number
+          description: width of the file
+          example: 400
+        height:
+          type: number
+          description: height of the file
+          example: 400
     UploadFileListResponseDataItem:
       type: object
       properties:
@@ -5941,7 +5918,7 @@ components:
             item:
               type: object
               properties:
-                slef:
+                self:
                   type: string
             pagination:
               $ref: "#/components/schemas/Pagination"
@@ -5984,13 +5961,16 @@ components:
           $ref: "#/components/schemas/MongoDBObjectId"
         data:
           $ref: "#/components/schemas/UploadFile"
+
     UploadFileResponse:
       type: object
       properties:
+        code:
+          type: number
+        message:
+          type: string
         data:
           $ref: "#/components/schemas/UploadFileResponseDataObject"
-        meta:
-          type: object
     Role:
       type: object
       properties:

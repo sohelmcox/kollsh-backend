@@ -1,8 +1,8 @@
 const testUsers = [
   {
     name: "Ibrahim Sifat",
-    username: "username",
-    email: "ibsifat900@gmail.com",
+    username: "main username",
+    email: "ibsifat100@gmail.com",
     confirmed: true,
     blocked: false,
     password: "string",
@@ -13,7 +13,7 @@ const userTestUrl = `${testBaseUrl}/users`;
 const userData1 = {
   name: "User 1",
   username: "username2",
-  email: "ibsifat900@gmail.com",
+  email: "ibsifat1000@gmail.com",
   confirmed: true,
   blocked: false,
   password: "string",
@@ -21,7 +21,7 @@ const userData1 = {
 const userData2 = {
   name: "User 2",
   username: "username4",
-  email: "ibsifat900@gmail.com",
+  email: "ibsifat9@gmail.com",
   confirmed: true,
   blocked: false,
   password: "string",
@@ -30,7 +30,7 @@ const newUserData = {
   id: "newUserId",
   name: "New User",
   username: "usernames",
-  email: "ibsifat900@gmail.com",
+  email: "ibsifat90@gmail.com",
   confirmed: true,
   blocked: false,
   password: "string",
@@ -38,7 +38,7 @@ const newUserData = {
 const updatedUserData = {
   name: "Updated User",
   username: "username5",
-  email: "ibsifat900@gmail.com",
+  email: "ibsifat800@gmail.com",
   confirmed: true,
   blocked: false,
   password: "string",
@@ -50,7 +50,7 @@ const editUserData = {
 const existingUserData = {
   name: "Existing User",
   username: "Existing username",
-  email: "ibsifat900@gmail.com",
+  email: "ibsifat700@gmail.com",
   confirmed: true,
   blocked: false,
   password: "string",
@@ -63,7 +63,7 @@ const userTestData = {
   id: "userId",
   name: "Test User",
   username: "test_username",
-  email: "ibsifat900@gmail.com",
+  email: "ibsifat400@gmail.com",
   confirmed: true,
   blocked: false,
   password: "string",
@@ -71,8 +71,8 @@ const userTestData = {
 const mockUser = {
   id: "userId",
   name: "Test User",
-  username: "username",
-  email: "ibsifat900@gmail.com",
+  username: "test username",
+  email: "ibsifat200@gmail.com",
   confirmed: true,
   blocked: false,
   password: "string",
@@ -86,16 +86,16 @@ const updatedUsername = { username: "Updated Username" };
 const createUserData = [
   {
     name: "string",
-    username: "username",
-    email: "ibsifat900@gmail.com",
+    username: "username data",
+    email: "ibsifat100@gmail.com",
     confirmed: true,
     blocked: false,
     password: "string",
   },
   {
     name: "user name",
-    username: "username",
-    email: "ibsifat900@gmail.com",
+    username: "username data2",
+    email: "ibsifat50@gmail.com",
     confirmed: true,
     blocked: false,
     password: "string",
@@ -110,10 +110,34 @@ const userTestQuery = {
 const reqTestUser = {
   id: "6502a59b35d01ff95a2c2527",
   name: "Ibrahim Sifat",
-  username: "username",
-  email: "ibsifat900@gmail.com",
+  username: "real username",
+  email: "ibsifat0@gmail.com",
   confirmed: true,
   blocked: false,
+};
+const toUpdateUser = {
+  name: "patch string",
+  username: "patch username data",
+  email: "ibsifatpatch00@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
+};
+const toDeleteUser = {
+  name: "delete string",
+  username: "delete username data",
+  email: "ibsifatdelete00@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
+};
+const toChangePassword = {
+  name: "change string",
+  username: "change username data",
+  email: "ibsifatchange00@gmail.com",
+  confirmed: true,
+  blocked: false,
+  password: "string",
 };
 module.exports = {
   testUsers,
@@ -132,4 +156,7 @@ module.exports = {
   userTestUrl,
   userTestQuery,
   reqTestUser,
+  toUpdateUser,
+  toDeleteUser,
+  toChangePassword,
 };
