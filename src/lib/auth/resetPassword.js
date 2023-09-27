@@ -2,11 +2,13 @@ const { User } = require("../../models");
 const { updatePassword } = require("../user/utils");
 const { badRequest } = require("../../utils/error");
 const { findUserByEmail } = require("./userService");
-const { hashing } = require("../../utils");
 
 const verifyPasswordResetCode = async (resetPasswordCode) => {
   // Verify if the reset code matches and has not expired
-  const user = await User.findOne({ resetPasswordCode });
+  const user = await User.findOne({ resetPasswordCode }).select({
+    resetPasswordCode: 1,
+    resetPasswordRCodeExpires: 1,
+  });
   if (
     !user ||
     user.resetPasswordCode !== resetPasswordCode ||
@@ -61,4 +63,8 @@ const resetPasswordAttempts = async ({ email }) => {
   return user.passwordResetAttempts;
 };
 
-module.exports = { resetPassword, resetPasswordAttempts };
+module.exports = {
+  resetPassword,
+  resetPasswordAttempts,
+  verifyPasswordResetCode,
+};

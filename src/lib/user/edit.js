@@ -17,7 +17,18 @@ const { notFound } = require("../../utils/error");
  * @throws {Error} - Throws an error if the user with the provided ID is not found.
  */
 
-const edit = async (id, { name, username, email, confirmed, blocked }) => {
+const edit = async (
+  id,
+  {
+    name,
+    username,
+    email,
+    confirmed,
+    blocked,
+    resetPasswordCode,
+    resetPasswordRCodeExpires,
+  },
+) => {
   const user = await User.findById(id);
   if (!user) {
     throw notFound("User not found.");
@@ -28,6 +39,8 @@ const edit = async (id, { name, username, email, confirmed, blocked }) => {
     email,
     confirmed,
     blocked,
+    resetPasswordCode,
+    resetPasswordRCodeExpires,
   };
 
   Object.keys(payload).forEach((key) => {

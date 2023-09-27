@@ -1,5 +1,5 @@
 const { Upload } = require("../../models");
-const { notFound } = require("../../utils/error");
+const { notFound, serverError } = require("../../utils/error");
 const {
   deleteCloudinarySingleFile,
 } = require("../../utils/upload/cloudinarySDK");
@@ -11,11 +11,15 @@ const {
  */
 const destroy = async (id) => {
   const file = await Upload.findById(id);
-  if (!file) {
-    throw notFound();
+  try {
+    if (!file) {
+      throw notFound("file is not found");
+    }
+    // delete image
+    // await deleteCloudinarySingleFile(file.public_id);
+    await file.deleteOne();
+  } catch (error) {
+    throw notFound(error);
   }
-  // delete image
-  await deleteCloudinarySingleFile(file.public_id);
-  await file.deleteOne();
 };
 module.exports = destroy;

@@ -10,9 +10,9 @@ const { notFound } = require("../../utils/error");
  * @returns {Object} - The file data with populated fields if requested.
  */
 const findSingle = async (id) => {
-  let file = await Upload.findById(id).exec();
+  let file = await Upload.findById(id);
   if (!file) {
-    throw notFound();
+    throw notFound("file not found");
   }
   return { ...file._doc, id: file.id };
 };

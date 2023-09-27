@@ -47,7 +47,7 @@ const findAll = async ({
     sortCriteria: parseSortCriteria(sort, defaults.uploadAllowedSorByFields),
     selectedFields: parseSelectedFields(fields),
     populatedFields: parsePopulatedFields(populate),
-    searchQuery: search ? JSON.parse(search) : {},
+    searchQuery: search,
     locale,
     pageNumber: parseInt(pageNumber, defaults.radix) || 1,
     limit: parseInt(pageSize, defaults.radix) || config.pageSize,
@@ -67,8 +67,7 @@ const findAll = async ({
   let uploadedFile = await Upload.find(searchQuery)
     .sort(sortStr)
     .skip(pageNumber * pageSize - pageSize)
-    .limit(pageSize)
-    .exec();
+    .limit(pageSize);
 
   // Apply population
   const { populatedFields } = query;
@@ -117,10 +116,18 @@ const findAll = async ({
     populatedFields: query.populatedFields,
     searchQuery: query.searchQuery,
   };
-  const finalItems = uploadedFile.map((file) => ({
-    id: file.id,
-    data: { ...file._doc },
-  }));
+  let finalItems = [];
+  if (query.selectedFields.length > 0) {
+    finalItems = uploadedFile.map((item) => ({
+      id: item.id,
+      data: { ...item },
+    }));
+  } else {
+    finalItems = uploadedFile.map((item) => ({
+      id: item.id,
+      data: { ...item._doc },
+    }));
+  }
 
   // Generate the full response
   const data = {

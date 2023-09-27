@@ -1,4 +1,4 @@
-const itemService = require("../../../../lib/item");
+const uploadService = require("../../../../lib/upload");
 const { badRequest } = require("../../../../utils/error");
 
 const destroyMany = async (req, res, next) => {
@@ -7,10 +7,10 @@ const destroyMany = async (req, res, next) => {
     if (!Array.isArray(ids) || ids.length === 0) {
       throw badRequest("Invalid Ids provided");
     }
-    const deletedCount = await itemService.destroyMany(ids);
+    const deletedCount = await uploadService.destroyMany(ids);
     res
       .status(202)
-      .json({ status: 202, message: `${deletedCount} items deleted.` });
+      .json({ status: 202, message: `${deletedCount} files deleted.` });
   } catch (error) {
     next(error);
   }

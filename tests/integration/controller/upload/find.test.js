@@ -1,28 +1,30 @@
 const request = require("supertest");
 const { app } = require("../../../setup/app");
-const brandController = require("../../../../src/api/v1/brand/controllers");
-const brandServices = require("../../../../src/lib/brand");
+const uploadController = require("../../../../src/api/v1/upload/controllers");
+const uploadServices = require("../../../../src/lib/upload");
 const {
-  brandTestUrl,
-  createBrandData,
-  brandTestQuery,
-} = require("../../../testSeed/brand");
+  uploadTestUrl,
+  createUploadData,
+  uploadTestQuery,
+} = require("../../../testSeed/upload");
 
 // Mock the required dependencies
-jest.mock("../../../../src/lib/brand", () => ({
+jest.mock("../../../../src/lib/upload", () => ({
   findAll: jest.fn(),
 }));
 
 // Set up route
-app.get(brandTestUrl, brandController.find);
+app.get(uploadTestUrl, uploadController.find);
 
-describe("Brand Find Controller", () => {
-  it("should find brands with query parameters", async () => {
-    // Mock the findAll method from your service to return a sample list of brands
+describe("Upload Find Controller", () => {
+  it("should find uploads with query parameters", async () => {
+    // Mock the findAll method from your service to return a sample list of uploads
 
-    brandServices.findAll.mockResolvedValue(createBrandData);
+    uploadServices.findAll.mockResolvedValue(createUploadData);
 
-    const response = await request(app).get(brandTestUrl).query(brandTestQuery);
+    const response = await request(app)
+      .get(uploadTestUrl)
+      .query(uploadTestQuery);
 
     expect(response.statusCode).toBe(200);
   });

@@ -6,7 +6,7 @@ router
   .route("/files")
   .get(controller.find)
   .post(uploader.array("files"), controller.create)
-  .delete(controller.destroyMany);
+  .delete(authenticate, controller.destroyMany);
 
 router
   .route("/files/:id")

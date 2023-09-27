@@ -1,23 +1,23 @@
 const request = require("supertest");
 const { app } = require("../../../setup/app");
-const brandController = require("../../../../src/api/v1/brand/controllers");
-const brandServices = require("../../../../src/lib/brand");
-const { brandTestUrl } = require("../../../testSeed/brand");
+const uploadController = require("../../../../src/api/v1/upload/controllers");
+const uploadServices = require("../../../../src/lib/upload");
+const { uploadTestUrl } = require("../../../testSeed/upload");
 
 // Mock service methods
-jest.mock("../../../../src/lib/brand", () => ({
+jest.mock("../../../../src/lib/upload", () => ({
   destroy: jest.fn(),
 }));
 
 // Set up route
-app.delete(`${brandTestUrl}/:id`, brandController.destroy);
+app.delete(`${uploadTestUrl}/:id`, uploadController.destroy);
 
-describe("Brand Destroy Controller", () => {
-  it("should delete an existing brand", async () => {
+describe("Upload Destroy Controller", () => {
+  it("should delete an existing upload", async () => {
     // Mock the destroy method from your service to indicate success
-    brandServices.destroy.mockResolvedValue();
+    uploadServices.destroy.mockResolvedValue();
 
-    const response = await request(app).delete(`${brandTestUrl}/:brandId`);
+    const response = await request(app).delete(`${uploadTestUrl}/:uploadId`);
 
     expect(response.statusCode).toBe(202);
     expect(response.text).toBe("ok");
@@ -25,9 +25,9 @@ describe("Brand Destroy Controller", () => {
 
   it("should handle errors from the service", async () => {
     // Mock the destroy method to throw an error
-    brandServices.destroy.mockRejectedValue(new Error("Service Error"));
+    uploadServices.destroy.mockRejectedValue(new Error("Service Error"));
 
-    const response = await request(app).delete(`${brandTestUrl}/:brandId`);
+    const response = await request(app).delete(`${uploadTestUrl}/:uploadId`);
 
     expect(response.statusCode).toBe(500);
   });

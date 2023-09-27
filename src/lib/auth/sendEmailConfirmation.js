@@ -9,7 +9,6 @@ const { findUserByEmail } = require("./userService");
 const sendEmailConfirmation = async (email) => {
   try {
     const user = await findUserByEmail(email);
-    console.log(user);
     if (!user) {
       throw notFound("User not found.");
     }
