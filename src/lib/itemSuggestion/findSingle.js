@@ -15,9 +15,9 @@ const { notFound } = require("../../utils/error");
  */
 const findSingle = async ({ id, populate }) => {
   const populatedFields = parsePopulatedFields(populate);
-  let itemSuggestion = await ItemSuggestion.findById(id).exec();
+  let itemSuggestion = await ItemSuggestion.findById(id);
   if (!itemSuggestion) {
-    throw notFound();
+    throw notFound("ItemSuggestion not found");
   }
 
   // Apply population

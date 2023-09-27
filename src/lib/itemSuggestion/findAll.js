@@ -72,8 +72,7 @@ const findAll = async ({
   let itemSuggestions = await ItemSuggestion.find(searchQuery)
     .sort(sortStr)
     .skip(pageNumber * pageSize - pageSize)
-    .limit(pageSize)
-    .exec();
+    .limit(pageSize);
 
   // Apply population
   const { populatedFields } = query;

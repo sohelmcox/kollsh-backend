@@ -3574,7 +3574,18 @@ paths:
     delete:
       responses:
         "202":
-          $ref: "#/components/responses/202"
+          description: "example(5) itemSuggestions Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 itemSuggestions Deleted"
         "400":
           $ref: "#/components/responses/400"
         "401":
@@ -3587,11 +3598,15 @@ paths:
           $ref: "#/components/responses/500"
       tags:
         - ItemSuggestion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
       security:
         - bearerAuth: []
-      parameters:
-        - $ref: "#/components/parameters/id"
-      operationId: "delete/item-suggestions/{id}"
+      operationId: "delete/item-suggestion"
   /item-suggestions/{id}:
     get:
       responses:
