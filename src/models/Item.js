@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ItemDetails = require("./ItemDetails");
 
 const ItemSchema = new mongoose.Schema(
   {
@@ -60,13 +61,12 @@ const ItemSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
 // Define a virtual field for details
 ItemSchema.virtual("details", {
   ref: "ItemDetails",
   localField: "_id",
   foreignField: "item",
 });
-
-// console.log("ItemSchema", ItemSchema.seller);
 
 module.exports = mongoose.model("Item", ItemSchema);

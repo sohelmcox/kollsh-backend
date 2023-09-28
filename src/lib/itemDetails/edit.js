@@ -18,7 +18,6 @@ const { notFound } = require("../../utils/error");
  * @returns {Object} - The edited itemDetails with additional properties (id).
  * @throws {Error} - Throws an error if the itemDetails with the provided ID is not found.
  */
-// TODO: update params
 const edit = async (
   id,
   {

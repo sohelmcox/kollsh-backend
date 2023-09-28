@@ -7,12 +7,20 @@ const destroyMany = async (req, res, next) => {
     if (!Array.isArray(ids) || ids.length === 0) {
       throw badRequest("Invalid Ids provided");
     }
-    const deletedCount = await itemService.destroyMany(ids);
+    const {
+      deletedItems,
+      deletedItemDetails,
+      deletedComments,
+      deletedMetadata,
+    } = await itemService.destroyMany(ids);
     res.status(202).json({
       status: 202,
-      message: `${deletedCount} ${
-        deletedCount > 1 ? "items" : "items"
+      message: `${deletedItems} ${
+        deletedItems > 1 ? "items" : "items"
       } deleted.`,
+      deletedItemDetails,
+      deletedComments,
+      deletedMetadata,
     });
   } catch (error) {
     next(error);

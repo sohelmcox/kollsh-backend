@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Reply = require("./Reply");
 
 // Define the main schema using the referenced schemas
 const CommentSchema = new mongoose.Schema(
@@ -35,7 +36,7 @@ CommentSchema.virtual("replies", {
   localField: "_id",
   justOne: true,
 });
-// console.log(CommentSchema.virtual("replies"));
+
 // CommentSchema.pre(/^find/, function (next) {
 //   // ^find here is we use regex and can able to find,findOne ...etc
 //   this.populate({

@@ -61,9 +61,6 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true },
 );
 UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
-    return next(); // If the password hasn't changed, no need to rehash
-  }
   try {
     const hashedPassword = await hashing.generateHash(this.password);
     this.password = hashedPassword;

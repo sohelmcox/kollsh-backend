@@ -17,7 +17,6 @@ const { ItemDetails } = require("../../models");
  *
  * @returns {Object} - An object containing the updated itemDetail or newly created itemDetail and a status code (201 for creation, 200 for update).
  */
-// TODO: update Params
 const updateOrCreate = async (
   id,
   {

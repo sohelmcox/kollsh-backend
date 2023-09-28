@@ -1,4 +1,4 @@
-const { ItemDetails } = require("../../models");
+const { ItemDetails, Comment, Reply } = require("../../models");
 const { notFound } = require("../../utils/error");
 /**
  * Destroy (delete) an ItemDetails by its ID.
@@ -11,9 +11,6 @@ const destroy = async (id) => {
   if (!itemDetails) {
     throw notFound("ItemDetails not found.");
   }
-  // TODO:
-  // Asynchronously delete all permissions details and images
-
   await itemDetails.deleteOne();
 };
 module.exports = destroy;

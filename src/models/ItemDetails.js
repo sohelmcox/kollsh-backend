@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Comment = require("./Comment");
 
 const ItemDetailsSchema = new mongoose.Schema(
   {
