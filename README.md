@@ -1,6 +1,3 @@
-Certainly! Here's the entire `README.md` content in a single page:
-
-````markdown
 # Kollsh - Online Marketplace for Saudi Arabia
 
 Welcome to Kollsh, your go-to online marketplace for buying and selling new and used products in Saudi Arabia. Whether you're looking for the latest gadgets, trendy fashion items, or household essentials, Kollsh offers a convenient and hassle-free way to connect with buyers and sellers across all cities in the country.
@@ -36,7 +33,6 @@ Before you begin, ensure you have met the following requirements:
    git clone https://github.com/ibrahimsifat/kollsh-backend.git
    cd kollsh-backend
    ```
-````
 
 2. Install dependencies:
 
@@ -55,43 +51,7 @@ Before you begin, ensure you have met the following requirements:
 ## Configuration
 
 Here is the structure of the `.env` file:
-
-```dotenv
-MONGODB_URI='mongodb+srv://your-mongodb-uri'
-DB_CONNECTION_URL='mongodb://localhost:27017/kollsh'
-TEST_DB_CONNECTION_URL='mongodb://localhost:27017/kollsh_test'
-DB_NAME='kollsh'
-NODE_ENV='development'
-DB_USERNAME='testuser'
-DB_PASSWORD='testpassword'
-# DB_URL_QUERY='retryWrites=true&w=majority'
-DB_URL_QUERY=''
-PORT=4000
-NODE_ENV=development
-CORS_URL='http://localhost:4000'
-MAIL_USERNAME='postmaster@smtp.kullesh.com'
-MAIL_PASSWORD='your-mailgun-password'
-MAILGUN_API_KEY='your-mailgun-api-key'
-MAIL_DOMAIN='smtp.kullesh.com'
-APP_URL='http://localhost:4000'
-APP_NAME='Kollsh'
-APP_EMAIL_SENDER='info@kullesh.com'
-ACCESS_TOKEN_SECRET='your-access-token-secret'
-EMAIL_VERIFICATION_LIMIT=3
-PASSWORD_RESET_LIMIT=3
-AWS_ACCESS_KEY_ID='your-aws-access-key-id'
-AWS_SECRET_ACCESS_KEY='your-aws-secret-access-key'
-AWS_REGION='eu-central-1'
-BUCKET_NAME='kollsh'
-MAX_FILE_UPLOAD_SIZE=5242880
-THUMBNAIL_WIDTH=400
-THUMBNAIL_HEIGHT=400
-CLOUDINARY_CLOUD_NAME='serabuy-com'
-CLOUDINARY_API_KEY='your-cloudinary-api-key'
-CLOUDINARY_API_SECRET='your-cloudinary-api-secret'
-ACCESS_TOKEN='your-access-token'
-INVALID_ACCESS_TOKEN='invalidAccessToken'
-```
+[.env.example](./.env.example)
 
 ## Documentation
 
