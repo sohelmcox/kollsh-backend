@@ -3514,6 +3514,202 @@ paths:
                   type: string
                 passwordConfirmation:
                   type: string
+  /user-profile:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileListResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - UserProfile
+      parameters:
+        - $ref: "#/components/parameters/sortParams"
+        - $ref: "#/components/parameters/paginationPage"
+        - $ref: "#/components/parameters/paginationPageSize"
+        - $ref: "#/components/parameters/paginationStart"
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/populate"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/locale"
+      operationId: get/user-profile
+    post:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - UserProfile
+      security:
+        - bearerAuth: []
+      parameters: []
+      operationId: post/user-profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfileRequest"
+    delete:
+      responses:
+        "202":
+          description: "example(5) UserProfile Deleted"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: number
+                    example: 202
+                  message:
+                    type: string
+                    example: "5 UserProfile Deleted"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - UserProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/IdsRequestObject"
+      security:
+        - bearerAuth: []
+      operationId: "delete/user-profile"
+  /user-profile/{id}:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileResponseDataObject"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - UserProfile
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "get/user-profile/{id}"
+    put:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - UserProfile
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "put/user-profile/{id}"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfileRequest"
+    patch:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - UserProfile
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "patch/user-profile/{id}"
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserProfilePatchRequest"
+    delete:
+      responses:
+        "202":
+          $ref: "#/components/responses/202"
+        "400":
+          $ref: "#/components/responses/400"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - UserProfile
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      operationId: "delete/user-profile/{id}"
   /item-suggestions:
     get:
       responses:
@@ -5455,6 +5651,164 @@ components:
           type: string
         data:
           $ref: "#/components/schemas/CityResponseDataObject"
+    UserProfileRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Jon
+        lastName:
+          type: string
+          example: Doe
+        boi:
+          type: string
+        country:
+          type: string
+          example: "Country ID or Name"
+        state:
+          type: string
+          example: "State ID or Name"
+        city:
+          type: string
+          example: "City ID or Name"
+        avatar:
+          type: string
+          example: "Avatar URL or ID"
+        social_link:
+          type: array
+          items:
+            type: object
+            properties:
+              platform:
+                type: string
+              link:
+                type: string
+        user:
+          type: string
+          example: "User ID or Username"
+      required:
+        - firstName
+        - lastName
+        - country
+        - state
+        - city
+    UserProfilePatchRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Jon
+        lastName:
+          type: string
+          example: Doe
+        boi:
+          type: string
+        country:
+          type: string
+          example: "Country ID or Name"
+        state:
+          type: string
+          example: "State ID or Name"
+        city:
+          type: string
+          example: "City ID or Name"
+        avatar:
+          type: string
+          example: "Avatar URL or ID"
+        social_link:
+          type: array
+          items:
+            type: object
+            properties:
+              platform:
+                type: string
+              link:
+                type: string
+        user:
+          type: string
+          example: "User ID or Username"
+    UserProfileListResponseDataItem:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/MongoDBObjectId"
+        data:
+          $ref: "#/components/schemas/UserProfile"
+    UserProfileListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserProfileListResponseDataItem"
+        meta:
+          type: object
+          properties:
+            links:
+              type: object
+              properties:
+                self:
+                  type: string
+                country:
+                  type: string
+                cities:
+                  type: array
+            pagination:
+              $ref: "#/components/schemas/Pagination"
+            appliedFilters:
+              $ref: "#/components/schemas/AppliedFilters"
+    UserProfile:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Jon
+        lastName:
+          type: string
+          example: Doe
+        boi:
+          type: string
+        country:
+          $ref: "#/components/schemas/Country"
+        state:
+          $ref: "#/components/schemas/State"
+        city:
+          $ref: "#/components/schemas/City"
+        avatar:
+          $ref: "#/components/schemas/Image"
+        social_link:
+          type: array
+          items:
+            type: object
+            properties:
+              platform:
+                type: string
+              link:
+                type: string
+        user:
+          $ref: "#/components/schemas/UserDTO"
+    UserProfileResponseDataObject:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/MongoDBObjectId"
+        data:
+          $ref: "#/components/schemas/UserProfile"
+    UserProfileResponse:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+        data:
+          $ref: "#/components/schemas/UserProfileResponseDataObject"
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: "http://localhost:4000/states/5f9b9b4b3c9b3c2b1c3b2b1c"
     BrandPatchRequest:
       type: object
       properties:

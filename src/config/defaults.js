@@ -93,6 +93,14 @@ const defaults = {
     "updatedAt",
     "createdAt",
   ],
+  //userProfile
+  userProfileAllowedSearchFields: ["firstName", "lastName", "id"],
+  userProfileAllowedSorByFields: [
+    "firstName",
+    "lastName",
+    "updatedAt",
+    "createdAt",
+  ],
   //metadata
   metadataAllowedSearchFields: ["title", "description"],
   metadataAllowedSorByFields: [

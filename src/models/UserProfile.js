@@ -32,12 +32,13 @@ const UserProfileSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.Mixed,
       example: "string or id",
     },
-    social_link: {
-      type: mongoose.Schema.Types.ObjectId,
-      example: "string or id",
-      ref: "SocialLink",
-    },
-    userId: {
+    social_link: [
+      {
+        platform: String,
+        link: String,
+      },
+    ],
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
