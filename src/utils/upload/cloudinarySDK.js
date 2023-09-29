@@ -32,9 +32,34 @@ const cloudinaryImageUploader = async ({
 const deleteCloudinarySingleFile = async (publicId) => {
   try {
     const result = await cloudinary.uploader.destroy(publicId);
-    return result;
+    if (result.result === "ok") {
+      // console.log("File deleted successfully");
+      return;
+    } else {
+      console.error(`Error deleting file: ${result.result}`);
+    }
   } catch (error) {
-    throw error;
+    // throw error;
+    console.log(error);
   }
 };
-module.exports = { cloudinaryImageUploader, deleteCloudinarySingleFile };
+const destroyManyFiles = async (publicIds) => {
+  for (const publicId of publicIds) {
+    try {
+      const result = await cloudinary.uploader.destroy(publicId);
+
+      if (result.result === "ok") {
+        console.log(`File ${publicId} deleted successfully`);
+      } else {
+        console.log(`Error deleting file ${publicId}: ${result.result}`);
+      }
+    } catch (error) {
+      console.log(`Error deleting file ${publicId}:`, error.message);
+    }
+  }
+};
+module.exports = {
+  cloudinaryImageUploader,
+  deleteCloudinarySingleFile,
+  destroyManyFiles,
+};

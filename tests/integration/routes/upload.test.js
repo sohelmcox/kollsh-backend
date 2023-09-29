@@ -92,7 +92,6 @@ describe("Upload API Integration Tests", () => {
         .send({ ids: uploadIdsToDelete })
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
-
       expect(response.statusCode).toBe(202);
 
       // Verify that the uploads with the specified IDs no longer exist in the database
@@ -116,8 +115,6 @@ describe("Upload API Integration Tests", () => {
 
       // Check if the response matches the testUpload
       expect(response.body.id).toBe(String(testUpload.id));
-      // expect(response.body.data.name).toBe(testUpload.name);
-      // expect(response.body.data.description).toBe(testUpload.description);
     });
   });
   describe(" Delete Uploads", () => {
@@ -126,12 +123,10 @@ describe("Upload API Integration Tests", () => {
         "alternativeText",
         "string",
       );
-      console.log(uploadToDelete);
       const response = await agent
         .delete(`${uploadTestBaseUrl}/${uploadToDelete._id}`)
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
-
       expect(response.statusCode).toBe(202);
       expect(await Upload.findById(uploadToDelete._id)).toBeNull();
     });

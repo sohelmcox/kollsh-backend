@@ -32,12 +32,10 @@ const findSingle = async ({ id, populate, user }) => {
   // implement and store itemSuggestions when client clicks on item
   // if user is logged in
   if (user) {
-    console.log("user", user);
     // is user already have userSuggestions then update the suggestion
     const existSuggestion = findSingleItemSuggestion({ id: user });
     if (existSuggestion) {
       // updated the itemSuggestions
-      console.log("existSuggestion", existSuggestion);
       await editItemSuggestion({
         user,
         item: item.id,
@@ -52,7 +50,6 @@ const findSingle = async ({ id, populate, user }) => {
       });
     } else {
       // create itemSuggestions
-      console.log("create", existSuggestion);
       await createItemSuggestion({
         user,
         subcategories: item.subcategory,

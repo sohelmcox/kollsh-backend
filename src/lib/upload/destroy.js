@@ -16,7 +16,9 @@ const destroy = async (id) => {
       throw notFound("file is not found");
     }
     // delete image
-    // await deleteCloudinarySingleFile(file.public_id);
+    if (file.public_id) {
+      await deleteCloudinarySingleFile(file.public_id);
+    }
     await file.deleteOne();
   } catch (error) {
     throw notFound(error);

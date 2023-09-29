@@ -17,7 +17,6 @@ const create = async ({ content, comment, user }) => {
     user,
   };
   const newReply = await Reply.create({ ...replyData });
-  console.log(newReply);
   return { id: newReply.id, ...newReply._doc };
 };
 

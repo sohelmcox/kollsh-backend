@@ -32,7 +32,6 @@ const update = async (req, res, next) => {
       brand,
       seller: req.user.id,
     });
-    console.log(req.user);
     const response = {
       code,
       message:

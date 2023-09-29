@@ -29,7 +29,6 @@ describe("Item Update Controller", () => {
     const response = await request(app)
       .put(`${itemTestUrl}/itemId`)
       .send(updatedItemData);
-    console.log(response.body);
     expect(response.statusCode).toBe(200);
     expect(response.body.code).toBe(200);
     expect(response.body.message).toBe("Item updated successfully");

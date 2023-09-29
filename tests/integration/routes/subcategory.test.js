@@ -159,7 +159,7 @@ describe("Subcategory API Integration Tests", () => {
     it("should delete a subcategory DELETE", async () => {
       const subcategoryToDelete = await findSubcategoryByProperty(
         "name",
-        "subcategory name",
+        "string",
       );
 
       const response = await agent

@@ -33,7 +33,6 @@ describe("Comment Controller", () => {
     const response = await request(app)
       .post(commentTestUrl)
       .send(commentTestData);
-    console.log(response.body);
     expect(response.statusCode).toBe(201);
     expect(response.body.code).toBe(201);
     expect(response.body.message).toBe("Comment Created Successfully");

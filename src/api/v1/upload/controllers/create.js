@@ -5,7 +5,6 @@ const create = async (req, res, next) => {
     width: givenFileWidth,
     height: givenFileHeight,
   } = req.body;
-  console.log(folderName, givenFileHeight, givenFileWidth);
   const { files } = req;
 
   try {
@@ -17,7 +16,11 @@ const create = async (req, res, next) => {
     });
     res
       .status(201)
-      .json({ message: "Successfully Uploaded File", data: result });
+      .json({
+        message: "Successfully Uploaded File",
+        id: result._id,
+        data: result,
+      });
   } catch (error) {
     return next(error);
   }

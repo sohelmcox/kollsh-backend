@@ -16,7 +16,7 @@ const destroyMany = async (req, res, next) => {
     res.status(202).json({
       status: 202,
       message: `${deletedItems} ${
-        deletedItems > 1 ? "items" : "items"
+        deletedItems > 1 ? "items" : "item"
       } deleted.`,
       deletedItemDetails,
       deletedComments,

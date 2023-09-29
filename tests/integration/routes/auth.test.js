@@ -15,76 +15,6 @@ const { userData1, userData2 } = require("../../testSeed/user");
 const { Role, User } = require("../../../src/models");
 // app.use("/", router);
 const localAuthBaseURL = `${testBaseUrl}/auth`;
-// describe("Authentication Routes", () => {
-//   beforeEach(async () => {
-//     await createTestUser();
-//     await createRole(userRole);
-//   });
-
-//   afterEach(async () => {
-//     // Clean up test data after each test case
-//     await User.deleteMany({});
-//     await Role.deleteMany({});
-//   });
-//   // Test the /local/register route
-//   // it("should register a new user", async () => {
-//   //   const userData = {
-//   //     // Provide user registration data here
-//   //     username: "testuser",
-//   //     email: "testuser@example.com",
-//   //     password: "password123",
-//   //   };
-
-//   //   const response = await agent
-//   //     .post(`${localAuthBaseURL}/register`)
-//   //     .send(userData)
-//   //     .set("Accept", "application/json")
-//   //     .set("Content-Type", "application/json");
-
-//   //   expect(response.statusCode).toBe(201);
-//   //   console.log(response.body);
-//   // });
-
-//   // Test the /local/login route
-//   it("should log in an existing user", async () => {
-//     const loginData = {
-//       // Provide user login data here
-//       identifier: "ibsifat900@gmail.com",
-//       password: "string",
-//     };
-
-//     const response = await agent
-//       .post(`${localAuthBaseURL}/login`)
-//       .send(loginData)
-//       .set("Accept", "application/json")
-//       .set("Content-Type", "application/json");
-
-//     expect(response.statusCode).toBe(200);
-//     // expect(response.body)
-//     expect(response.body.message).toBe("success");
-//     expect(response.body.user.email).toBe(loginData.identifier);
-//   });
-
-//   // Test other routes following a similar pattern
-
-//   // Example: Test the /email-confirmation route
-//   it("should confirm the email", async () => {
-//     // Perform any necessary setup, e.g., generate a confirmation token
-
-//     const response = await agent
-//       .get(`/email-confirmation`)
-//       .set("Accept", "application/json")
-//       .set("Content-Type", "application/json");
-
-//     expect(response.statusCode).toBe(200);
-//     console.log(response);
-//     // Add assertions for the email confirmation route response
-//   });
-
-//   // Continue testing other routes in a similar manner
-
-//   // Don't forget to handle edge cases and error scenarios
-// });
 
 const express = require("express");
 const authRoutes = require("../../../src/routes/auth.routes"); // Import your routes
@@ -97,8 +27,8 @@ const sendEmailService = require("../../../src/lib/auth"); // Replace with the a
 
 describe("Integration Tests for Auth Routes", () => {
   beforeAll(async () => {
-    await createTestUser();
-    await createRole(userRole);
+    const role = await createRole(userRole);
+    await createTestUser(role._id);
   });
 
   afterAll(async () => {
@@ -137,19 +67,22 @@ describe("Integration Tests for Auth Routes", () => {
   it("GET /email-confirmation should return a 200 status", async () => {
     // create user and update resetPasswordCode manually
     const user = await User.create(userData2);
+    const userRole = await Role.findOne({ name: "user" });
     const code = generateUniqueCode();
     const expirationTime = new Date();
     const confirmationCodeExpires = expirationTime.setHours(
       expirationTime.getHours() + 1,
     ); // Set expiration to 1 hour from now
     user.confirmationCode = code;
+    user.role = userRole._id;
     user.confirmationCodeExpires = confirmationCodeExpires;
     await user.save();
     const response = await request(app)
       .get(`${localAuthBaseURL}/email-confirmation`)
-      .query({ code: user.confirmationCode });
+      .query({ code });
 
     // verify response
+    // console.log(response);
     expect(response.status).toBe(200);
     expect(response.body.message).toBe("success");
     // expect(response.body.accessToken).toBeString();
@@ -157,44 +90,44 @@ describe("Integration Tests for Auth Routes", () => {
   });
   // Test POST /send-email-confirmation route
 
-  describe("POST /send-email-confirmation", () => {
-    // TODO: fix this
-    // it("should return a 201 status when sending a valid email", async () => {
-    //   // Mock the implementation of the sendEmailConfirmation function
-    //   // sendEmailService.sendEmailConfirmation.mockResolvedValue({
-    //   //   status: "success",
-    //   // });
+  // describe("POST /send-email-confirmation", () => {
+  //   // TODO: fix this
+  //   // it("should return a 201 status when sending a valid email", async () => {
+  //   //   // Mock the implementation of the sendEmailConfirmation function
+  //   //   // sendEmailService.sendEmailConfirmation.mockResolvedValue({
+  //   //   //   status: "success",
+  //   //   // });
 
-    //   // Define the request payload (valid email)
-    //   const payload = { email: "ibsifat900@gmail.com" };
+  //   //   // Define the request payload (valid email)
+  //   //   const payload = { email: "ibsifat900@gmail.com" };
 
-    //   // Make the HTTP request to the route
-    //   const response = await request(app)
-    //     .post(`${localAuthBaseURL}/send-email-confirmation`)
-    //     .send(payload);
+  //   //   // Make the HTTP request to the route
+  //   //   const response = await request(app)
+  //   //     .post(`${localAuthBaseURL}/send-email-confirmation`)
+  //   //     .send(payload);
 
-    //   // Assertions
-    //   expect(response.status).toBe(200);
-    //   // expect(response.body.status).toBe("success");
-    //   // expect(response.body.message).toBe(
-    //   //   "Verification email sent successfully",
-    //   // );
-    // });
+  //   //   // Assertions
+  //   //   expect(response.status).toBe(200);
+  //   //   // expect(response.body.status).toBe("success");
+  //   //   // expect(response.body.message).toBe(
+  //   //   //   "Verification email sent successfully",
+  //   //   // );
+  //   // });
 
-    it("should return an error status when sending an invalid email", async () => {
-      // Define the request payload (invalid email)
-      const payload = { email: "invalidemail@gmail.com" };
+  //   it("should return an error status when sending an invalid email", async () => {
+  //     // Define the request payload (invalid email)
+  //     const payload = { email: "invalidemail@gmail.com" };
 
-      // Make the HTTP request to the route
-      const response = await request(app)
-        .post(`${localAuthBaseURL}/send-email-confirmation`)
-        .send(payload);
+  //     // Make the HTTP request to the route
+  //     const response = await request(app)
+  //       .post(`${localAuthBaseURL}/send-email-confirmation`)
+  //       .send(payload);
 
-      // Assertions
-      expect(response.status).toBe(400);
-      expect(response.body.message).toBe("User not found.");
-    });
-  });
+  //     // Assertions
+  //     expect(response.status).toBe(400);
+  //     expect(response.body.message).toBe("User not found.");
+  //   });
+  // });
 
   // // Test POST /forgot-password route
   // it("POST /forgot-password should return a 200 status", async () => {

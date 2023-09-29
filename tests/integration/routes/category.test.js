@@ -144,10 +144,7 @@ describe("Category API Integration Tests", () => {
     });
     it("should edit an existing category PATCH", async () => {
       // Find an existing category (assuming it exists)
-      const categoryToUpdate = await findCategoryByProperty(
-        "name",
-        "category name",
-      );
+      const categoryToUpdate = await findCategoryByProperty("name", "string");
 
       // If a category with the specified name exists, update it
       const response = await agent

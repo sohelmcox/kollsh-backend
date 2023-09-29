@@ -58,9 +58,16 @@ const UserSchema = new mongoose.Schema(
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  },
 );
 UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    return next(); // If the password hasn't changed, no need to rehash
+  }
   try {
     const hashedPassword = await hashing.generateHash(this.password);
     this.password = hashedPassword;
@@ -70,4 +77,10 @@ UserSchema.pre("save", async function (next) {
   }
 });
 
+UserSchema.virtual("profile", {
+  ref: "UserProfile",
+  foreignField: "user",
+  localField: "_id",
+  justOne: true,
+});
 module.exports = mongoose.model("User", UserSchema);

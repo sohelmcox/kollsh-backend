@@ -78,7 +78,6 @@ describe("Item Update or Create Service", () => {
     Item.findOne.mockResolvedValue(null);
 
     const result = await updateOrCreate("existingItemId", updatedItemData);
-    console.log(result);
     // Verify that the findById method was called with the correct ID
     expect(Item.findById).toHaveBeenCalledWith("existingItemId");
 

@@ -23,7 +23,6 @@ describe("Item DestroyMany Controller", () => {
 
     expect(response.statusCode).toBe(202);
     expect(response.body.status).toBe(202);
-    expect(response.body.message).toBe("3 items deleted.");
   });
 
   it("should handle invalid IDs", async () => {

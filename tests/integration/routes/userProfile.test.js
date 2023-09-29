@@ -174,7 +174,6 @@ describe("UserProfile API Integration Tests", () => {
         .delete(`${userProfileTestBaseUrl}/${userProfileToDelete._id}`)
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
-
       expect(response.statusCode).toBe(202);
       expect(await UserProfile.findById(userProfileToDelete._id)).toBeNull();
     });

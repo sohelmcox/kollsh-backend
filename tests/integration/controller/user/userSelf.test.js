@@ -29,7 +29,6 @@ describe("User FindSingle Controller", () => {
     userServices.userSelf.mockResolvedValue(mockUser);
 
     const response = await request(app).get(`${userTestUrl}/me`);
-    console.log(response);
     expect(response.statusCode).toBe(200);
 
     // Add expectations for the response body based on your mockUser data

@@ -27,7 +27,6 @@ describe("Reply Edit Controller", () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.body.code).toBe(200);
-    console.log(response.body);
     expect(response.body.message).toBe("Reply updated successfully");
     expect(response.body.data.id).toBe("replyId");
     expect(response.body.data.content).toBe("Updated Reply");

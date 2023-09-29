@@ -1,49 +1,58 @@
 const { destroyMany } = require("../../../../src/lib/upload");
 const { Upload } = require("../../../../src/models");
 
-describe("Upload Destroy Many Service", () => {
-  it("should delete multiple uploads by their IDs", async () => {
-    // Create a mock for the Upload model
-    const mockUploadModel = {
-      deleteMany: jest.fn().mockResolvedValue({ deletedCount: 2 }),
-    };
+// Mocking the modules
+jest.mock("../../../../src/models", () => ({
+  Upload: {
+    find: jest.fn(),
+    deleteMany: jest.fn(),
+  },
+}));
 
-    // Replace the Upload model with the mock model for this test
-    jest
-      .spyOn(Upload, "deleteMany")
-      .mockImplementation(mockUploadModel.deleteMany);
+jest.mock("../../../../src/utils/upload/cloudinarySDK", () => ({
+  destroyManyFiles: jest.fn(),
+}));
 
-    const uploadIdsToDelete = ["uploadId1", "uploadId2"]; // Replace with valid upload IDs
+const { badRequest } = require("../../../../src/utils/error");
 
-    const deletedCount = await destroyMany(uploadIdsToDelete);
+describe("destroyMany", () => {
+  it("should delete files and return the number of deleted files", async () => {
+    // Mock the database responses
+    const mockFiles = [
+      { _id: "file1", public_id: "public_id_1" },
+      { _id: "file2", public_id: "public_id_2" },
+    ];
 
-    // Verify that the deleteMany method was called with the correct IDs
-    expect(mockUploadModel.deleteMany).toHaveBeenCalledWith({
-      _id: { $in: uploadIdsToDelete },
+    // Set up the mock functions to return the expected values
+    require("../../../../src/models").Upload.find.mockResolvedValue(mockFiles);
+    require("../../../../src/utils/upload/cloudinarySDK").destroyManyFiles.mockResolvedValue();
+
+    // Call the function with the IDs of the files to be deleted
+    const result = await destroyMany(["file1", "file2"]);
+
+    // Assert that the function returns the expected result
+    expect(result).toBe(0);
+
+    // Check if database functions were called with the correct parameters
+    expect(require("../../../../src/models").Upload.find).toHaveBeenCalledWith({
+      _id: { $in: ["file1", "file2"] },
     });
-
-    // Verify the deletedCount returned by the service
-    expect(deletedCount).toEqual(2);
+    expect(
+      require("../../../../src/utils/upload/cloudinarySDK").destroyManyFiles,
+    ).toHaveBeenCalledWith(["public_id_1", "public_id_2"]);
+    expect(
+      require("../../../../src/models").Upload.deleteMany,
+    ).toHaveBeenCalledWith({
+      _id: { $in: ["file1", "file2"] },
+    });
   });
 
-  it("should throw an error if there was an issue while deleting uploads", async () => {
-    // Create a mock for the Upload model
-    const mockUploadModel = {
-      deleteMany: jest
-        .fn()
-        .mockRejectedValue(new Error("Error deleting uploads")),
-    };
-
-    // Replace the Upload model with the mock model for this test
-    jest
-      .spyOn(Upload, "deleteMany")
-      .mockImplementation(mockUploadModel.deleteMany);
-
-    const uploadIdsToDelete = ["uploadId1", "uploadId2"];
-
-    // Expecting the service to throw an error
-    await expect(destroyMany(uploadIdsToDelete)).rejects.toThrowError(
-      "Error deleting uploads",
+  it("should throw an error for invalid file IDs", async () => {
+    // Call the function with invalid file IDs
+    await expect(destroyMany("invalid")).rejects.toThrowError(
+      badRequest("Error deleting files: Invalid Ids provided"),
     );
   });
+
+  // Add more test cases as needed
 });

@@ -25,8 +25,7 @@ const emailConformation = async (confirmationCode) => {
       throw badRequest("Invalid or expired verification code.");
     }
 
-    user.confirmed = true;
-    const newUser = await user.save();
+    const newUser = await User.findByIdAndUpdate(user.id, { confirmed: true });
     const userPayload = getUserDTO(newUser);
     const accessToken = generateToken({ payload: userPayload });
     const userData = {

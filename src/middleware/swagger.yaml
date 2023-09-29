@@ -3374,6 +3374,12 @@ paths:
       summary: Get a user
       parameters:
         - $ref: "#/components/parameters/id"
+        - name: populate
+          in: query
+          description: populate user profile
+          schema:
+            type: string
+            example: "profile"
       responses:
         "200":
           description: Returns a user
@@ -3418,15 +3424,15 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-                - username
-                - email
               properties:
+                name:
+                  type: string
                 email:
                   type: string
                 username:
                   type: string
             example:
+              name: ibrahim sifat
               username: ibrahim
               email: hello@kollsh.com
     delete:

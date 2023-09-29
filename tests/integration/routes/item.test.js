@@ -68,7 +68,6 @@ describe("Item API Integration Tests", () => {
         .send({ ids: itemIdsToDelete })
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
-
       expect(response.statusCode).toBe(202);
 
       // Verify that the items with the specified IDs no longer exist in the database

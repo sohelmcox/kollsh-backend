@@ -1,5 +1,6 @@
 const { ItemDetails, Comment, Reply } = require("../../models");
 const { notFound } = require("../../utils/error");
+const { destroyMany: destroyManyFiles } = require("../../lib/upload");
 /**
  * Destroy (delete) an ItemDetails by its ID.
  *
@@ -10,6 +11,9 @@ const destroy = async (id) => {
   const itemDetails = await ItemDetails.findById(id);
   if (!itemDetails) {
     throw notFound("ItemDetails not found.");
+  }
+  if (itemDetails.images && itemDetails.images.length > 0) {
+    await destroyManyFiles(itemDetails.images);
   }
   await itemDetails.deleteOne();
 };

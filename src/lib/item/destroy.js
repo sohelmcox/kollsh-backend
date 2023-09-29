@@ -12,7 +12,9 @@ const destroy = async (id) => {
   if (!item) {
     throw notFound("item not found.");
   }
-  await DeleteAssociatedDetails(item._id);
+  if (item._id) {
+    await DeleteAssociatedDetails(item._id);
+  }
   await item.deleteOne();
 };
 

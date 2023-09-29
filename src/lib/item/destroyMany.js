@@ -8,11 +8,13 @@ const { Item, Comment, Reply, ItemDetails, Metadata } = require("../../models");
  */
 const destroyMany = async (itemIds) => {
   try {
-    const items = await Item.find({ _id: itemIds });
-    console.log(items.length);
+    const items = await Item.findById(itemIds);
 
     // Collect the IDs of the deleted items
-    const deletedItemIds = items.map((item) => item._id);
+    let deletedItemIds = [];
+    if (items && items.length > 0) {
+      deletedItemIds = items.map((item) => item._id);
+    }
     // Find and delete associated itemDetails
     const itemDetails = await ItemDetails.find({
       item: { $in: deletedItemIds },
@@ -48,8 +50,8 @@ const destroyMany = async (itemIds) => {
     // No need to delete itemDetails again since we already deleted them above
 
     return {
-      deletedItems: deletedItems.deletedCount,
-      deletedItemDetails: deletedItemDetails.deletedCount,
+      deletedItems: items.length,
+      deletedItemDetails: itemDetails.length,
       deletedComments: commentIds.length,
       deletedMetadata: metadataIds.length,
     };

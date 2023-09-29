@@ -31,6 +31,7 @@ const UserProfileSchema = new mongoose.Schema(
     avatar: {
       type: mongoose.Schema.Types.Mixed,
       example: "string or id",
+      ref: "Upload",
     },
     social_link: [
       {

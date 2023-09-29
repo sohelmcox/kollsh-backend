@@ -1,5 +1,6 @@
-const { User } = require("../../models");
+const { User, UserProfile } = require("../../models");
 const { notFound } = require("../../utils/error");
+const destroyUserProfile = require("../../lib/userProfile/destroy");
 /**
  * Destroy (delete) an user by its ID.
  *
@@ -10,6 +11,10 @@ const destroy = async (id) => {
   const user = await User.findById(id);
   if (!user) {
     throw notFound("user not found.");
+  }
+  const userProfile = await UserProfile.findOne({ user: id });
+  if (userProfile) {
+    await destroyUserProfile(userProfile._id);
   }
   await user.deleteOne();
 };

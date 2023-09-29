@@ -85,7 +85,6 @@ describe("Permission Find Permissions", () => {
         links: expect.any(Object),
         filters: {
           locale: "ar",
-          populatedFields: [],
           searchQuery: params.search,
           selectedFields: params.fields.split(","),
           sortCriteria: {

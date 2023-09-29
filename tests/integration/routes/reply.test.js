@@ -42,7 +42,6 @@ describe("Reply API Integration Tests", () => {
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
       expect(response.statusCode).toBe(201);
-      console.log(response.body);
       expect(response.body.data.content).toBe(newReplyData.content);
       expect(response.body.message).toBe("Reply Created Successfully");
     });

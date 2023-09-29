@@ -22,10 +22,12 @@ describe("ItemDetails Destroy Service", () => {
     };
     ItemDetails.findById.mockResolvedValue(mockItemDetailsInstance);
 
-    await destroy("itemDetailsId");
+    await destroy("651481fb16b817cab5c59f78");
 
     // Verify that the findById method was called with the correct ID
-    expect(ItemDetails.findById).toHaveBeenCalledWith("itemDetailsId");
+    expect(ItemDetails.findById).toHaveBeenCalledWith(
+      "651481fb16b817cab5c59f78",
+    );
 
     // Verify that the deleteOne method was called on the itemDetails instance
     expect(mockItemDetailsInstance.deleteOne).toHaveBeenCalled();

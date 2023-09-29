@@ -19,13 +19,14 @@ describe("Item Destroy Service", () => {
     // Mock the findById method to return a item
     const mockItemInstance = {
       deleteOne: jest.fn(),
+      findOne: jest.fn(),
     };
     Item.findById.mockResolvedValue(mockItemInstance);
 
-    await destroy("itemId");
+    await destroy("651481fb16b417cab5c59f83");
 
     // Verify that the findById method was called with the correct ID
-    expect(Item.findById).toHaveBeenCalledWith("itemId");
+    expect(Item.findById).toHaveBeenCalledWith("651481fb16b417cab5c59f83");
 
     // Verify that the deleteOne method was called on the item instance
     expect(mockItemInstance.deleteOne).toHaveBeenCalled();
