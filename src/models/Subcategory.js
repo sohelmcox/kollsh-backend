@@ -24,12 +24,6 @@ const SubcategorySchema = new mongoose.Schema(
     priority: {
       type: Number,
     },
-    // items: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Item",
-    //   },
-    // ],
     is_brand: {
       type: Boolean,
     },

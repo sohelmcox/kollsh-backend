@@ -22,12 +22,7 @@ const CategorySchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    // subcategories: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Category",
-    //   },
-    // ],
+
     featured: {
       type: Boolean,
       default: false,

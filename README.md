@@ -55,6 +55,10 @@ Here is the structure of the `.env` file:
 
 ## Documentation
 
+### Presentation
+
+- [Presentation Slide](https://docs.google.com/presentation/d/114Wj28tu0CcoU7MDziyzfrPS2Xwy8yZPodxTQjLTqBs/edit?usp=sharing)
+
 ### Swagger Doc
 
 - [Swagger Documentation](https://app.swaggerhub.com/apis/ibrahimsifat/kollsh/1.0.0)

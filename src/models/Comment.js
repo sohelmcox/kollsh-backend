@@ -17,12 +17,6 @@ const CommentSchema = new mongoose.Schema(
       ref: "ItemDetails",
       required: true,
     },
-    // replies: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Reply",
-    //   },
-    // ],
   },
   {
     timestamps: true,
