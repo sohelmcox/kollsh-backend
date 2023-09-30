@@ -11,17 +11,49 @@ mongoose.connect(mongoUri, {
   useUnifiedTopology: true,
 });
 
+const userAccessControllers = [
+  "item",
+  "itemDetails",
+  "attribute",
+  "attributeValue",
+  "comment",
+  "itemSuggestion",
+  "metadata",
+  "replay",
+  "upload",
+  "user",
+  "userProfile",
+];
+const adminAccessControllers = [
+  ...userAccessControllers,
+  "brand",
+  "category",
+  "city",
+  "state",
+  "country",
+];
 // Define your seed data
-const permissionsData = {
-  controller: "item",
-  actions: ["read", "write", "delete", "update"],
-  description: "Read Users",
-  createdBy: null,
+const getPermissions = ({ controllers, actions }) => {
+  const permissionData = [];
+  for (const controller of controllers) {
+    permissionData.push({
+      controller: controller,
+      actions: actions,
+      description: `${controller} Users Access`,
+      createdBy: "650d880858e6f8be2bb7b421",
+    });
+  }
+  return permissionData;
 };
-
-const rolesData = {
+const userRolesData = {
   name: "user",
   description: "User Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
+const adminRoleData = {
+  name: "admin",
+  description: "Admin Role",
   permissions: [],
   createdBy: "650d880858e6f8be2bb7b421",
 };
@@ -29,14 +61,33 @@ const rolesData = {
 // Insert seed data
 async function seed() {
   try {
-    // Create permission
-    const permissions = await Permission.create(permissionsData);
+    // Create user permission
+    const userPermissions = await Permission.insertMany(
+      getPermissions({
+        controllers: userAccessControllers,
+        actions: ["read", "write", "delete", "update"],
+      }),
+    );
+    // Create admin permission
+    const adminPermissions = await Permission.insertMany(
+      getPermissions({
+        controllers: adminAccessControllers,
+        actions: ["read", "write", "delete", "update"],
+      }),
+    );
 
-    // Update rolesData with permission ID
-    rolesData.permissions = permissions._id;
+    // Update userRolesData with permissions ID
+    userRolesData.permissions = userPermissions.map(
+      (permission) => permission._id,
+    );
+    // Update adminRolesData with permissions ID
+    adminRoleData.permissions = adminPermissions.map(
+      (permission) => permission._id,
+    );
 
-    // Create role
-    const role = await Role.create(rolesData);
+    // Create user & admin role
+    const userRole = await Role.create(userRolesData);
+    const adminRole = await Role.create(adminRoleData);
 
     // Create a user
     const newUser = await User.create({
@@ -45,13 +96,25 @@ async function seed() {
       email: "ibsifat900@gmail.com",
       confirmed: true,
       blocked: false,
-      role: role.id,
+      role: userRole.id,
+      password: "string",
+    });
+    // Create a admin
+    const newAdmin = await User.create({
+      name: "Ibrahim Sifat",
+      username: "admin_username",
+      email: "ibrahimsifat.me@gmail.com",
+      confirmed: true,
+      blocked: false,
+      role: adminRole.id,
       password: "string",
     });
 
     console.log("Seed data inserted successfully");
-    const login = await localLogin(newUser.email, "string");
-    console.log("Login Credentials:", login);
+    const userLogin = await localLogin(newUser.email, "string");
+    const adminLogin = await localLogin(newAdmin.email, "string");
+    console.log("User Login Credentials:", userLogin);
+    console.log("Admin Login Credentials:", adminLogin);
   } catch (error) {
     console.error("Error inserting seed data:", error);
   } finally {
@@ -60,5 +123,4 @@ async function seed() {
   }
 }
 
-// Run the seed function
 seed();

@@ -5,7 +5,7 @@ const authenticate = require("../middleware/authenticate");
 router
   .route("/")
   .get(brandController.find)
-  .post(authenticate, brandController.create)
+  .post(authenticate, hasPermission("brand", ["write"]), brandController.create)
   .delete(authenticate, brandController.destroyMany);
 router
   .route("/:id")

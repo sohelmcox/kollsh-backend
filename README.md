@@ -62,7 +62,7 @@ After running the seed, you will get the following output:
 
 ```bash
 Seed data was inserted successfully
-Login Credentials: {
+User Login Credentials: {
   message: 'success',
   accessToken: 'access-token',
   user: {
@@ -70,6 +70,20 @@ Login Credentials: {
     name: 'Ibrahim Sifat',
     username: 'username',
     email: 'ibsifat900@gmail.com',
+    avatar: undefined,
+    confirmed: true,
+    blocked: false
+  }
+}
+
+Admin Login Credentials: {
+  message: 'success',
+  accessToken: 'access-token',
+  user: {
+    id: 'admin-id',
+    name: 'Ibrahim Sifat',
+    username: 'admin_username',
+    email: 'ibrahimsifat.me@gmail.com',
     avatar: undefined,
     confirmed: true,
     blocked: false

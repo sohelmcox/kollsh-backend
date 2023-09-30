@@ -1,8 +1,6 @@
 // setup database test connection
 require("../../setup/testSetup");
 const { create: createItem } = require("../../../src/lib/item");
-const { create: createRole } = require("../../../src/lib/role");
-
 const {
   itemData1,
   itemData2,
@@ -11,7 +9,6 @@ const {
   newItemData,
   updatedItemData,
   existingItemData,
-  updatedDescription,
   updatedNegotiable,
 } = require("../../testSeed/item");
 const agent = require("../../agent");
@@ -19,10 +16,7 @@ const { Item, User, Role, Permission } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const itemTestBaseUrl = `${testBaseUrl}/items`;
-const findItemByProperty = async (property, value) => {
-  const item = await Item.findOne({ [property]: value });
-  return item;
-};
+
 const permissionsData = {
   controller: "item",
   actions: ["read", "write", "delete", "update"],
@@ -38,21 +32,23 @@ const rolesData = {
 };
 
 describe("Item API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    // create permission
+    // Create user and role
     const permissions = await Permission.create(permissionsData);
-
-    // Update rolesData with permission ID
     rolesData.permissions = permissions._id;
-
-    // Create role
     const role = await Role.create(rolesData);
-    const user = await createTestUser(role._id);
-    // create item
-    createItemData.forEach(async (item) => {
-      await createItem({ ...item, seller: user.id });
-    });
+    user = await createTestUser(role._id);
+
+    // Create initial items
+    await Promise.all(
+      createItemData.map(async (item) => {
+        await createItem({ ...item, seller: user.id });
+      }),
+    );
   });
+
   afterEach(async () => {
     // Clean up test data after each test case
     await Item.deleteMany({});
@@ -60,36 +56,101 @@ describe("Item API Integration Tests", () => {
     await Permission.deleteMany({});
     await User.deleteMany({});
   });
-  describe("Create A new Item", () => {
+
+  describe("Create, Retrieve, Update, and Delete Items", () => {
     it("should create a new item POST", async () => {
       const response = await agent
         .post(itemTestBaseUrl)
         .send(newItemData)
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
+
       expect(response.statusCode).toBe(201);
       expect(response.body.data.name).toBe(newItemData.name);
       expect(response.body.data.slug).toBe(newItemData.slug);
       expect(response.body.data.negotiable).toBe(newItemData.negotiable);
     });
-  });
-  describe("Retrieve Multiple Items", () => {
-    it("should retrieve a list of items GET:", async () => {
-      const user = await User.findOne({ email: "ibsifat900@gmail.com" });
-      createItemData.forEach(async (item) => {
-        await createItem({ ...item, seller: user.id });
-      });
 
+    it("should retrieve a list of items GET", async () => {
       const response = await agent.get(itemTestBaseUrl);
 
       expect(response.statusCode).toBe(200);
       expect(response.body.data.length).toBe(2);
     });
+
+    it("should update a item by Id or create a new one if not found PUT", async () => {
+      // Find an existing item (assuming it exists)
+      const existingItem = await createItem({
+        ...existingItemData,
+        seller: user.id,
+      });
+
+      // Perform a PUT request to update the item by name
+      const response = await agent
+        .put(`${itemTestBaseUrl}/${existingItem.id}`)
+        .send(updatedItemData)
+        .set("Accept", "application/json")
+        .set("Authorization", `Bearer ${accessToken}`);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body.data.name).toBe(updatedItemData.name);
+      expect(response.body.data.negotiable).toBe(updatedItemData.negotiable);
+
+      // Perform a PUT request to create a new Item
+      const createResponse = await agent
+        .put(`${itemTestBaseUrl}/737472696e67206f72206964`)
+        .send(updatedItemData)
+        .set("Accept", "application/json")
+        .set("Authorization", `Bearer ${accessToken}`);
+
+      expect(createResponse.statusCode).toBe(201);
+      expect(createResponse.body.data.name).toBe(updatedItemData.name);
+      expect(createResponse.body.data.negotiable).toBe(
+        updatedItemData.negotiable,
+      );
+    });
+
+    it("should delete a item DELETE", async () => {
+      // Create an item to delete
+      const itemToDelete = await createItem({
+        ...updatedItemData,
+        seller: user.id,
+      });
+
+      const response = await agent
+        .delete(`${itemTestBaseUrl}/${itemToDelete.id}`)
+        .set("Accept", "application/json")
+        .set("Authorization", `Bearer ${accessToken}`);
+
+      expect(response.statusCode).toBe(202);
+      expect(await Item.findById(itemToDelete.id)).toBeNull();
+    });
   });
+
+  describe("Retrieve Single Items", () => {
+    it("should find a single item by its ID GET:", async () => {
+      // Create a test item record in the database
+      const testItem = await createItem({
+        ...itemTestData,
+        seller: user.id,
+      });
+
+      // Perform a GET request to find the item by its ID
+      const response = await agent
+        .get(`${itemTestBaseUrl}/${testItem.id}`)
+        .set("Accept", "application/json");
+
+      expect(response.statusCode).toBe(200);
+      // Check if the response matches the testItem
+      expect(response.body.id).toBe(String(testItem.id));
+      expect(response.body.data.name).toBe(testItem.data.name);
+      expect(response.body.data.negotiable).toBe(testItem.data.negotiable);
+    });
+  });
+
   describe("Delete Multiple Items", () => {
     it("should delete multiple items by their IDs DELETE:", async () => {
       // Create test data by inserting item records into the database
-      const user = await User.findOne({ email: "ibsifat900@gmail.com" });
       const item1 = await createItem({ ...itemData1, seller: user.id });
       const item2 = await createItem({ ...itemData2, seller: user.id });
 
@@ -110,68 +171,15 @@ describe("Item API Integration Tests", () => {
       }
     });
   });
-  describe("Retrieve Single Items", () => {
-    it("should find a single item by its ID GET:", async () => {
-      // Create a test item record in the database
-      const user = await User.findOne({ email: "ibsifat900@gmail.com" });
-      const testItem = await createItem({ ...itemTestData, seller: user.id });
 
-      // Perform a GET request to find the item by its ID
-      const response = await agent
-        .get(`${itemTestBaseUrl}/${testItem.id}`)
-        .set("Accept", "application/json");
-
-      expect(response.statusCode).toBe(200);
-      // Check if the response matches the testItem
-      expect(response.body.id).toBe(String(testItem.id));
-      expect(response.body.data.name).toBe(testItem.data.name);
-      expect(response.body.data.negotiable).toBe(testItem.data.negotiable);
-    });
-  });
-  describe("Update and Delete Items", () => {
-    it("should update a item by Id or create a new one if not found PUT", async () => {
-      // Create a test item record in the database
-      const user = await User.findOne({ email: "ibsifat900@gmail.com" });
-      const existingItem = await createItem({
-        ...existingItemData,
-        seller: user.id,
-      });
-
-      // Perform a PUT request to update the item by name
-      const response = await agent
-        .put(`${itemTestBaseUrl}/${existingItem.id}`)
-        .send(updatedItemData)
-        .set("Accept", "application/json")
-        .set("Authorization", `Bearer ${accessToken}`);
-      // console.log(response);
-      expect(response.statusCode).toBe(200);
-      expect(response.body.data.name).toBe(updatedItemData.name);
-      expect(response.body.data.negotiable).toBe(updatedItemData.negotiable);
-    });
-    it("should create a new item if Item is not Found", async () => {
-      // Perform a PUT request to create a new item
-      const createResponse = await agent
-        .put(`${itemTestBaseUrl}/737472696e67206f72206964`)
-        .send(newItemData)
-        .set("Accept", "application/json")
-        .set("Authorization", `Bearer ${accessToken}`);
-      expect(createResponse.statusCode).toBe(201);
-      expect(createResponse.body.data.name).toBe(newItemData.name);
-      expect(createResponse.body.data.negotiable).toBe(newItemData.negotiable);
-
-      // Verify that the new item exists in the database
-      // const newItemInDB = await findItemByProperty("name", newItemData.name);
-      // expect(newItemInDB).not.toBeNull();
-    });
+  describe("Update Existing Items", () => {
     it("should edit an existing item PATCH", async () => {
       // Find an existing item (assuming it exists)
-
-      const user = await User.findOne({ email: "ibsifat900@gmail.com" });
       const itemToUpdate = await createItem({
         ...existingItemData,
         seller: user.id,
       });
-      // If a item with the specified name exists, update it
+      // If an item with the specified name exists, update it
       const response = await agent
         .patch(`${itemTestBaseUrl}/${itemToUpdate.id}`)
         .send(updatedNegotiable)
@@ -180,21 +188,6 @@ describe("Item API Integration Tests", () => {
 
       expect(response.statusCode).toBe(200);
       expect(response.body.data.negotiable).toBe(updatedNegotiable.negotiable);
-    });
-    it("should delete a item DELETE", async () => {
-      // const itemToDelete = await findItemByProperty("name", "item name");
-      const user = await User.findOne({ email: "ibsifat900@gmail.com" });
-      const itemToDelete = await createItem({
-        ...updatedItemData,
-        seller: user.id,
-      });
-      const response = await agent
-        .delete(`${itemTestBaseUrl}/${itemToDelete.id}`)
-        .set("Accept", "application/json")
-        .set("Authorization", `Bearer ${accessToken}`);
-
-      expect(response.statusCode).toBe(202);
-      expect(await Item.findById(itemToDelete.id)).toBeNull();
     });
   });
 });
