@@ -244,6 +244,19 @@ const createItemData = [
     metadata: "string or id",
   },
 ];
+const permissionsData = {
+  controller: "item",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "user",
+  description: "Admin Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const itemTestQuery = {
   sort: "name",
   fields: "name,negotiable",
@@ -263,6 +276,8 @@ module.exports = {
   createItemData,
   mockItem,
   mockUpdatedItem,
+  permissionsData,
+  rolesData,
   itemTestUrl,
   itemTestQuery,
 };

@@ -10,26 +10,14 @@ const {
   updatedItemData,
   existingItemData,
   updatedNegotiable,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/item");
 const agent = require("../../agent");
 const { Item, User, Role, Permission } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const itemTestBaseUrl = `${testBaseUrl}/items`;
-
-const permissionsData = {
-  controller: "item",
-  actions: ["read", "write", "delete", "update"],
-  description: "Read Users",
-  createdBy: null,
-};
-
-const rolesData = {
-  name: "user",
-  description: "User Role",
-  permissions: [],
-  createdBy: "650d880858e6f8be2bb7b421",
-};
 
 describe("Item API Integration Tests", () => {
   let user;

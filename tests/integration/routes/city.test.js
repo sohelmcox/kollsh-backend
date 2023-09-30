@@ -11,9 +11,11 @@ const {
   existingCityData,
   updatedDescription,
   updatedName,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/city");
 const agent = require("../../agent");
-const { City, User } = require("../../../src/models");
+const { City, User, Permission, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const cityTestBaseUrl = `${testBaseUrl}/cities`;
@@ -22,16 +24,28 @@ const findCityByProperty = async (property, value) => {
   return city;
 };
 describe("City API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    createCityData.forEach(async (city) => {
-      await createCity({ ...city });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial cities
+    await Promise.all(
+      createCityData.map(async (city) => {
+        await createCity({ ...city });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
     await City.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new City", () => {

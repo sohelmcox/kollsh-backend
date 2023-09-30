@@ -49,7 +49,7 @@ describe("Role Update Controller", () => {
     const response = await request(app)
       .put(`${roleTestUrl}/nonExistentId`)
       .send(updatedRoleData);
-    console.log(response);
+    // console.log(response);
     expect(response.statusCode).toBe(201);
     expect(response.body.code).toBe(201);
     expect(response.body.message).toBe("Role created successfully");

@@ -56,6 +56,19 @@ const createReplyData = [
     comment: "string or id",
   },
 ];
+const permissionsData = {
+  controller: "reply",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "user",
+  description: "User Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const replyTestQuery = {
   sort: "name",
   fields: "content",
@@ -76,5 +89,7 @@ module.exports = {
   mockReply,
   mockUpdatedReply,
   replyTestUrl,
+  permissionsData,
+  rolesData,
   replyTestQuery,
 };

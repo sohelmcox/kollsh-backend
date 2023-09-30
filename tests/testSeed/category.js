@@ -92,6 +92,19 @@ const createCategoryData = [
     priority: 0,
   },
 ];
+const permissionsData = {
+  controller: "category",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "admin",
+  description: "Admin Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const categoryTestQuery = {
   sort: "name",
   fields: "name,featured",
@@ -111,6 +124,8 @@ module.exports = {
   createCategoryData,
   mockCategory,
   mockUpdatedCategory,
+  permissionsData,
   categoryTestUrl,
+  rolesData,
   categoryTestQuery,
 };

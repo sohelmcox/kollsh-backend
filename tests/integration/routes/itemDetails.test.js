@@ -2,17 +2,17 @@
 require("../../setup/testSetup");
 const { create: createItemDetails } = require("../../../src/lib/itemDetails");
 const {
-  itemDetailsData1,
-  itemDetailsData2,
   itemDetailsTestData,
   createItemDetailsData,
   newItemDetailsData,
   updatedItemDetailsData,
   existingItemDetailsData,
   updatedDescription,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/itemDetails");
 const agent = require("../../agent");
-const { ItemDetails, User } = require("../../../src/models");
+const { ItemDetails, User, Permission, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const itemDetailsTestBaseUrl = `${testBaseUrl}/item-details`;
@@ -21,16 +21,28 @@ const findItemDetailsByProperty = async (property, value) => {
   return itemDetails;
 };
 describe("ItemDetails API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    createItemDetailsData.forEach(async (itemDetails) => {
-      await createItemDetails({ ...itemDetails });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial itemDetails
+    await Promise.all(
+      createItemDetailsData.map(async (itemDetails) => {
+        await createItemDetails({ ...itemDetails, author: user.id });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
     await ItemDetails.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new ItemDetails", () => {

@@ -9,55 +9,136 @@ const {
   newCommentData,
   updatedCommentData,
   existingCommentData,
-  updatedDescription,
   updatedContent,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/comment");
 const agent = require("../../agent");
-const { Comment, User } = require("../../../src/models");
+const { Comment, User, Role, Permission } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const commentTestBaseUrl = `${testBaseUrl}/comments`;
-const findCommentByProperty = async (property, value) => {
-  const comment = await Comment.findOne({ [property]: value });
-  return comment;
-};
+
 describe("Comment API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    createCommentData.forEach(async (comment) => {
-      await createComment({ ...comment });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial comments
+    await Promise.all(
+      createCommentData.map(async (comment) => {
+        await createComment({ ...comment, author: user.id });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
     await Comment.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
-  describe("Create A new Comment", () => {
+
+  describe("Create, Retrieve, Update, and Delete Comments", () => {
     it("should create a new comment POST", async () => {
       const response = await agent
         .post(commentTestBaseUrl)
         .send(newCommentData)
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
+
       expect(response.statusCode).toBe(201);
       expect(response.body.data.content).toBe(newCommentData.content);
     });
-  });
-  describe("Retrieve Multiple Comments", () => {
-    it("should retrieve a list of comments GET:", async () => {
+
+    it("should retrieve a list of comments GET", async () => {
       const response = await agent.get(commentTestBaseUrl);
 
       expect(response.statusCode).toBe(200);
       expect(response.body.data.length).toBe(2);
     });
+
+    it("should update a comment by Id or create a new one if not found PUT", async () => {
+      // Find an existing comment (assuming it exists)
+      const existingComment = await createComment({
+        ...existingCommentData,
+        author: user.id,
+      });
+
+      // Perform a PUT request to update the comment by name
+      const response = await agent
+        .put(`${commentTestBaseUrl}/${existingComment.id}`)
+        .send(updatedCommentData)
+        .set("Accept", "application/json")
+        .set("Authorization", `Bearer ${accessToken}`);
+
+      expect(response.statusCode).toBe(200);
+      expect(response.body.data.content).toBe(updatedCommentData.content);
+
+      // Perform a PUT request to create a new Comment
+      const createResponse = await agent
+        .put(`${commentTestBaseUrl}/737472696e67206f72206964`)
+        .send(updatedCommentData)
+        .set("Accept", "application/json")
+        .set("Authorization", `Bearer ${accessToken}`);
+
+      expect(createResponse.statusCode).toBe(201);
+      expect(createResponse.body.data.content).toBe(updatedCommentData.content);
+    });
+
+    it("should delete a comment DELETE", async () => {
+      // Create an comment to delete
+      const commentToDelete = await createComment({
+        ...updatedCommentData,
+        author: user.id,
+      });
+      const response = await agent
+        .delete(`${commentTestBaseUrl}/${commentToDelete.id}`)
+        .set("Accept", "application/json")
+        .set("Authorization", `Bearer ${accessToken}`);
+
+      expect(response.statusCode).toBe(202);
+      expect(await Comment.findById(commentToDelete.id)).toBeNull();
+    });
   });
+
+  describe("Retrieve Single Comments", () => {
+    it("should find a single comment by its ID GET:", async () => {
+      // Create a test comment record in the database
+      const testComment = await createComment({
+        ...commentTestData,
+        author: user.id,
+      });
+
+      // Perform a GET request to find the comment by its ID
+      const response = await agent
+        .get(`${commentTestBaseUrl}/${testComment.id}`)
+        .set("Accept", "application/json");
+
+      expect(response.statusCode).toBe(200);
+      // Check if the response matches the testComment
+      expect(response.body.id).toBe(String(testComment.id));
+      expect(response.body.data.content).toBe(testComment.content);
+    });
+  });
+
   describe("Delete Multiple Comments", () => {
     it("should delete multiple comments by their IDs DELETE:", async () => {
       // Create test data by inserting comment records into the database
-      const comment1 = await createComment({ ...commentData1 });
-      const comment2 = await createComment({ ...commentData2 });
+      const comment1 = await createComment({
+        ...commentData1,
+        author: user.id,
+      });
+      const comment2 = await createComment({
+        ...commentData2,
+        author: user.id,
+      });
 
       // Retrieve the IDs of the created comment records
       const commentIdsToDelete = [comment1.id, comment2.id];
@@ -67,7 +148,6 @@ describe("Comment API Integration Tests", () => {
         .send({ ids: commentIdsToDelete })
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
-
       expect(response.statusCode).toBe(202);
 
       // Verify that the comments with the specified IDs no longer exist in the database
@@ -77,94 +157,23 @@ describe("Comment API Integration Tests", () => {
       }
     });
   });
-  describe("Retrieve Single Comments", () => {
-    it("should find a single comment by its ID GET:", async () => {
-      // Create a test comment record in the database
-      const testComment = await createComment({ ...commentTestData });
 
-      // Perform a GET request to find the comment by its ID
-      const response = await agent
-        .get(`${commentTestBaseUrl}/${testComment.id}`)
-        .set("Accept", "application/json");
-
-      expect(response.statusCode).toBe(200);
-
-      // Check if the response matches the testComment
-      expect(response.body.id).toBe(String(testComment.id));
-      expect(response.body.data.content).toBe(testComment.content);
-    });
-  });
-  describe("Update and Delete Comments", () => {
-    it("should update a comment by Id or create a new one if not found PUT", async () => {
-      // Create a test comment record in the database
-      const existingComment = await createComment(existingCommentData);
-      // Perform a PUT request to update the comment by name
-      const response = await agent
-        .put(`${commentTestBaseUrl}/${existingComment.id}`)
-        .send(updatedCommentData)
-        .set("Accept", "application/json")
-        .set("Authorization", `Bearer ${accessToken}`);
-      expect(response.statusCode).toBe(200);
-      expect(response.body.data.content).toBe(updatedCommentData.content);
-
-      // Verify that the comment with the updated name and description exists in the database
-      const updatedCommentInDB = await findCommentByProperty(
-        "content",
-        updatedCommentData.content,
-      );
-      expect(updatedCommentInDB).not.toBeNull();
-
-      // Create data for a comment that doesn't exist in the database
-      // Perform a PUT request to create a new comment
-      const createResponse = await agent
-        .put(`${commentTestBaseUrl}/6502a59b35d01ff95a2c2527`)
-        .send(newCommentData)
-        .set("Accept", "application/json")
-        .set("Authorization", `Bearer ${accessToken}`);
-
-      expect(createResponse.statusCode).toBe(201);
-      expect(createResponse.body.data.content).toBe(newCommentData.content);
-      // expect(createResponse.body.data.itemDetails).toBe(
-      //   newCommentData.itemDetails,
-      // );
-
-      // Verify that the new comment exists in the database
-      const newCommentInDB = await findCommentByProperty(
-        "content",
-        newCommentData.content,
-      );
-      expect(newCommentInDB).not.toBeNull();
-    });
+  describe("Update Existing Comments", () => {
     it("should edit an existing comment PATCH", async () => {
       // Find an existing comment (assuming it exists)
-      const commentToUpdate = await findCommentByProperty(
-        "content",
-        "comment name",
-      );
-
-      // If a comment with the specified name exists, update it
+      const commentToUpdate = await createComment({
+        ...existingCommentData,
+        author: user.id,
+      });
+      // If an comment with the specified name exists, update it
       const response = await agent
-        .patch(`${commentTestBaseUrl}/${commentToUpdate._id}`)
+        .patch(`${commentTestBaseUrl}/${commentToUpdate.id}`)
         .send(updatedContent)
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
-
+      // console.log(response);
       expect(response.statusCode).toBe(200);
-      expect(response.body.data.content).toBe(updatedCommentData.content);
-    });
-    it("should delete a comment DELETE", async () => {
-      const commentToDelete = await findCommentByProperty(
-        "content",
-        "comment name",
-      );
-
-      const response = await agent
-        .delete(`${commentTestBaseUrl}/${commentToDelete._id}`)
-        .set("Accept", "application/json")
-        .set("Authorization", `Bearer ${accessToken}`);
-
-      expect(response.statusCode).toBe(202);
-      expect(await Comment.findById(commentToDelete._id)).toBeNull();
+      expect(response.body.data.content).toBe(updatedContent.content);
     });
   });
 });

@@ -86,6 +86,19 @@ const createItemSuggestionData = [
     brands: ["string or id", "string or id"],
   },
 ];
+const permissionsData = {
+  controller: "itemSuggestion",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "user",
+  description: "User Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const itemSuggestionTestQuery = {
   sort: "user",
   fields: "user",
@@ -106,5 +119,7 @@ module.exports = {
   mockItemSuggestion,
   mockUpdatedItemSuggestion,
   itemSuggestionTestUrl,
+  permissionsData,
+  rolesData,
   itemSuggestionTestQuery,
 };

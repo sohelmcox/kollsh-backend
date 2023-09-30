@@ -11,9 +11,11 @@ const {
   existingCategoryData,
   updatedDescription,
   updatedName,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/category");
 const agent = require("../../agent");
-const { Category, User } = require("../../../src/models");
+const { Category, User, Role, Permission } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const categoryTestBaseUrl = `${testBaseUrl}/categories`;
@@ -22,16 +24,28 @@ const findCategoryByProperty = async (property, value) => {
   return category;
 };
 describe("Category API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    createCategoryData.forEach(async (category) => {
-      await createCategory({ ...category });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial categories
+    await Promise.all(
+      createCategoryData.map(async (category) => {
+        await createCategory({ ...category });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
     await Category.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new Category", () => {

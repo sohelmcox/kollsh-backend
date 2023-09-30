@@ -139,6 +139,19 @@ const toChangePassword = {
   blocked: false,
   password: "string",
 };
+const permissionsData = {
+  controller: "user",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "user",
+  description: "User Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 module.exports = {
   testUsers,
   userData1,
@@ -158,5 +171,7 @@ module.exports = {
   reqTestUser,
   toUpdateUser,
   toDeleteUser,
+  permissionsData,
+  rolesData,
   toChangePassword,
 };

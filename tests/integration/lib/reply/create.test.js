@@ -37,7 +37,6 @@ describe("Reply Update or Create Service", () => {
     Reply.create.mockReturnValue(createdReplyInstance);
 
     const result = await createReply({ ...newReplyData });
-    console.log(result);
     expect(result.id).toBe("newReplyId");
   });
 });

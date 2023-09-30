@@ -64,6 +64,19 @@ const createCountryData = [
     code: "string",
   },
 ];
+const permissionsData = {
+  controller: "country",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "admin",
+  description: "Admin Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const countryTestQuery = {
   sort: "name",
   fields: "name,code",
@@ -83,6 +96,8 @@ module.exports = {
   createCountryData,
   mockCountry,
   mockUpdatedCountry,
+  permissionsData,
+  rolesData,
   countryTestUrl,
   countryTestQuery,
 };

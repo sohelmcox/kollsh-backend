@@ -62,6 +62,19 @@ const createCityData = [
     priority: 0,
   },
 ];
+const permissionsData = {
+  controller: "city",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "admin",
+  description: "Admin Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const cityTestQuery = {
   sort: "name",
   fields: "name",
@@ -81,6 +94,8 @@ module.exports = {
   createCityData,
   mockCity,
   mockUpdatedCity,
+  permissionsData,
+  rolesData,
   cityTestUrl,
   cityTestQuery,
 };

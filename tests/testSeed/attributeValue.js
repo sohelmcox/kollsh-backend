@@ -82,6 +82,19 @@ const createAttributeValueData = [
     brands: ["737472696e67206f72206964"],
   },
 ];
+const permissionsData = {
+  controller: "attributeValue",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "admin",
+  description: "Admin Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const attributeValueTestQuery = {
   sort: "name",
   fields: "name",
@@ -102,5 +115,7 @@ module.exports = {
   mockAttributeValue,
   mockUpdatedAttributeValue,
   attributeValueTestUrl,
+  permissionsData,
+  rolesData,
   attributeValueTestQuery,
 };

@@ -70,6 +70,19 @@ const userRole = {
   permissions: ["6502a59b35d01ff95a2c2527"],
   createdBy: "6502a59b35d01ff95a2c2527",
 };
+const permissionsData = {
+  controller: "role",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "admin",
+  description: "Admin Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const roleTestQuery = {
   sort: "name",
   fields: "name,description",
@@ -91,5 +104,7 @@ module.exports = {
   mockUpdatedRole,
   roleTestUrl,
   userRole,
+  permissionsData,
+  rolesData,
   roleTestQuery,
 };

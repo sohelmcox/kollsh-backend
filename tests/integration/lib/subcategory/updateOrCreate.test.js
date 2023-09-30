@@ -75,7 +75,6 @@ describe("Subcategory Update or Create Service", () => {
     expect(existingSubcategory.save).toHaveBeenCalled();
 
     // Verify the result
-    console.log(result);
     // expect(result.data).toEqual({ ...existingSubcategory });
 
     expect(result.code).toBe(200);

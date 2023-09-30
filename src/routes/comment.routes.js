@@ -1,17 +1,41 @@
 const router = require("express").Router();
 const commentController = require("../api/v1/comment/controllers");
 const authenticate = require("../middleware/authenticate");
+const hasOwnership = require("../middleware/hasOwnership");
+const { hasPermission } = require("../middleware/hasPermission");
 
 router
   .route("/")
   .get(commentController.find)
-  .post(authenticate, commentController.create)
-  .delete(authenticate, commentController.destroyMany);
+  .post(
+    authenticate,
+    hasPermission("comment", ["delete"]),
+    commentController.create,
+  )
+  .delete(
+    authenticate,
+    hasPermission("comment", ["delete"]),
+    commentController.destroyMany,
+  );
 router
   .route("/:id")
   .get(commentController.findSingle)
-  .put(authenticate, commentController.updateOrCreate)
-  .patch(authenticate, commentController.edit)
-  .delete(authenticate, commentController.destroy);
+  .put(
+    authenticate,
+    hasPermission("comment", ["delete"]),
+    commentController.updateOrCreate,
+  )
+  .patch(
+    authenticate,
+    hasPermission("comment", ["delete"]),
+    hasOwnership("Comment", "author"),
+    commentController.edit,
+  )
+  .delete(
+    authenticate,
+    hasPermission("comment", ["delete"]),
+    hasOwnership("Comment", "author"),
+    commentController.destroy,
+  );
 
 module.exports = router;

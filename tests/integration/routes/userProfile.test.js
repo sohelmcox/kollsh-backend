@@ -10,9 +10,11 @@ const {
   updatedUserProfileData,
   existingUserProfileData,
   updatedLastName,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/userProfile");
 const agent = require("../../agent");
-const { UserProfile, User } = require("../../../src/models");
+const { UserProfile, User, Permission, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const userProfileTestBaseUrl = `${testBaseUrl}/user-profile`;
@@ -21,23 +23,34 @@ const findUserProfileByProperty = async (property, value) => {
   return userProfile;
 };
 describe("UserProfile API Integration Tests", () => {
-  beforeEach(async () => {
-    createUserProfileData.forEach(async (userProfile) => {
-      await createUserProfile({ ...userProfile });
-    });
-    await createTestUser();
-  });
+  let user;
 
+  beforeEach(async () => {
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial UserProfile
+    await Promise.all(
+      createUserProfileData.map(async (userProfile) => {
+        await createUserProfile({ ...userProfile, user: user.id });
+      }),
+    );
+  });
   afterEach(async () => {
     // Clean up test data after each test case
     await UserProfile.deleteMany({});
     await User.deleteMany({});
+    await Permission.deleteMany({});
+    await Role.deleteMany({});
   });
   describe("Create A new UserProfile", () => {
     it("should create a new userProfile POST", async () => {
       const response = await agent
         .post(userProfileTestBaseUrl)
-        .send(newUserProfileData)
+        .send({ ...newUserProfileData, user: user.id })
         .set("Accept", "application/json")
         .set("Authorization", `Bearer ${accessToken}`);
       expect(response.statusCode).toBe(201);
@@ -47,7 +60,9 @@ describe("UserProfile API Integration Tests", () => {
   });
   describe("Retrieve Multiple UserProfiles", () => {
     it("should retrieve a list of userProfiles GET:", async () => {
-      const response = await agent.get(userProfileTestBaseUrl);
+      const response = await agent
+        .get(userProfileTestBaseUrl)
+        .set("Authorization", `Bearer ${accessToken}`);
 
       expect(response.statusCode).toBe(200);
       expect(response.body.data.length).toBe(2);
@@ -56,8 +71,14 @@ describe("UserProfile API Integration Tests", () => {
   describe("Delete Multiple UserProfiles", () => {
     it("should delete multiple userProfiles by their IDs DELETE:", async () => {
       // Create test data by inserting userProfile records into the database
-      const userProfile1 = await createUserProfile({ ...userProfileData1 });
-      const userProfile2 = await createUserProfile({ ...userProfileData2 });
+      const userProfile1 = await createUserProfile({
+        ...userProfileData1,
+        user: user.id,
+      });
+      const userProfile2 = await createUserProfile({
+        ...userProfileData2,
+        user: user.id,
+      });
 
       // Retrieve the IDs of the created userProfile records
       const userProfileIdsToDelete = [userProfile1.id, userProfile2.id];
@@ -82,12 +103,14 @@ describe("UserProfile API Integration Tests", () => {
       // Create a test userProfile record in the database
       const testUserProfile = await createUserProfile({
         ...userProfileTestData,
+        user: user.id,
       });
 
       // Perform a GET request to find the userProfile by its ID
       const response = await agent
         .get(`${userProfileTestBaseUrl}/${testUserProfile.id}`)
-        .set("Accept", "application/json");
+        .set("Accept", "application/json")
+        .set("Authorization", `Bearer ${accessToken}`);
 
       expect(response.statusCode).toBe(200);
 
@@ -100,9 +123,10 @@ describe("UserProfile API Integration Tests", () => {
   describe("Update and Delete UserProfiles", () => {
     it("should update a userProfile by Id or create a new one if not found PUT", async () => {
       // Create a test userProfile record in the database
-      const existingUserProfile = await createUserProfile(
-        existingUserProfileData,
-      );
+      const existingUserProfile = await createUserProfile({
+        ...existingUserProfileData,
+        user: user.id,
+      });
 
       // Perform a PUT request to update the userProfile by firstName
       const response = await agent

@@ -9,11 +9,12 @@ const {
   newStateData,
   updatedStateData,
   existingStateData,
-  updatedDescription,
   updatedPriority,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/state");
 const agent = require("../../agent");
-const { State, User } = require("../../../src/models");
+const { State, User, Permission, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const stateTestBaseUrl = `${testBaseUrl}/states`;
@@ -22,16 +23,27 @@ const findStateByProperty = async (property, value) => {
   return state;
 };
 describe("State API Integration Tests", () => {
-  beforeEach(async () => {
-    createStateData.forEach(async (state) => {
-      await createState({ ...state });
-    });
-    await createTestUser();
-  });
+  let user;
 
+  beforeEach(async () => {
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial State
+    await Promise.all(
+      createStateData.map(async (state) => {
+        await createState({ ...state });
+      }),
+    );
+  });
   afterEach(async () => {
     // Clean up test data after each test case
     await State.deleteMany({});
+    await Permission.deleteMany({});
+    await Role.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new State", () => {

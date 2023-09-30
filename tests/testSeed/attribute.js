@@ -76,6 +76,19 @@ const existingAttribute = {
   id: "existingAttributeId",
   name: "Existing Attribute Name",
 };
+const permissionsData = {
+  controller: "attribute",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "admin",
+  description: "Admin Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const attributeTestQuery = {
   sort: "name",
   fields: "name",
@@ -96,5 +109,7 @@ module.exports = {
   createAttributeData,
   attributeTestUrl,
   existingAttribute,
+  permissionsData,
+  rolesData,
   attributeTestQuery,
 };

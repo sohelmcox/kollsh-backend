@@ -105,6 +105,19 @@ const createSubcategoryData = [
     attributes: ["string or id", "string or id"],
   },
 ];
+const permissionsData = {
+  controller: "subcategory",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "admin",
+  description: "Admin Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const subcategoryTestQuery = {
   sort: "name",
   fields: "name,priority",
@@ -125,5 +138,7 @@ module.exports = {
   mockSubcategory,
   mockUpdatedSubcategory,
   subcategoryTestUrl,
+  permissionsData,
+  rolesData,
   subcategoryTestQuery,
 };

@@ -13,9 +13,11 @@ const {
   toDeleteUser,
   toUpdateUser,
   toChangePassword,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/user");
 const agent = require("../../agent");
-const { User } = require("../../../src/models");
+const { User, Permission, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const userTestBaseUrl = `${testBaseUrl}/users`;
@@ -24,16 +26,27 @@ const findUserByProperty = async (property, value) => {
   return user;
 };
 describe("User API Integration Tests", () => {
-  beforeEach(async () => {
-    createUserData.forEach(async (user) => {
-      await createUser({ ...user });
-    });
-    await createTestUser();
-  });
+  let user;
 
+  beforeEach(async () => {
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial User
+    await Promise.all(
+      createUserData.map(async (user) => {
+        await createUser({ ...user });
+      }),
+    );
+  });
   afterEach(async () => {
     // Clean up test data after each test case
     await User.deleteMany({});
+    await Permission.deleteMany({});
+    await Role.deleteMany({});
   });
   describe("Create A new User", () => {
     it("should create a new user POST", async () => {

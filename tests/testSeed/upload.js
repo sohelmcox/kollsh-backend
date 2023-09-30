@@ -131,6 +131,19 @@ const createUploadData = [
     url: "https://res.cloudinary.com/serabuy-com/image/upload/v1695042163/2023-09-18_whatsapp-image-2023-09-18-at-1.jpg",
   },
 ];
+const permissionsData = {
+  controller: "upload",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "user",
+  description: "User Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const uploadTestQuery = {
   sort: "name",
   fields: "name,caption",
@@ -150,5 +163,7 @@ module.exports = {
   mockUpload,
   mockUpdatedUpload,
   uploadTestUrl,
+  permissionsData,
+  rolesData,
   uploadTestQuery,
 };

@@ -10,9 +10,11 @@ const {
   updatedPermissionData,
   existingPermissionData,
   updatedDescription,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/permission");
 const agent = require("../../agent");
-const { Permission, User } = require("../../../src/models");
+const { Permission, User, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const permissionTestBaseUrl = `${testBaseUrl}/permissions`;
@@ -21,15 +23,27 @@ const findPermissionByProperty = async (property, value) => {
   return permission;
 };
 describe("Permission API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    createPermissionData.forEach(async (permission) => {
-      await createPermission({ ...permission });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial permissions
+    await Promise.all(
+      createPermissionData.map(async (permission) => {
+        await createPermission({ ...permission, seller: user.id });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
+    await Permission.deleteMany({});
+    await Role.deleteMany({});
     await Permission.deleteMany({});
     await User.deleteMany({});
   });
@@ -53,7 +67,7 @@ describe("Permission API Integration Tests", () => {
         .set("authorization", `Bearer ${accessToken}`);
 
       expect(response.statusCode).toBe(200);
-      expect(response.body.data.length).toBe(2);
+      expect(response.body.data.length).toBe(3);
     });
   });
   describe("Delete Multiple Permissions", () => {

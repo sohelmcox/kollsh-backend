@@ -14,7 +14,7 @@ const userProfileData1 = {
       link: "string",
     },
   ],
-  userId: "6501a39b34d91ff95a2c2521",
+  user: "6501a39b34d91ff95a2c2521",
 };
 const userProfileData2 = {
   firstName: "UserProfile 2",
@@ -30,7 +30,7 @@ const userProfileData2 = {
       link: "string",
     },
   ],
-  userId: "6501a39b34d91ff95a2c2521",
+  user: "6501a39b34d91ff95a2c2521",
 };
 const newUserProfileData = {
   id: "newUserProfileId",
@@ -47,7 +47,7 @@ const newUserProfileData = {
       link: "string",
     },
   ],
-  userId: "6501a39b34d91ff95a2c2521",
+  user: "6501a39b34d91ff95a2c2521",
 };
 const updatedUserProfileData = {
   firstName: "Updated UserProfile",
@@ -63,7 +63,7 @@ const updatedUserProfileData = {
       link: "string",
     },
   ],
-  userId: "6501a39b34d91ff95a2c2521",
+  user: "6501a39b34d91ff95a2c2521",
 };
 const editUserProfileData = {
   firstName: "Edit UserProfile",
@@ -83,7 +83,7 @@ const existingUserProfileData = {
       link: "string",
     },
   ],
-  userId: "6501a39b34d91ff95a2c2521",
+  user: "6501a39b34d91ff95a2c2521",
 };
 const existingUserProfile = {
   id: "existingUserProfileId",
@@ -104,7 +104,7 @@ const userProfileTestData = {
       link: "string",
     },
   ],
-  userId: "6501a39b34d91ff95a2c2521",
+  user: "6501a39b34d91ff95a2c2521",
 };
 const mockUserProfile = {
   id: "userProfileId",
@@ -121,7 +121,7 @@ const mockUserProfile = {
       link: "string",
     },
   ],
-  userId: "6501a39b34d91ff95a2c2521",
+  user: "6501a39b34d91ff95a2c2521",
 };
 const mockUpdatedUserProfile = {
   id: "userProfileId",
@@ -144,7 +144,7 @@ const createUserProfileData = [
         link: "string",
       },
     ],
-    userId: "6501a39b34d91ff95a2c2521",
+    user: "6501a39b34d91ff95a2c2521",
   },
   {
     firstName: "userProfile name",
@@ -160,9 +160,21 @@ const createUserProfileData = [
         link: "string",
       },
     ],
-    userId: "6501a39b34d91ff95a2c2521",
+    user: "6501a39b34d91ff95a2c2521",
   },
 ];
+const permissionsData = {
+  controller: "userProfile",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+const rolesData = {
+  name: "user",
+  description: "User Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const userProfileTestQuery = {
   sort: "name",
   fields: "firsName,lastName",
@@ -183,5 +195,7 @@ module.exports = {
   mockUserProfile,
   mockUpdatedUserProfile,
   userProfileTestUrl,
+  permissionsData,
+  rolesData,
   userProfileTestQuery,
 };

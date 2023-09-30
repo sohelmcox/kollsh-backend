@@ -10,9 +10,11 @@ const {
   updatedCountryData,
   existingCountryData,
   updatedDescription,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/country");
 const agent = require("../../agent");
-const { Country, User } = require("../../../src/models");
+const { Country, User, Role, Permission } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const countryTestBaseUrl = `${testBaseUrl}/countries`;
@@ -21,16 +23,27 @@ const findCountryByProperty = async (property, value) => {
   return country;
 };
 describe("Country API Integration Tests", () => {
+  let user;
   beforeEach(async () => {
-    createCountryData.forEach(async (country) => {
-      await createCountry({ ...country });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial countries
+    await Promise.all(
+      createCountryData.map(async (country) => {
+        await createCountry({ ...country });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
     await Country.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new Country", () => {

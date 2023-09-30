@@ -12,6 +12,7 @@ router
   .delete(
     authenticate,
     hasPermission("item", ["delete"]),
+    // hasOwnership("Item", "seller"),
     controllers.destroyMany,
   );
 

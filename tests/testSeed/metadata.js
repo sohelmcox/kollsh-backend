@@ -73,6 +73,19 @@ const createMetadataData = [
     keywords: ["string"],
   },
 ];
+const permissionsData = {
+  controller: "metadata",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "user",
+  description: "User Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const metadataTestQuery = {
   sort: "name",
   fields: "title,description",
@@ -93,5 +106,7 @@ module.exports = {
   mockMetadata,
   mockUpdatedMetadata,
   metadataTestUrl,
+  permissionsData,
+  rolesData,
   metadataTestQuery,
 };

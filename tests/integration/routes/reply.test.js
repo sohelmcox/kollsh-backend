@@ -10,9 +10,17 @@ const {
   newReplyData,
   updatedReplyData,
   updatedContent,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/reply");
 const agent = require("../../agent");
-const { Reply, User, Comment } = require("../../../src/models");
+const {
+  Reply,
+  User,
+  Comment,
+  Role,
+  Permission,
+} = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const replyTestBaseUrl = `${testBaseUrl}/replies`;
@@ -21,18 +29,29 @@ const findReplyByProperty = async (property, value) => {
   return reply;
 };
 describe("Reply API Integration Tests", () => {
-  beforeEach(async () => {
-    createReplyData.forEach(async (reply) => {
-      await createReply({ ...reply });
-    });
-    await createTestUser();
-  });
+  let user;
 
+  beforeEach(async () => {
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial Reply
+    await Promise.all(
+      createReplyData.map(async (reply) => {
+        await createReply({ ...reply, user: user.id });
+      }),
+    );
+  });
   afterEach(async () => {
     // Clean up test data after each test case
     await Reply.deleteMany({});
-    await User.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await Comment.deleteMany({});
+    await User.deleteMany({});
   });
   describe("Create A new Reply", () => {
     it("should create a new reply POST", async () => {
@@ -96,7 +115,6 @@ describe("Reply API Integration Tests", () => {
         .get(`${replyTestBaseUrl}/${testReply.id}`)
         .set("Accept", "application/json");
 
-      console.log(response);
       expect(response.statusCode).toBe(200);
       // Check if the response matches the testReply
       expect(response.body.id).toBe(String(testReply.id));

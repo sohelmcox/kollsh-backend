@@ -10,9 +10,11 @@ const {
   updatedMetadataData,
   existingMetadataData,
   updatedDescription,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/metadata");
 const agent = require("../../agent");
-const { Metadata, User } = require("../../../src/models");
+const { Metadata, User, Role, Permission } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const metadataTestBaseUrl = `${testBaseUrl}/metadata`;
@@ -21,16 +23,28 @@ const findMetadataByProperty = async (property, value) => {
   return metadata;
 };
 describe("Metadata API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    createMetadataData.forEach(async (metadata) => {
-      await createMetadata({ ...metadata });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial Metadata
+    await Promise.all(
+      createMetadataData.map(async (metadata) => {
+        await createMetadata({ ...metadata });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
     await Metadata.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new Metadata", () => {

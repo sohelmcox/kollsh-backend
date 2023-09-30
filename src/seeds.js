@@ -14,10 +14,7 @@ mongoose.connect(mongoUri, {
 const userAccessControllers = [
   "item",
   "itemDetails",
-  "attribute",
-  "attributeValue",
   "comment",
-  "itemSuggestion",
   "metadata",
   "replay",
   "upload",
@@ -26,6 +23,9 @@ const userAccessControllers = [
 ];
 const adminAccessControllers = [
   ...userAccessControllers,
+  "attribute",
+  "attributeValue",
+  "itemSuggestion",
   "brand",
   "category",
   "city",

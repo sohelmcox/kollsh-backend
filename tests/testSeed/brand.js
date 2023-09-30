@@ -85,6 +85,19 @@ const createBrandData = [
     attributes: ["string or id", "string or id"],
   },
 ];
+const permissionsData = {
+  controller: "brand",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "admin",
+  description: "Admin Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const brandTestQuery = {
   sort: "name",
   fields: "name,description",
@@ -104,6 +117,8 @@ module.exports = {
   createBrandData,
   mockBrand,
   mockUpdatedBrand,
+  permissionsData,
+  rolesData,
   brandTestUrl,
   brandTestQuery,
 };

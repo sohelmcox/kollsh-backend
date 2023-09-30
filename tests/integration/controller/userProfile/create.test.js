@@ -33,7 +33,7 @@ describe("UserProfile Controller", () => {
     const response = await request(app)
       .post(userProfileTestUrl)
       .send(userProfileTestData);
-    console.log(response);
+    // console.log(response);
     expect(response.statusCode).toBe(201);
     expect(response.body.code).toBe(201);
     expect(response.body.message).toBe("UserProfile Created Successfully");

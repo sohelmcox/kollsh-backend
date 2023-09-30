@@ -12,9 +12,16 @@ const {
   updatedAttributeValueData,
   existingAttributeValueData,
   updatedColorCode,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/attributeValue");
 const agent = require("../../agent");
-const { AttributeValue, User } = require("../../../src/models");
+const {
+  AttributeValue,
+  User,
+  Role,
+  Permission,
+} = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const attributeValueTestBaseUrl = `${testBaseUrl}/attribute-values`;
@@ -22,19 +29,32 @@ const findAttributeValueByProperty = async (property, value) => {
   const attributeValue = await AttributeValue.findOne({ [property]: value });
   return attributeValue;
 };
-describe("AttributeValue API Integration Tests", () => {
-  beforeEach(async () => {
-    createAttributeValueData.forEach(async (attributeValue) => {
-      await createAttributeValue({ ...attributeValue });
-    });
-    await createTestUser();
-  });
 
+describe("AttributeValue API Integration Tests", () => {
+  let user;
+
+  beforeEach(async () => {
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial attributeValue
+    await Promise.all(
+      createAttributeValueData.map(async (attributeValue) => {
+        await createAttributeValue({ ...attributeValue });
+      }),
+    );
+  });
   afterEach(async () => {
     // Clean up test data after each test case
     await AttributeValue.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
+
   describe("Create A new AttributeValue", () => {
     it("should create a new attributeValue POST", async () => {
       const response = await agent

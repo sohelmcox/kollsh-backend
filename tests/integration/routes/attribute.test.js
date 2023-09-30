@@ -10,9 +10,11 @@ const {
   updatedAttributeData,
   existingAttributeData,
   updatedDescription,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/attribute");
 const agent = require("../../agent");
-const { Attribute, User } = require("../../../src/models");
+const { Attribute, User, Permission, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const attributeTestBaseUrl = `${testBaseUrl}/attributes`;
@@ -21,16 +23,28 @@ const findAttributeByProperty = async (property, value) => {
   return attribute;
 };
 describe("Attribute API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    createAttributeData.forEach(async (attribute) => {
-      await createAttribute({ ...attribute });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial attributes
+    await Promise.all(
+      createAttributeData.map(async (attribute) => {
+        await createAttribute({ ...attribute });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
     await Attribute.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new Attribute", () => {

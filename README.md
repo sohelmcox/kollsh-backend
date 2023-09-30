@@ -11,6 +11,7 @@ Welcome to Kollsh, your go-to online marketplace for buying and selling new and 
   - [Run Tests](#run-tests)
 - [Configuration](#configuration)
 - [Documentation](#documentation)
+  - [Presentation Slide](#presentation)
   - [Swagger Doc](#swagger-doc)
   - [ER Diagram](#er-diagram)
   - [API Documentation](#api-documentation)

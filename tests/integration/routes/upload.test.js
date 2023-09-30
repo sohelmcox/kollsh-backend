@@ -9,9 +9,11 @@ const {
   newUploadData,
   updatedUploadData,
   updatedDescription,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/upload");
 const agent = require("../../agent");
-const { Upload, User } = require("../../../src/models");
+const { Upload, User, Permission, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const uploadTestBaseUrl = `${testBaseUrl}/upload/files`;
@@ -20,16 +22,27 @@ const findUploadByProperty = async (property, value) => {
   return upload;
 };
 describe("Upload API Integration Tests", () => {
-  beforeEach(async () => {
-    createUploadData.forEach(async (upload) => {
-      await Upload.create({ ...upload });
-    });
-    await createTestUser();
-  });
+  let user;
 
+  beforeEach(async () => {
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial Upload
+    await Promise.all(
+      createUploadData.map(async (file) => {
+        await Upload.create({ ...file });
+      }),
+    );
+  });
   afterEach(async () => {
     // Clean up test data after each test case
     await Upload.deleteMany({});
+    await Permission.deleteMany({});
+    await Role.deleteMany({});
     await User.deleteMany({});
   });
   // TODO: fix upload route

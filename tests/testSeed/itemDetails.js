@@ -127,6 +127,19 @@ const createItemDetailsData = [
     metadata: "string or id",
   },
 ];
+const permissionsData = {
+  controller: "itemDetails",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "user",
+  description: "User Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const itemDetailsTestQuery = {
   sort: "name",
   fields: "description,email",
@@ -147,5 +160,7 @@ module.exports = {
   mockItemDetails,
   mockUpdatedItemDetails,
   itemDetailsTestUrl,
+  permissionsData,
+  rolesData,
   itemDetailsTestQuery,
 };

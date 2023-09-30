@@ -68,6 +68,19 @@ const createCommentData = [
     itemDetails: "string or id",
   },
 ];
+const permissionsData = {
+  controller: "comment",
+  actions: ["read", "write", "delete", "update"],
+  description: "Read Users",
+  createdBy: null,
+};
+
+const rolesData = {
+  name: "user",
+  description: "User Role",
+  permissions: [],
+  createdBy: "650d880858e6f8be2bb7b421",
+};
 const commentTestQuery = {
   sort: "name",
   itemDetails: "string or id",
@@ -85,6 +98,8 @@ module.exports = {
   createCommentData,
   mockComment,
   mockUpdatedComment,
+  permissionsData,
+  rolesData,
   commentTestUrl,
   commentTestQuery,
 };

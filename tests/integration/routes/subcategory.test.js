@@ -9,11 +9,12 @@ const {
   newSubcategoryData,
   updatedSubcategoryData,
   existingSubcategoryData,
-  updatedDescription,
   updatedPriority,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/subcategory");
 const agent = require("../../agent");
-const { Subcategory, User } = require("../../../src/models");
+const { Subcategory, User, Permission, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const subcategoryTestBaseUrl = `${testBaseUrl}/subcategories`;
@@ -22,16 +23,27 @@ const findSubcategoryByProperty = async (property, value) => {
   return subcategory;
 };
 describe("Subcategory API Integration Tests", () => {
-  beforeEach(async () => {
-    createSubcategoryData.forEach(async (subcategory) => {
-      await createSubcategory({ ...subcategory });
-    });
-    await createTestUser();
-  });
+  let user;
 
+  beforeEach(async () => {
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial Subcategory
+    await Promise.all(
+      createSubcategoryData.map(async (subcategory) => {
+        await createSubcategory({ ...subcategory });
+      }),
+    );
+  });
   afterEach(async () => {
     // Clean up test data after each test case
     await Subcategory.deleteMany({});
+    await Permission.deleteMany({});
+    await Role.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new Subcategory", () => {

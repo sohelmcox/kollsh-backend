@@ -10,9 +10,11 @@ const {
   updatedBrandData,
   existingBrandData,
   updatedDescription,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/brand");
 const agent = require("../../agent");
-const { Brand, User } = require("../../../src/models");
+const { Brand, User, Permission, Role } = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const brandTestBaseUrl = `${testBaseUrl}/brands`;
@@ -21,16 +23,28 @@ const findBrandByProperty = async (property, value) => {
   return brand;
 };
 describe("Brand API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    createBrandData.forEach(async (brand) => {
-      await createBrand({ ...brand });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial brands
+    await Promise.all(
+      createBrandData.map(async (brand) => {
+        await createBrand({ ...brand });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
     await Brand.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new Brand", () => {

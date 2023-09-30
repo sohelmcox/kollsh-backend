@@ -11,11 +11,17 @@ const {
   newItemSuggestionData,
   updatedItemSuggestionData,
   existingItemSuggestionData,
-  updatedDescription,
   updatedUser,
+  permissionsData,
+  rolesData,
 } = require("../../testSeed/itemSuggestion");
 const agent = require("../../agent");
-const { ItemSuggestion, User } = require("../../../src/models");
+const {
+  ItemSuggestion,
+  User,
+  Role,
+  Permission,
+} = require("../../../src/models");
 const { accessToken, testBaseUrl } = require("../../../src/config");
 const createTestUser = require("../../setup/createTestUser");
 const itemSuggestionTestBaseUrl = `${testBaseUrl}/item-suggestions`;
@@ -24,16 +30,28 @@ const findItemSuggestionByProperty = async (property, value) => {
   return itemSuggestion;
 };
 describe("ItemSuggestion API Integration Tests", () => {
+  let user;
+
   beforeEach(async () => {
-    createItemSuggestionData.forEach(async (itemSuggestion) => {
-      await createItemSuggestion({ ...itemSuggestion });
-    });
-    await createTestUser();
+    // Create user and role
+    const permissions = await Permission.create(permissionsData);
+    rolesData.permissions = permissions._id;
+    const role = await Role.create(rolesData);
+    user = await createTestUser(role._id);
+
+    // Create initial ItemSuggestion
+    await Promise.all(
+      createItemSuggestionData.map(async (itemSuggestion) => {
+        await createItemSuggestion({ ...itemSuggestion });
+      }),
+    );
   });
 
   afterEach(async () => {
     // Clean up test data after each test case
     await ItemSuggestion.deleteMany({});
+    await Role.deleteMany({});
+    await Permission.deleteMany({});
     await User.deleteMany({});
   });
   describe("Create A new ItemSuggestion", () => {
