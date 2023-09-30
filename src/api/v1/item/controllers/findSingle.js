@@ -17,6 +17,7 @@ const findSingle = async (req, res, next) => {
     const response = {
       id: itemId,
       data: item,
+      itemSuggestion: req.itemSuggestion ?? {},
       links: {
         self: `/items/${slug}`,
         author: `/items/${itemId}/publisher`,

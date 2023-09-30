@@ -16,18 +16,19 @@ const hasOwnership =
       const resource = await mongoose.model(resourceModel).findById(resourceId);
 
       if (!resource) {
-        next(notFound("Resource not found"));
+        next(notFound(`${resourceModel} not found`));
       }
-
-      if (String(resource[ownerIdField]) === String(user._id)) {
-        // Check if the user is the owner of the resource
-        next(); // User has ownership, proceed to the route handler
-      } else {
-        next(
-          authorizationError(
-            "Permission denied - You do not own this resource",
-          ),
-        );
+      if (resource) {
+        if (String(resource[ownerIdField]) === String(user._id)) {
+          // Check if the user is the owner of the resource
+          next(); // User has ownership, proceed to the route handler
+        } else {
+          next(
+            authorizationError(
+              "Permission denied - You do not own this resource",
+            ),
+          );
+        }
       }
     } catch (error) {
       next(error);

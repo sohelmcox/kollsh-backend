@@ -567,6 +567,42 @@ paths:
       parameters:
         - $ref: "#/components/parameters/id"
       operationId: "delete/items/{id}"
+  /items/{id}/{userId}/item-suggestions:
+    get:
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - name: userId
+          in: path
+          description: ""
+          deprecated: false
+          required: true
+          schema:
+            type: string
+            example: userId
+        - $ref: "#/components/parameters/sortParams"
+        - $ref: "#/components/parameters/paginationPage"
+        - $ref: "#/components/parameters/paginationPageSize"
+        - $ref: "#/components/parameters/paginationStart"
+        - $ref: "#/components/parameters/fields"
+        - $ref: "#/components/parameters/populate"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/locale"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemListResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+      tags:
+        - Item
+      operationId: get/{id}/{userId}/item-suggestion
   /items/{id}/seller:
     get:
       responses:

@@ -10,7 +10,8 @@
   "scripts": {
     "test": "jest --watchAll --detectOpenHandles",
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js --trace-warnings"
+    "dev": "nodemon src/index.js --trace-warnings",
+    "seed": "node src/seeds.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

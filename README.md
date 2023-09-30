@@ -7,6 +7,8 @@ Welcome to Kollsh, your go-to online marketplace for buying and selling new and 
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Run Seed](#run-seed)
+  - [Run Tests](#run-tests)
 - [Configuration](#configuration)
 - [Documentation](#documentation)
   - [Swagger Doc](#swagger-doc)
@@ -37,7 +39,7 @@ Before you begin, ensure you have met the following requirements:
 2. Install dependencies:
 
    ```bash
-   npm install
+   yarn install
    ```
 
 3. Set up your environment variables by creating a `.env` file based on the provided structure. Make sure to replace placeholders with your actual credentials.
@@ -45,7 +47,40 @@ Before you begin, ensure you have met the following requirements:
 4. Start the development server:
 
    ```bash
-   npm run dev
+   yarn run dev
+   ```
+
+### Run Seed
+
+To seed the database with initial data, run the following command:
+
+```bash
+yarn run seed
+```
+
+After running the seed, you will get the following output:
+
+```bash
+Seed data was inserted successfully
+Login Credentials: {
+  message: 'success',
+  accessToken: 'access-token',
+  user: {
+    id: 'user-id',
+    name: 'Ibrahim Sifat',
+    username: 'username',
+    email: 'ibsifat900@gmail.com',
+    avatar: undefined,
+    confirmed: true,
+    blocked: false
+  }
+}
+```
+
+5. To run tests, use the following command:
+
+   ```bash
+   yarn test
    ```
 
 ## Configuration

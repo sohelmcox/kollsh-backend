@@ -6,7 +6,7 @@ const updateOrCreate = require("./update");
 const destroy = require("./destroy");
 const findSeller = require("./seller/find");
 const destroyMany = require("./destroyMany");
-
+const ItemSuggestion = require("./itemSuggestion");
 module.exports = {
   find,
   findSingle,
@@ -16,4 +16,5 @@ module.exports = {
   destroy,
   findSeller,
   destroyMany,
+  ItemSuggestion,
 };

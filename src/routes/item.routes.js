@@ -3,41 +3,41 @@ const { controllers } = require("../api/v1/item");
 const authenticate = require("../middleware/authenticate");
 const hasOwnership = require("../middleware/hasOwnership");
 const { hasPermission } = require("../middleware/hasPermission");
-const tokenService = require("../lib/token");
+const userSuggestion = require("../middleware/userSuggestion");
 
-const getUserIdMiddleware = async (req, res, next) => {
-  try {
-    const token = req.headers.authorization?.split(" ")[1];
-    if (!token) {
-      req.user = null; // No token, so user is not authenticated
-      return next();
-    }
-    const decoded = tokenService.decodeToken({ token });
-    req.user = decoded;
-    next();
-  } catch (error) {
-    console.log("error", error);
-  }
-};
 router
   .route("/")
   .get(controllers.find)
-  .post(authenticate, controllers.create)
-  .delete(controllers.destroyMany);
+  .post(authenticate, hasPermission("item", ["write"]), controllers.create)
+  .delete(
+    authenticate,
+    hasPermission("item", ["delete"]),
+    controllers.destroyMany,
+  );
 
 // router.route("/slug").get(controllers.findSingle);
 router
   .route("/:id")
-  .get(getUserIdMiddleware, controllers.findSingle)
-  .put(authenticate, controllers.updateOrCreate)
+  .get(userSuggestion, controllers.findSingle)
+  .put(
+    authenticate,
+    hasPermission("item", ["update"]),
+    controllers.updateOrCreate,
+  )
   .patch(
     authenticate,
-    // hasPermission("item", ["update"]),
-    // hasOwnership("Item", "seller"),
+    hasPermission("item", ["update"]),
+    hasOwnership("Item", "seller"),
     controllers.edit,
   )
-  .delete(controllers.destroy);
+  .delete(
+    authenticate,
+    hasPermission("item", ["delete"]),
+    hasOwnership("Item", "seller"),
+    controllers.destroy,
+  );
 
 // seller
 router.route("/:id/seller").get(controllers.findSeller);
+router.route("/:id/:userId/item-suggestion").get(controllers.ItemSuggestion);
 module.exports = router;

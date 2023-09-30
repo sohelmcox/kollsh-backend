@@ -50,7 +50,7 @@ const destroyMany = async (itemIds) => {
     // No need to delete itemDetails again since we already deleted them above
 
     return {
-      deletedItems: items.length,
+      deletedItems: itemIds.length,
       deletedItemDetails: itemDetails.length,
       deletedComments: commentIds.length,
       deletedMetadata: metadataIds.length,
